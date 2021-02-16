@@ -64,7 +64,7 @@ if ($_SESSION['rol'] != 1) {
         <form action="" method="post">
 
             <label for="nombre">Nombre</label>
-            <input type="text" name="nombre" id="nombre" placeholder="Nombre Completo">
+            <input type="text" name="nombre" id="nombre" placeholder="Nombre Completo" autofocus>
             <label for="nombre">Correo Electronico</label>
             <input type="email" name="correo" id="correo" placeholder="Correo Electronico">
             <label for="usuario">Usuario</label>

@@ -22,16 +22,17 @@ if ($_SESSION['rol'] != 1) {
      }
      else{
          
-            $evento     = $_POST['evento'];        
-            $precio     = $_POST['precio'];
-            $capacidad  = $_POST['capacidad'];
-            $fecha_evento = date('Y-m-d H:m:s', strtotime($_POST['fecha_ev']));             
-            $usuario_id = $_SESSION['idUser'];
-            $foto       = $_FILES['foto'];
-            $nombre_foto = $foto['name'];
-            $type       = $foto['type'];
-            $url_temp   = $foto['tmp_name'];
-            $imgEvento  = 'img_evento.png';
+            $evento         = $_POST['evento'];        
+            $precio         = $_POST['precio'];
+            $capacidad      = $_POST['capacidad'];
+            $rol            = $_POST['rol'];
+            $fecha_evento   = date('Y-m-d H:m:s', strtotime($_POST['fecha_ev']));             
+            $usuario_id     = $_SESSION['idUser'];
+            $foto           = $_FILES['foto'];
+            $nombre_foto    = $foto['name'];
+            $type           = $foto['type'];
+            $url_temp       = $foto['tmp_name'];
+            $imgEvento      = 'img_evento.png';
 
             if ($nombre_foto != '') 
             {
@@ -44,8 +45,8 @@ if ($_SESSION['rol'] != 1) {
 
             $result = 0;
 
-                $query_insert = mysqli_query($conection,"INSERT INTO evento(descripcion,precio,capMax,foto,usuario_id,fecha_evento) 
-                                                      VALUES('$evento', '$precio', '$capacidad', '$imgEvento', '$usuario_id', ' $fecha_evento')") ;
+                $query_insert = mysqli_query($conection,"INSERT INTO evento(descripcion,precio,capMax,foto,usuario_id,fecha_evento,	id_tipo_seminario) 
+                                                      VALUES('$evento', '$precio', '$capacidad', '$imgEvento', '$usuario_id', ' $fecha_evento', '$rol')") ;
                 
                 if ($query_insert) {
                     if ($nombre_foto!='') {
@@ -85,10 +86,36 @@ if ($_SESSION['rol'] != 1) {
         <div class="alert"> <?php  echo isset($alert) ? $alert : '';   ?></div>
 
         <form action="" method="post" enctype="multipart/form-data">
-            <label for="evento">Nombre Evento</label>
-            <input type="text" name="evento" id="evento" placeholder="Nombre del Evento">
+            <label for="evento">Nombre Seminario</label>
+            <input type="text" name="evento" id="evento" placeholder="Nombre del Seminario" autofocus>
             <label for="precio">Precio</label>
             <input type="number" name="precio" id="precio" placeholder="Precio del Evento">
+            <label for="nombre">Tipo de Seminario</label>
+
+                <?php
+                    $query_rol = mysqli_query($conection, "SELECT * FROM tip_seminario");
+                    mysqli_close($conection);
+                    $result_rol = mysqli_num_rows($query_rol);
+                            
+
+                ?>
+                <select name="rol" id="rol">
+                    <?php 
+                    if ($result_rol >0 ) {
+                    
+                        while ($rol = mysqli_fetch_array($query_rol)) {
+                        ?>
+                        <option value="<?php echo $rol["id_tipo_seminario"];  ?>"><?php  echo $rol["nombre"]  ?></option>
+                        <?php
+                            # code...
+                        }
+                        # code...
+                    }
+                    
+                    ?>
+                    
+                            
+                </select> 
             <label for="capacidad">Capacidad Maxima</label>
             <input type="number" name="capacidad" id="capacidad" placeholder="Capacidad del Evento">
             <label for="fecha">Fecha Evento</label>

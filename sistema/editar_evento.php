@@ -22,20 +22,21 @@ if ($_SESSION['rol'] != 1) {
      }
      else{
          
-            $codevento = $_POST['id'];
-            $evento     = $_POST['evento'];        
-            $precio     = $_POST['precio'];
-            $capacidad  = $_POST['capacidad'];
-
-            $fecha_evento = date('Y-m-d H:m:s', strtotime($_POST['fecha_ev'])); 
+            $codevento      = $_POST['id'];
+            $evento         = $_POST['evento'];        
+            $precio         = $_POST['precio'];
+            $capacidad      = $_POST['capacidad'];
+            $id_t_semimario = $_POST['rol'];
+            print_r($id_t_semimario);
+            $fecha_evento   = date('Y-m-d H:m:s', strtotime($_POST['fecha_ev'])); 
             
-            $imgEvento = $_POST['foto_actual'];
-            $imgRemove = $_POST['foto_remove'];
+            $imgEvento      = $_POST['foto_actual'];
+            $imgRemove      = $_POST['foto_remove'];
 
-            $foto       = $_FILES['foto'];
-            $nombre_foto = $foto['name'];
-            $type       = $foto['type'];
-            $url_temp   = $foto['tmp_name'];
+            $foto           = $_FILES['foto'];
+            $nombre_foto    = $foto['name'];
+            $type           = $foto['type'];
+            $url_temp       = $foto['tmp_name'];
             //print_r($fecha_evento);
            
 
@@ -58,12 +59,13 @@ if ($_SESSION['rol'] != 1) {
             $result = 0;
 
                 $query_update = mysqli_query($conection,"UPDATE evento
-                                                         SET descripcion = '$evento', 
-                                                             precio = $precio, 
-                                                             capMax = $capacidad, 
-                                                             foto = '$imgEvento',
-                                                             fecha_evento = '$fecha_evento'
-                                                         WHERE codevento = $codevento   
+                                                         SET descripcion        = '$evento', 
+                                                             precio             = $precio, 
+                                                             capMax             = $capacidad, 
+                                                             foto               = '$imgEvento',
+                                                             fecha_evento       = '$fecha_evento',
+                                                             id_tipo_seminario  = '$id_t_semimario'
+                                                         WHERE codevento        = $codevento   
                                                             ") ;
                 
                 if ($query_update) {
@@ -100,21 +102,49 @@ if ($_SESSION['rol'] != 1) {
      header("location: lista_eventos.php");
      # code...
      }
-     $query_evento = mysqli_query($conection,"SELECT * FROM evento WHERE codevento = $id_evento AND status = 1");
+     $query_evento = mysqli_query($conection,"SELECT e.codevento, e.descripcion, e.precio, (e.id_tipo_seminario) AS idrol,
+                                                     (t.nombre) AS rol, e.capMax, e.fecha_evento, e.foto  
+                                              FROM evento e
+                                              INNER JOIN tip_seminario t
+                                              ON  e.id_tipo_seminario = t.id_tipo_seminario 
+                                              WHERE codevento = $id_evento 
+                                              AND status = 1");
      $result_evento = mysqli_num_rows($query_evento);
      
      $foto = '';
      $classRemove = 'notBlock';
-
-     if ($result_evento > 0) {
-         $data_evento = mysqli_fetch_assoc($query_evento);
-            if ($data_evento['foto'] != 'img_evento.png') {
-              $classRemove = '';
-              $foto = '<img id="img" src="img/uploads/'.$data_evento['foto'].'" alt="Evento">';  # code...
-            }
-         # code...
-     }else {
+     
+     if ($result_evento == 0) {
         header("location: lista_eventos.php");# code...
+       
+     }else{
+       
+        $data_evento = mysqli_fetch_assoc($query_evento);
+        
+        $option = '';
+           //while ($data = mysqli_fetch_array($query_evento)) {
+              
+               $idrol      = $data_evento['idrol'];
+               $rol        = $data_evento['rol'];
+               
+               if ($idrol == 1) {
+                   $option = '<option value="'.$idrol.'" select>'.$rol.'</option>';
+                   # code...
+               }else if ($idrol == 2) {
+                   $option = '<option value="'.$idrol.'" select>'.$rol.'</option>';
+               }
+           //}
+           
+           
+
+
+           if ($data_evento['foto'] != 'img_evento.png') {
+             $classRemove = '';
+             $foto = '<img id="img" src="img/uploads/'.$data_evento['foto'].'" alt="Evento">';  # code...
+           }
+        # code...
+       
+       
      }
      # code...
  }
@@ -143,10 +173,38 @@ if ($_SESSION['rol'] != 1) {
             <input type="hidden" id="foto_actual" name="foto_actual" value="<?php echo $data_evento['foto']?>">
             <input type="hidden" id="foto_remove" name="foto_remove" value="<?php echo $data_evento['foto']?>">
 
-            <label for="evento">Nombre Evento</label>
+            <label for="evento">Nombre Seminario</label>
             <input type="text" name="evento" id="evento" placeholder="Nombre del Evento" value="<?php echo $data_evento['descripcion'];?>">
             <label for="precio">Precio</label>
             <input type="number" name="precio" id="precio" placeholder="Precio del Evento" value="<?php echo $data_evento['precio'];?>">
+            <label for="evento">Tipo de Seminario</label>
+
+            <?php
+
+                    $query_rol = mysqli_query($conection, "SELECT * FROM tip_seminario");
+                    mysqli_close($conection);
+                    $result_rol = mysqli_num_rows($query_rol);
+                            
+            ?>
+                <select name="rol" id="rol" class="notItemOne">
+                    <?php 
+                    echo $option;
+                    if ($result_rol >0 ) {
+                    
+                        while ($rol = mysqli_fetch_array($query_rol)) {
+                        ?>
+                        <option value="<?php echo $rol["id_tipo_seminario"];  ?>"><?php  echo $rol["nombre"]  ?></option>
+                        <?php
+                            # code...
+                        }
+                        # code...
+                    }
+                    
+                    ?>
+                    
+                            
+                </select> 
+
             <label for="capacidad">Capacidad Maxima</label>
             <input type="number" name="capacidad" id="capacidad" placeholder="Capacidad del Evento" value="<?php echo $data_evento['capMax'];?>">
             <label for="fecha">Fecha Evento</label>

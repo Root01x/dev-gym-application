@@ -89,7 +89,7 @@ if($result_sql == 0){
             # code...
         }else if ($idrol == 2) {
             $option = '<option value="'.$idrol.'" select>'.$rol.'</option>';
-        }else if ($idrol == 3) {
+        }else if ($idrol == 5) {
             $option = '<option value="'.$idrol.'" select>'.$rol.'</option>';
         }
     }

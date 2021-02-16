@@ -39,6 +39,7 @@ if ($_SESSION['rol'] != 1) {
                 <th>Evento</th>
                 <th>Precio</th>
                 <th>Capacidad</th>
+                <th>Tipo de Seminario</th>
                 <th>Fecha Evento</th>
                 <th>Foto</th>
                 <th>Acciones</th>                    
@@ -65,8 +66,16 @@ if ($_SESSION['rol'] != 1) {
            $total_paginas = ceil($total_resgistros / $por_pagina);
 
 
-           $query = mysqli_query($conection,"SELECT * FROM evento  WHERE status = 1                                                                                                      
-                                                                    ORDER BY codevento DESC LIMIT $desde, $por_pagina");
+           $query = mysqli_query($conection,"SELECT e.codevento, e.descripcion, e.precio,
+                                                    e.capMax, e.fecha_evento, e.foto,
+                                                    e.id_tipo_seminario as id_tipo_s, t.nombre as tipo_seminario
+                                                                    
+                                                                    FROM evento e
+                                                                    INNER JOIN tip_seminario t
+                                                                    ON  e.id_tipo_seminario = t.id_tipo_seminario 
+                                                                    WHERE status = 1                                                                                                                                                                        
+                                                                    ORDER BY e.codevento 
+                                                                    DESC LIMIT $desde, $por_pagina");
            $result = mysqli_num_rows($query);
            mysqli_close($conection);
            if ($result > 0) {
@@ -82,6 +91,7 @@ if ($_SESSION['rol'] != 1) {
                 <td><?php echo $data["descripcion"];?></td>
                 <td><?php echo $data["precio"];?></td>
                 <td><?php echo $data["capMax"];?></td>
+                <td><?php echo $data["tipo_seminario"];?></td>
                 <td><?php echo $data["fecha_evento"];?></td>
                 <td class="img_evento"><img src="<?php echo $foto;?>" alt="<?php echo $data["descripcion"];?>"></td>
                 
