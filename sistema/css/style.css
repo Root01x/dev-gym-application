@@ -180,6 +180,27 @@ hr{
 	display: block;
 
 }
+
+.tarjeta_cod {
+	
+	display: grid;
+	grid-template-columns: repeat(3, 1fr);
+	gap: 1em;
+	margin: 0;
+	
+	
+}
+
+.tarjeta_cod > input{
+	
+	width: 100%;
+
+	grid-column: 1/2;
+	
+	
+	
+}
+
 form{
 	border: 2px solid #78909C;
 	border-radius: 2%;
@@ -596,7 +617,16 @@ background: #ddd;
 	border: 0;
 	border-radius: 5px;
 	cursor: pointer;
-	padding:  10px;
+	padding:  7px;
+	margin: 0 3px;
+	color:  #FFF;
+}
+.btn_view2{
+	background-color: #1faac8;
+	border: 0;
+	border-radius: 5px;
+	cursor: pointer;
+	padding:  7px;
 	margin: 0 3px;
 	color:  #FFF;
 }
