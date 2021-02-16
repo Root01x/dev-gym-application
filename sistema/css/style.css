@@ -214,6 +214,7 @@ label{
 	font-size: 12pt ;
 	font-family: 'GothamBook';
 	margin: 15px auto 5px auto;
+	font-weight: bold;
 }
 
 input,select{

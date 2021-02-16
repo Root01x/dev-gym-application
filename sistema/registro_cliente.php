@@ -104,7 +104,7 @@ if ($_SESSION['rol'] != 1) {
                     <input type="text" name="cod_tarjeta" id="cod_tarjeta" placeholder="Codigo Tarjeta " required >
                 </div>
                 <div class="cod_btn" >
-                    <button class="btn_view2" id="btn_view2" type="button" style="margin: 0;" ><i class="fas fa-sync"></i></button>
+                    <button class="btn_view2" id="btn_refresh" type="button" style="margin: 0;" ><i class="fas fa-sync"></i></button>
                 </div>
                     
             </div>

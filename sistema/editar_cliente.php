@@ -19,6 +19,7 @@
         $idcliente  = $_POST['id'];
         $cedula     = $_POST['cedula'];        
         $nombre     = $_POST['nombre'];
+        $apellido   = $_POST['apellido'];
         $email      = $_POST['correo'];
         $telefono   = $_POST['telefono'];            
         $direccion  = $_POST['direccion'];
@@ -47,7 +48,7 @@
             
             
                $sql_update = mysqli_query($conection,"UPDATE    cliente
-                                                      SET       cedula = '$cedula', nombre = '$nombre', Correo = '$email', telefono='$telefono', direccion='$direccion', cod_tarjeta = '$codTarjeta'
+                                                      SET       cedula = '$cedula', nombre = '$nombre', apellidos = '$apellido', Correo = '$email', telefono='$telefono', direccion='$direccion', cod_tarjeta = '$codTarjeta'
                                                       WHERE     idcliente = $idcliente");
             
             
@@ -84,13 +85,14 @@ if($result_sql == 0){
 }else{
     $option = '';
     while ($data = mysqli_fetch_array($sql)) {
-            $idcliente     = $data['idcliente'];
-            $cedula     = $data['cedula'];        
-            $nombre     = $data['nombre'];
-            $email      = $data['Correo'];
-            $telefono   = $data['telefono'];            
-            $direccion  = $data['direccion'];
-            $codTarjeta  = $data['cod_tarjeta'];
+            $idcliente      = $data['idcliente'];
+            $cedula         = $data['cedula'];        
+            $nombre         = $data['nombre'];
+            $apellido       = $data['apellidos'];
+            $email          = $data['Correo'];
+            $telefono       = $data['telefono'];            
+            $direccion      = $data['direccion'];
+            $codTarjeta     = $data['cod_tarjeta'];
             //$usuario_id = $data['idUser'];
         
        
@@ -120,8 +122,10 @@ if($result_sql == 0){
 
             <label for="cedula">Cedula</label>
             <input type="text" name="cedula" id="cedula" placeholder="Numero de Cedula" value="<?php echo $cedula?>">
-            <label for="nombre">Nombre</label>
-            <input type="text" name="nombre" id="nombre" placeholder="Nombre Completo" value="<?php echo $nombre?>">
+            <label for="nombre">Nombres</label>
+            <input type="text" name="nombre" id="nombre" placeholder="Nombre" value="<?php echo $nombre?>">
+            <label for="apellido">Apellidos</label>
+            <input type="text" name="apellido" id="apellido" placeholder="Apellido" value="<?php echo $apellido?>">
             <label for="correo">Correo Electronico</label>
             <input type="email" name="correo" id="correo" placeholder="Correo Electronico" value="<?php echo $email?>">
             <label for="telefono">Telefono</label>
@@ -129,23 +133,22 @@ if($result_sql == 0){
             <label for="direccion">Direccion</label>
             <input type="text" name="direccion" id="direccion" placeholder="Direccion Completa" value="<?php echo $direccion?>">
 
-            <div class="wd30">
-                    <label for="">Codigo Tarjeta</label>
-                    <input type="text" name="cod_tarjeta" id="cod_tarjeta"  value="<?php echo $codTarjeta?>" required >
-                   
-
-                </div>
-
-                <div class="wd30">
-                
-                <button class="btn_view " id="btn_refresh" type="button" style="margin: 25px auto 10px auto;" ><i class="fas fa-sync"></i></button>
-                
-
-                
-                </div>
+            <div class="tarjeta_cod">
+                    
+                    <div>
+                        <label for="as">Codigo Tarjeta</label>
+                        <input type="text" name="cod_tarjeta" id="cod_tarjeta" value="<?php echo $codTarjeta?>" required >
+                    </div>
+                    <div class="cod_btn" >
+                        <label for="as"> </label>
+                        <button class="btn_view2" id="btn_refresh" type="button" style="margin: 38px 0px 0px 0px;" ><i class="fas fa-sync"></i></button>
+                    </div>
+                        
+            </div>
             
             <input type="submit" value="Actualizar Cliente" class="btn_save">
-        
+
+    
         </form>
 
 

@@ -64,7 +64,8 @@ if ($_SESSION['rol'] != 1) {
            $total_paginas = ceil($total_resgistros / $por_pagina);
 
 
-           $query = mysqli_query($conection,"SELECT * FROM cliente  WHERE status = 1                                                                                                      
+           $query = mysqli_query($conection,"SELECT idcliente, cedula, CONCAT(Nombre, ' ', Apellidos) AS nombre_c, Correo, telefono, direccion, cod_tarjeta
+                                                                    FROM cliente  WHERE status = 1                                                                                                      
                                                                     ORDER BY idcliente ASC LIMIT $desde, $por_pagina");
            $result = mysqli_num_rows($query);
            mysqli_close($conection);
@@ -74,7 +75,7 @@ if ($_SESSION['rol'] != 1) {
             <tr>
                 <td><?php echo $data["idcliente"];?></td>
                 <td><?php echo $data["cedula"];?></td>
-                <td><?php echo $data["nombre"];?></td>
+                <td><?php echo $data["nombre_c"];?></td>
                 <td><?php echo $data["Correo"];?></td>
                 <td><?php echo $data["telefono"];?></td>
                 <td><?php echo $data["direccion"];?></td>
