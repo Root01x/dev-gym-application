@@ -514,24 +514,85 @@
         
             //$cedula = $_POST['cliente'];
         
-                $query = mysqli_query($conection,"SELECT uid, fecha, MAX(id) as id_tarjeta FROM ingresos WHERE fecha BETWEEN DATE_SUB(NOW(),INTERVAL 20 second) AND NOW()");
+                $query = mysqli_query($conection,"SELECT uid, fecha FROM ingresos WHERE fecha BETWEEN DATE_SUB(NOW(),INTERVAL 10 second) AND NOW()");
                 
                 mysqli_close($conection);
                 $result = mysqli_num_rows($query);
                 $data = '';
                 if ($result >0) {
-                    $data = mysqli_fetch_assoc($query);   
-                # code...
-                }else {
-                    $data = 0;
-                }
 
-                echo json_encode($data,JSON_UNESCAPED_UNICODE);
+                    $data = mysqli_fetch_assoc($query);
+                    echo json_encode($data,JSON_UNESCAPED_UNICODE);                    
+                    exit;   
                 # code...
-        
+                }
+                //$data = 0;
+                echo 'error';
                 exit;
+
+         exit;      
         
      }
+
+      //refrescar de acccesso
+      if($_POST['action'] == 'obtenerCodigo2')
+      {
+         
+             //$cedula = $_POST['cliente'];
+         
+                 $query = mysqli_query($conection,"SELECT uid, fecha FROM ingresos WHERE fecha BETWEEN DATE_SUB(NOW(),INTERVAL 10 second) AND NOW()");
+                 
+                 mysqli_close($conection);
+                 $result = mysqli_num_rows($query);
+                 $data = '';
+                 if ($result >0) {
+ 
+                     $data = mysqli_fetch_assoc($query);
+                     echo json_encode($data,JSON_UNESCAPED_UNICODE);                    
+                     exit;   
+                 # code...
+                 }
+                 //$data = 0;
+                 echo 'error';
+                 exit;
+ 
+          exit;      
+         
+      }
+      //OBTNER DATOS DE LA GESTON DE ACESSO
+      if($_POST['action'] == 'obtenerAcceso')
+      {
+         
+             $codigo = $_POST['codigo'];
+
+                if (empty($codigo ) ) {
+                    echo 'error3';
+                    exit;                    
+                }
+         
+                // $query = mysqli_query($conection,"SELECT uid, fecha, MAX(id) as id_tarjeta FROM ingresos WHERE fecha BETWEEN DATE_SUB(NOW(),INTERVAL 20 second) AND NOW()");
+                   $query = mysqli_query($conection,"SELECT * FROM cliente WHERE cod_tarjeta = '$codigo'");
+                 
+                 mysqli_close($conection);
+                 $result = mysqli_num_rows($query);
+                 $data = '';
+                 if ($result >0) {
+                     $data = mysqli_fetch_assoc($query);  
+                     echo json_encode($data,JSON_UNESCAPED_UNICODE);
+                     exit; 
+                 # code...
+                 }else if($result == 0) {
+                     //$data = 0;
+                     echo 'error2';
+                     exit;
+                 }
+ 
+                 
+                 # code...
+         
+                 exit;
+         
+      }
 }
 exit;
 

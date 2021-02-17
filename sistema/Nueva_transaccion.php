@@ -53,7 +53,7 @@
                     <input type="text" name="dir_cliente" id="dir_cliente" disabled required>
                 
                 </div>
-
+ 
                 
                 <div class="wd30">
                     <label for="">Codigo Tarjeta</label>

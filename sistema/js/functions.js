@@ -1,5 +1,5 @@
 //alert("hola mundo");
-$(document).ready(function(){
+$(document).ready(function(){ 
 
     //--------------------- SELECCIONAR FOTO PRODUCTO ---------------------
     $("#foto").on("change",function(){
@@ -485,7 +485,7 @@ $(document).ready(function(){
 
     /// refrescar codigo tarjeta
     $('#btn_refresh').click(function(e){
-
+        
         e.preventDefault();
 
      
@@ -520,7 +520,162 @@ $(document).ready(function(){
         
     });
 
+     /// LLENAR DATOS DE LA GESTION DE ACCESO
+     $('#btn_refresh_acceso').click(function(e){
+
+        //alert("EUREKA")
+        e.preventDefault();
+  
+            var action = 'obtenerAcceso';
+            var codigo = $('#codigo_acceso').val();
+           
+            $.ajax({
+                url: 'ajax.php',
+                type: 'POST',
+                async: true,
+                data: {action:action,codigo:codigo},
+        
+                success: function(response)
+                {
+                    
+
+                   if (response !='error') {
+
+                    var info = JSON.parse(response);
+
+                    //console.log(info);
+                    //$('#cod_1').val(info.cod_tarjeta);
+                    //$('#cedula').val(info.cedula);
+                    $('.cedula' ).html('CEDULA: '+info.cod_tarjeta)
+                    $('.nombre' ).html('NOMBRES: '+info.cod_tarjeta+info.apellidos)
+                    $('.telefono' ).html('TELEFONO: '+info.telefono)
+                    $('.codigo' ).html('CODIGO TARJETA: '+info.cod_tarjeta)
+                    //$('.alertErrorEvento').html('<p style="color:Black;">CLIENTE CREADO CORRECTAMENTE.</p>');
+
+                   }
+                    
+        
+                },
+                error: function(error){
+        
+                }
+            });
+
+        
+    });
+
 }); //end readdy
+
+
+function getHora(){
+     
+    var f = new Date();
+    var hora = f.getHours();
+    var min = f.getMinutes();
+    var sec = f.getSeconds();
+    var a = document.getElementById("hora");
+    a.innerHTML = hora+":"+min+":"+sec;
+    
+}
+
+function reload_access(){
+    
+
+        //alert("EUREKA")
+       // e.preventDefault();
+  
+            var action = 'obtenerAcceso';
+            var codigo = $('#codigo_acceso').val();
+            
+
+
+            $.ajax({
+                url: 'ajax.php',
+                type: 'POST',
+                async: true,
+                data: {action:action,codigo:codigo},
+        
+                success: function(response)
+                {
+                    
+                   if (response !='error3' && response !='error2') {
+
+                    var info = JSON.parse(response);
+
+                    //console.log(info);
+                    //$('#cod_1').val(info.cod_tarjeta);
+                    //$('#cedula').val(info.cedula);
+                    $('.cedula' ).html('CEDULA: '+info.cedula)
+                    $('.nombre' ).html('NOMBRES: '+info.nombre+' '+info.apellidos)
+                    $('.telefono' ).html('TELEFONO: '+info.telefono)
+                    $('.codigo' ).html('CODIGO TARJETA: '+info.cod_tarjeta)
+                    $('.alertErrorAcceso' ).html('')
+                    //$('.alertErrorEvento').html('<p style="color:Black;">CLIENTE CREADO CORRECTAMENTE.</p>');
+
+                   }else if (response =='error2') {
+                    //sconsole.log("EL CODIGO NO ESTA ASIGNADO A NINGUN CLIENTE")
+                    $('.cedula' ).html('')
+                    $('.nombre' ).html('')
+                    $('.telefono' ).html('')
+                    $('.codigo' ).html('')
+                    $('.alertErrorAcceso' ).html('EL CODIGO NO ESTA ASIGNADO A NINGUN CLIENTE')
+                   }
+                   
+                   else if(response == 'error3'){
+                       console.log("codigo vacio")
+
+                     //$('.alertErrorEvento').html('<p style="color:Black;">CLIENTE CREADO CORRECTAMENTE.</p>');
+
+                   }
+                    
+        
+                },
+                error: function(error){
+                    console.log(error);
+        
+                }
+            });
+}
+
+function getCodigo(){
+
+    var action = 'obtenerCodigo2';
+
+    $.ajax({
+        url: 'ajax.php',
+        type: 'POST',
+        async: true,
+        data: {action:action},
+
+        success: function(response)
+        {
+            
+
+           if (response !='error') {
+            //console.log(response);
+            var info = JSON.parse(response);
+
+            console.log(info);
+            $('#codigo_acceso').val(info.uid);
+
+           }
+           else{
+            console.log("no hay datos que mostrar");
+           }
+            
+
+        },
+        error: function(error){
+            console.log(error);
+        }
+    });
+    
+}
+
+setInterval(reload_access,1000);
+setInterval(getCodigo,1000);
+
+
 
 function anularFactura(){
     var noFactura = $('#no_factura').val();
