@@ -58,7 +58,7 @@
 <body>
     <section id="container">
         <form action="" method="post">
-            <h3>Iniciar Sesion</h3>
+            <h3>Sistema de Acceso a Seminarios</h3>
             <img src="img/login.png" alt="Login">
             <input type="text" name="usuario" placeholder="Usuario">
             <input type="password" name="clave" placeholder="Clave">

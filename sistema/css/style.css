@@ -185,7 +185,8 @@ hr{
 	
 	display: grid;
 	grid-template-columns: repeat(3, 1fr);
-	gap: 1em;
+	grid-template-rows: repeat(2, 1fr);
+	gap: 3px;
 	margin: 0;
 	
 	
@@ -200,6 +201,19 @@ hr{
 	
 	
 }
+.texto-grid{
+	font-size: 11px;
+	width: 100%;
+
+	grid-column: 1/4;
+		
+}
+.texto-grid>p{
+	font-size: 11px;
+	
+		
+}
+
 
 form{
 	border: 2px solid #78909C;

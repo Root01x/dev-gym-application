@@ -2,12 +2,12 @@
 
 session_start();
 
-/*
+
 if ($_SESSION['rol'] != 1) {
     # code...
 
     header("location: ./");
-}*/
+}
 
 
 

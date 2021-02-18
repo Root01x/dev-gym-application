@@ -25,6 +25,7 @@ if ($_SESSION['rol'] != 1) {
             $evento         = $_POST['evento'];        
             $precio         = $_POST['precio'];
             $capacidad      = $_POST['capacidad'];
+            $direccion      = $_POST["direccion"];
             $rol            = $_POST['rol'];
             $fecha_evento   = date('Y-m-d H:m:s', strtotime($_POST['fecha_ev']));             
             $usuario_id     = $_SESSION['idUser'];
@@ -45,8 +46,8 @@ if ($_SESSION['rol'] != 1) {
 
             $result = 0;
 
-                $query_insert = mysqli_query($conection,"INSERT INTO evento(descripcion,precio,capMax,foto,usuario_id,fecha_evento,	id_tipo_seminario) 
-                                                      VALUES('$evento', '$precio', '$capacidad', '$imgEvento', '$usuario_id', ' $fecha_evento', '$rol')") ;
+                $query_insert = mysqli_query($conection,"INSERT INTO evento(descripcion,precio,capMax,direccion,foto,usuario_id,fecha_evento,	id_tipo_seminario) 
+                                                      VALUES('$evento', '$precio', '$capacidad','$direccion', '$imgEvento', '$usuario_id', ' $fecha_evento', '$rol')") ;
                 
                 if ($query_insert) {
                     if ($nombre_foto!='') {
@@ -118,6 +119,8 @@ if ($_SESSION['rol'] != 1) {
                 </select> 
             <label for="capacidad">Capacidad Maxima</label>
             <input type="number" name="capacidad" id="capacidad" placeholder="Capacidad del Evento">
+            <label for="direccion">Direccion Seminario</label>
+            <input type="text" name="direccion" id="direccion" placeholder="Direccion del Seminario">
             <label for="fecha">Fecha Evento</label>
             <input type="datetime-local" name="fecha_ev" id="fecha_ev" placeholder="Fecha del Evento"> 
 

@@ -14,23 +14,24 @@
 					</ul>
 				</li>
 				<?php }?>
+				<?php
+					if ($_SESSION['rol'] == 1) {
+						# code...
+					
+				?>
 				<li class="principal">
 
 					<a href="#"><i class="far fa-address-card"></i> Clientes</a>
 					<ul>
 						<li><a href="registro_cliente.php">Nuevo Cliente</a></li>
 
-						<?php
-					if ($_SESSION['rol'] == 1) {
-						# code...
-					
-				?>
+				
 						<li><a href="lista_clientes.php">Lista de Clientes</a></li>
 
-				<?php }?>
+				
 					</ul>
 				</li>
-
+				<?php }?>
 				<li class="principal">
 					<a href="#"> <i class="far fa-clock"></i> Seminarios</a>
 					<ul>

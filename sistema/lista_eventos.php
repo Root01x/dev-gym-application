@@ -25,8 +25,16 @@ if ($_SESSION['rol'] != 1) {
  <?php include "includes/header.php"?>
 	<section id="container">
 		<h1><i class="fas fa-list-alt"></i> Lista de Seminarios</h1>
+        <?php
+					if ($_SESSION['rol'] == 1) {
+						# code...
+					
+				?>
         <a href="registro_evento.php" class="btn_new">Agregar Nuevo Seminario</a>
-        
+
+        <?php
+                    }
+        ?>
 
     <form action="buscar_evento.php" method="get" class="form_search">
         <input type="text" name="busqueda" id="busqueda" placeholder="Buscar">
@@ -39,11 +47,15 @@ if ($_SESSION['rol'] != 1) {
                 <th>Evento</th>
                 <th>Precio</th>
                 <th>Capacidad</th>
+                <th>Direccion</th>
                 <th>Tipo de Seminario</th>
                 <th>Fecha Evento</th>
                 <th>Foto</th>
+                <?php if ($_SESSION['rol']==1 || $_SESSION['rol']==2) {
+                       # code...
+                     ?>
                 <th>Acciones</th>                    
-                
+                <?php } ?>
             </tr>
 
             <?php
@@ -67,7 +79,7 @@ if ($_SESSION['rol'] != 1) {
 
 
            $query = mysqli_query($conection,"SELECT e.codevento, e.descripcion, e.precio,
-                                                    e.capMax, e.fecha_evento, e.foto,
+                                                    e.capMax,e.direccion, e.fecha_evento, e.foto,
                                                     e.id_tipo_seminario as id_tipo_s, t.nombre as tipo_seminario
                                                                     
                                                                     FROM evento e
@@ -91,21 +103,23 @@ if ($_SESSION['rol'] != 1) {
                 <td><?php echo $data["descripcion"];?></td>
                 <td><?php echo $data["precio"];?></td>
                 <td><?php echo $data["capMax"];?></td>
+                <td><?php echo $data["direccion"];?></td>
                 <td><?php echo $data["tipo_seminario"];?></td>
                 <td><?php echo $data["fecha_evento"];?></td>
                 <td class="img_evento"><img src="<?php echo $foto;?>" alt="<?php echo $data["descripcion"];?>"></td>
-                
+                <?php if ($_SESSION['rol']==1 || $_SESSION['rol']==2) {
+                       # code...
+                     ?>
                 <td>
                     <a class="link_edit" href="editar_evento.php?id=<?php echo $data["codevento"];?>">Editar</a>
                     
-                   <?php if ($_SESSION['rol']==1 || $_SESSION['rol']==2) {
-                       # code...
-                     ?>
+                   
                      |
                     <a class="link_delete del_event" href="#" event="<?php echo $data["codevento"];?>">Eliminar</a>
 
-                    <?php } ?>
+                    
                 </td>
+                <?php } ?>
             </tr>
 
                 <?php

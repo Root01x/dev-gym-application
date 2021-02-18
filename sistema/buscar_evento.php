@@ -33,7 +33,7 @@ session_start();
     
     ?>
 		<h1>Lista de Seminarios</h1>
-        <a href="registro_cliente.php" class="btn_new">Crear Cliente</a>
+        
 
     <form action="buscar_evento.php" method="get" class="form_search">
         <input type="text" name="busqueda" id="busqueda" placeholder="Buscar" value ="<?php echo $busqueda;?>">
@@ -45,9 +45,15 @@ session_start();
                 <th>ID</th>
                 <th>Evento</th>
                 <th>Precio</th>
-                <th>Capacidad</th>                
+                <th>Direccion</th>
+                <th>Capacidad</th> 
+                <?php
+                        if ($_SESSION['rol']==1 || $_SESSION['rol']==2) {
+                            # code...
+                        
+                    ?>   
                 <th>Acciones</th>                    
-                
+                <?php }?>
             </tr>
 
 
@@ -60,10 +66,11 @@ session_start();
            $sql_registre = mysqli_query($conection,"SELECT COUNT(*) AS total_registro   FROM evento 
                                                                                         WHERE 
                                                                                         (
-                                                                                        codevento LIKE '%$busqueda%' OR
-                                                                                        descripcion	  LIKE '%$busqueda%' OR
-                                                                                        precio	  LIKE '%$busqueda%' OR
-                                                                                        capMax	  LIKE '%$busqueda%'                                                                                        
+                                                                                        codevento       LIKE '%$busqueda%' OR
+                                                                                        descripcion	    LIKE '%$busqueda%' OR
+                                                                                        direccion	    LIKE '%$busqueda%' OR
+                                                                                        precio	        LIKE '%$busqueda%' OR
+                                                                                        capMax	        LIKE '%$busqueda%'                                                                                        
                                                                                         
                                                                                         )
                                                                                         AND
@@ -102,23 +109,27 @@ session_start();
             <tr>
                 <td><?php echo $data["codevento"];?></td>
                 <td><?php echo $data["descripcion"];?></td>
+                <td><?php echo $data["direccion"];?></td>
                 <td><?php echo $data["precio"];?></td>
                 <td><?php echo $data["capMax"];?></td>
-                
-                <td>
-                    <a class="link_edit" href="editar_cliente.php?id=<?php echo $data["idcliente"];?>">Editar</a>
-                    |
-                    <?php
+
+                <?php
                         if ($_SESSION['rol']==1 || $_SESSION['rol']==2) {
                             # code...
                         
                     ?>
+                
+                <td>
+                    
+                    
+                    
+                    <a class="link_edit" href="editar_cliente.php?id=<?php echo $data["idcliente"];?>">Editar</a>
                     <a class="link_delete" href="eliminar_cliente.php?id=<?php echo $data["idcliente"];?>">Eliminar</a>
-
+                    </td>
                     <?php
                         }
                     ?>
-                </td>
+               
             </tr>
 
                 <?php

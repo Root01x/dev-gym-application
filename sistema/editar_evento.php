@@ -26,8 +26,9 @@ if ($_SESSION['rol'] != 1) {
             $evento         = $_POST['evento'];        
             $precio         = $_POST['precio'];
             $capacidad      = $_POST['capacidad'];
+            $direccion      = $_POST["direccion"];
             $id_t_semimario = $_POST['rol'];
-            print_r($id_t_semimario);
+           
             $fecha_evento   = date('Y-m-d H:m:s', strtotime($_POST['fecha_ev'])); 
             
             $imgEvento      = $_POST['foto_actual'];
@@ -61,7 +62,8 @@ if ($_SESSION['rol'] != 1) {
                 $query_update = mysqli_query($conection,"UPDATE evento
                                                          SET descripcion        = '$evento', 
                                                              precio             = $precio, 
-                                                             capMax             = $capacidad, 
+                                                             capMax             = $capacidad,
+                                                             direccion          = '$direccion', 
                                                              foto               = '$imgEvento',
                                                              fecha_evento       = '$fecha_evento',
                                                              id_tipo_seminario  = '$id_t_semimario'
@@ -99,10 +101,10 @@ if ($_SESSION['rol'] != 1) {
  }else {
      $id_evento = $_REQUEST['id'];
      if (!is_numeric($id_evento)) {
-     header("location: lista_eventos.php");
+     header("location: lista_eventos.php"); 
      # code...
      }
-     $query_evento = mysqli_query($conection,"SELECT e.codevento, e.descripcion, e.precio, (e.id_tipo_seminario) AS idrol,
+     $query_evento = mysqli_query($conection,"SELECT e.codevento, e.descripcion,e.direccion, e.precio, (e.id_tipo_seminario) AS idrol,
                                                      (t.nombre) AS rol, e.capMax, e.fecha_evento, e.foto  
                                               FROM evento e
                                               INNER JOIN tip_seminario t
@@ -207,6 +209,8 @@ if ($_SESSION['rol'] != 1) {
 
             <label for="capacidad">Capacidad Maxima</label>
             <input type="number" name="capacidad" id="capacidad" placeholder="Capacidad del Evento" value="<?php echo $data_evento['capMax'];?>">
+            <label for="direccion">Direccion Seminario</label>
+            <input type="text" name="direccion" id="direccion" placeholder="Direccion del Seminario" value="<?php echo $data_evento['direccion'];?>">
             <label for="fecha">Fecha Evento</label>
             <input type="datetime-local" name="fecha_ev" id="fecha_ev" placeholder="Fecha del Evento" value="<?php echo date('Y-m-d\TH:i', strtotime( $data_evento['fecha_evento']))?>"> 
 
