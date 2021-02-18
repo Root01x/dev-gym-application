@@ -564,6 +564,52 @@ $(document).ready(function(){
         
     });
 
+     //buscar evento para acceso
+     $('#cod_evento_acesso').keyup(function(e){
+        e.preventDefault();
+        var evento = $(this).val();
+        var action = 'infoEvent';
+
+        if (evento!='') {
+            $.ajax({
+                url: 'ajax.php',
+                type: 'POST',
+                async: true,
+                data: {action:action,evento:evento},
+        
+                success: function(response)
+                {
+                    
+                   if (response != 'ERROR') {
+                        var info = JSON.parse(response);
+                        $('#txt_descripcion').html(info.descripcion);
+                        
+                        $('#seminario').val(info.codevento);
+                       
+                       
+                        //acctivar cantidad
+                        //$('#txt_cant_evento').removeAttr('disabled');
+
+                      
+                    
+                   }else{
+                        
+
+                       
+
+
+                   }
+        
+        
+                },
+                error: function(error){
+        
+                }
+            });
+        }
+            
+    });
+
 }); //end readdy
 
 
@@ -586,6 +632,7 @@ function reload_access(){
   
             var action = 'obtenerAcceso';
             var codigo = $('#codigo_acceso').val();
+            var codigoEvento = $('#seminario').val();
             
 
 
@@ -593,7 +640,7 @@ function reload_access(){
                 url: 'ajax.php',
                 type: 'POST',
                 async: true,
-                data: {action:action,codigo:codigo},
+                data: {action:action,codigo:codigo,codigoEvento:codigoEvento},
         
                 success: function(response)
                 {
@@ -607,9 +654,17 @@ function reload_access(){
                     //$('#cedula').val(info.cedula);
                     $('.cedula' ).html('CEDULA: '+info.cedula)
                     $('.nombre' ).html('NOMBRES: '+info.nombre+' '+info.apellidos)
-                    $('.telefono' ).html('TELEFONO: '+info.telefono)
+                    $('.telefono' ).html('TELEFONO: '+info.op)
                     $('.codigo' ).html('CODIGO TARJETA: '+info.cod_tarjeta)
                     $('.alertErrorAcceso' ).html('')
+
+                    if (info.op==1) {
+                        $('.alertErrorAcceso' ).html('ACCESO AUTORZADO')
+                    }
+                    else if(info.op==2){
+                        $('.alertErrorAcceso' ).html('ACCESO RESTRINGIDO')
+                    }
+                    
                     //$('.alertErrorEvento').html('<p style="color:Black;">CLIENTE CREADO CORRECTAMENTE.</p>');
 
                    }else if (response =='error2') {
@@ -627,6 +682,15 @@ function reload_access(){
                      //$('.alertErrorEvento').html('<p style="color:Black;">CLIENTE CREADO CORRECTAMENTE.</p>');
 
                    }
+                   else if(response == 'error4'){
+                    $('.cedula' ).html('')
+                    $('.nombre' ).html('')
+                    $('.telefono' ).html('')
+                    $('.codigo' ).html('')
+                    $('.alertErrorAcceso' ).html('ACESSO DENEGADO AL EVENTO')
+                  //$('.alertErrorEvento').html('<p style="color:Black;">CLIENTE CREADO CORRECTAMENTE.</p>');
+
+                }
                     
         
                 },

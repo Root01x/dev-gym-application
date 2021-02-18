@@ -563,7 +563,8 @@
       if($_POST['action'] == 'obtenerAcceso')
       {
          
-             $codigo = $_POST['codigo'];
+             $codigo        = $_POST['codigo'];
+             $codigoEvento  = $_POST['codigoEvento'];
 
                 if (empty($codigo ) ) {
                     echo 'error3';
@@ -572,19 +573,58 @@
          
                 // $query = mysqli_query($conection,"SELECT uid, fecha, MAX(id) as id_tarjeta FROM ingresos WHERE fecha BETWEEN DATE_SUB(NOW(),INTERVAL 20 second) AND NOW()");
                    $query = mysqli_query($conection,"SELECT * FROM cliente WHERE cod_tarjeta = '$codigo'");
+
+                   $query2 = mysqli_query($conection,"SELECT *
+                                                     FROM cliente c 
+                                                     INNER JOIN detallefactura d 
+                                                     ON cod_cliente = idcliente
+                                                     WHERE cod_tarjeta = '$codigo' 
+                                                     and d.codevento = $codigoEvento");
+
+                   
                  
                  mysqli_close($conection);
                  $result = mysqli_num_rows($query);
+                 $result2 = mysqli_num_rows($query2);
                  $data = '';
-                 if ($result >0) {
-                     $data = mysqli_fetch_assoc($query);  
-                     echo json_encode($data,JSON_UNESCAPED_UNICODE);
-                     exit; 
+                 
+                 if ($result > 0 && $result2>0) { // codigo existe y cliente esta autorizado en el curso
+
+                        //if ($result2 > 0) {
+                            $myArr1 = array( "op" => "1");                           
+                            $data = mysqli_fetch_assoc($query); 
+                            $nuevo= array_merge($myArr1, $data); 
+                            echo json_encode($nuevo,JSON_UNESCAPED_UNICODE);
+                            exit; 
+                            
+                            # code...
+                        /* }else if($result2 == 0){
+                        
+                            echo 'error4';
+                            exit;
+
+                         }*/
+
+                            # code...
+        
+
                  # code...
-                 }else if($result == 0) {
+                 }
+                 else if($result > 0 && $result2==0)  // codigo existe y cliente no esta autorizado en el curso
+
+                 {
+                            $myArr1 = array( "op" => "2");                           
+                            $data = mysqli_fetch_assoc($query); 
+                            $nuevo= array_merge($myArr1, $data); 
+                            echo json_encode($nuevo,JSON_UNESCAPED_UNICODE);
+                            exit; 
+                            
+                 }
+                 
+                 else {
                      //$data = 0;
                      echo 'error2';
-                     exit;
+                     exit;# code...
                  }
  
                  

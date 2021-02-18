@@ -23,8 +23,10 @@
 			<h2>GESTIÓN DE ACCESO</h2>
 		</div>
 		<div class="grid_2">
-			<h3>CURSO: ORACLE DB</h3>
-			<button class="btn_cambiar">Cambiar</button>
+			<h3>CURSO: <span id="txt_descripcion">-</span></h3>
+			<input type="text" name="cod_evento_acesso" id="cod_evento_acesso" placeholder="CODIGO SEMINARIO">
+			<input type="hidden" id="seminario" name="seminario" value="11">
+			
 		</div>
 		
 	</div>
