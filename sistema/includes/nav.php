@@ -1,11 +1,10 @@
 <nav>
 			<ul>
+			<?php	if ($_SESSION['rol'] == 1) {				?>
+
 				<li><a href="index.php"><i class="fas fa-laptop-house"></i> Inicio</a></li>
-				<?php
-					if ($_SESSION['rol'] == 1) {
-						# code...
-					
-				?>
+				
+
 				<li class="principal">
 					<a href="#"><i class="fas fa-users"></i> Usuarios</a>
 					<ul>

@@ -1,6 +1,14 @@
 <?php
 
 	session_start();
+
+	
+if ($_SESSION['rol'] != 1) {
+    # code...
+
+    header("location: ./lista_eventos.php");
+}
+
 	include "../conection.php";
 	
 ?>
