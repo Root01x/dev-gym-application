@@ -305,8 +305,67 @@ $(document).ready(function(){
         }
     })
 
-    //agregar prodcuto al dettalle
+    //agregar evento al dettalle
     $('#add_evento_venta').click(function(e){
+        e.preventDefault();
+        
+    
+        if ($('#txt_cant_evento').val()>0) {
+            var codevento = $('#txt_cod_evento').val();
+            var cantidad = $('#txt_cant_evento').val();
+            var action = 'addEventoDetalle';
+
+            $.ajax({
+                url: 'ajax.php',
+                type: 'POST',
+                async: true,
+                data: {action:action,evento:codevento,cantidad:cantidad},
+        
+                success: function(response)
+                {
+                    
+                    if (response != 'ERROR') {
+
+                        var info = JSON.parse(response);
+                        $('#detalle_venta').html(info.detalle);
+                        $('#detalle_totales').html(info.totales);
+
+
+
+                        //LIMPIAR DATOS 
+                        $('#txt_cod_evento').val('');
+                        $('#txt_descripcion').html('-');
+                        $('#txt_existencia').html('-');
+                        $('#txt_cant_producto').val('0');
+                        $('#txt_precio').html('0.00');
+                        $('#txt_precio_total').html('');
+
+                        //BLOQUEAR CANTIDAD
+
+                        $('#txt_cant_evento').attr('disabled','disabled');
+
+                        //hide add botton
+                        $('#add_evento_venta').slideUp();
+
+                        
+                    }else{
+                        console.log('no hay datos');
+                    }
+                     viewProcesar();
+                    
+        
+                },
+                error: function(error){
+        
+                }
+            });
+            
+        }
+    })
+
+    //agregar evento desde lista de eventos al dettalle
+    $('#add_evento_list1').click(function(e){
+        alert("EUREKA")
         e.preventDefault();
         
     
@@ -773,7 +832,7 @@ function anularFactura(){
 
 }
 
-function del_evento_detalle(correlativo){
+function del_evento_detalle2(correlativo){
 
     var action = 'delEventoDetalle';
     var id_detalle = correlativo;
@@ -798,6 +857,8 @@ function del_evento_detalle(correlativo){
                 $('#detalle_totales').html(info.totales);
 
 
+
+
                 //LIMPIAR DATOS 
                 $('#txt_cod_evento').val('');
                 $('#txt_descripcion').html('-');
@@ -805,6 +866,7 @@ function del_evento_detalle(correlativo){
                 $('#txt_cant_producto').val('0');
                 $('#txt_precio').html('0.00');
                 $('#txt_precio_total').html('');
+                
 
                 //BLOQUEAR CANTIDAD
 
@@ -826,6 +888,64 @@ function del_evento_detalle(correlativo){
     });
 }
 
+function del_evento_detalle(correlativo,codevento){
+
+    var action = 'delEventoDetalle';
+    var id_detalle = correlativo;
+    var cod_evento = codevento;
+    
+    
+    $.ajax({
+        url: 'ajax.php',
+        type: 'POST',
+        async: true,
+        data: {action:action,id_detalle:id_detalle},
+
+        success: function(response)
+        {
+            $('#row_'+cod_evento+' .div_factura').html('<button class="btn_view view_factura " onclick="event.preventDefault(); mostrar('+cod_evento+','+1+')"><i class="far fa-trash-alt"></i> Reservar</button>');
+
+            
+            if (response != 'error') 
+            {
+                //alert(correlativo)
+                var info = JSON.parse(response);
+                console.log(info);
+
+                $('#detalle_venta').html(info.detalle);
+                $('#detalle_totales').html(info.totales);
+                
+
+
+
+                //LIMPIAR DATOS 
+                $('#txt_cod_evento').val('');
+                $('#txt_descripcion').html('-');
+                $('#txt_existencia').html('-');
+                $('#txt_cant_producto').val('0');
+                $('#txt_precio').html('0.00');
+                $('#txt_precio_total').html('');
+                
+
+                //BLOQUEAR CANTIDAD
+
+                $('#txt_cant_evento').attr('disabled','disabled');
+
+                //hide add botton
+                $('#add_evento_venta').slideUp();
+
+            }else{
+                $('#detalle_venta').html('');
+                $('#detalle_totales').html('');
+            }
+            viewProcesar();
+           
+        },
+        error: function(error){
+
+        }
+    });
+}
 //mostrar /ocltar boton proccesar
 function viewProcesar(){
     if ($('#detalle_venta tr').length > 0) {
@@ -857,6 +977,7 @@ function serchForDetalle(id){
                 //console.log("33");
                 $('#detalle_venta').html(info.detalle);
                 $('#detalle_totales').html(info.totales);
+
 
                 
             }else{
@@ -901,4 +1022,71 @@ function delEvent(){
 
 function closeModal(){
     $('.modal').fadeOut();
+}
+//funccion para agregar nuevas reservas
+function mostrar(cod_evento, disponible){
+    //alert(e)
+    if (disponible > 0) {
+        var codevento = cod_evento;
+        var cantidad = 1;
+        var action = 'addEventoDetalle';
+
+        $.ajax({
+            url: 'ajax.php',
+            type: 'POST',
+            async: true,
+            data: {action:action,evento:codevento,cantidad:cantidad},
+    
+            success: function(response)
+            {
+                
+                if (response != 'ERROR') {
+
+                    var info = JSON.parse(response);
+                    $('#detalle_venta').html(info.detalle);
+                    $('#detalle_totales').html(info.totales);
+
+                    //$('#form_anular_factura .btn_ok').remove();
+                   $('#row_'+codevento+' .div_factura').html('<button class="btn_view view_factura inactive" disabled><i class="far fa-trash-alt"></i> Reservar</button>');
+                    
+
+
+                    //LIMPIAR DATOS 
+                    $('#txt_cod_evento').val('');
+                    $('#txt_descripcion').html('-');
+                    $('#txt_existencia').html('-');
+                    $('#txt_cant_producto').val('0');
+                    $('#txt_precio').html('0.00');
+                    $('#txt_precio_total').html('');
+
+                    //BLOQUEAR CANTIDAD
+
+                    $('#txt_cant_evento').attr('disabled','disabled');
+
+                    //hide add botton
+                    $('#add_evento_venta').slideUp();
+
+                    
+                }else{
+                    console.log('no hay datos');
+                }
+                 viewProcesar();
+                
+    
+            },
+            error: function(error){
+    
+            }
+        });
+        
+    }
+    else{
+
+        alert('NO QUEDAN LUGARES DISPONIBLES')
+
+    }
+}
+function probar(){
+    //alert("eureka")
+    
 }

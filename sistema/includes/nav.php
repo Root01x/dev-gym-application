@@ -45,22 +45,22 @@
 						<li><a href="lista_eventos.php">Lista de Seminarios</a></li>
 					</ul>
 				</li>
-				
+				<?php if ($_SESSION['rol'] == 1) { ?>
 				<li class="principal">
 					<a href="#"><i class="far fa-calendar-check"></i> Transacciones</a>
 					<ul>
 
 						<li><a href="Nueva_transaccion.php">Nueva Transacción</a></li>
-						<?php
-					if ($_SESSION['rol'] == 1) {
+						
+					
 						# code...
 					
-				?>
+				
 						<li><a href="transacciones.php">Lista de Transacciones</a></li>
-						<?php }?>
+						
 					</ul>
 				</li>
-
+				<?php }?>
 
 				<!--
 				

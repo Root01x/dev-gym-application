@@ -166,9 +166,8 @@
                                             <td class="textright">'.$data['precio_venta'].'</td>
                                             <td class="textcenter">'.$precioTotal.'</td>
                                             <td class="">
-                                                <a href="#" class="link_delete" onclick="event.preventDefault(); del_evento_detalle('.$data['correlativo'].');"><i class="far fa-trash-alt"></i> Eliminar</a>
+                                                <a href="#" class="link_delete" onclick="event.preventDefault(); del_evento_detalle('.$data['correlativo'].','.$data['codevento'].');"><i class="far fa-trash-alt"></i> Eliminar</a>
                                             </td>
-                        
                                         </tr>';
                         # code...
                     }
@@ -182,9 +181,22 @@
                                             <td colspan="5" class="textright" style="text-align: right;font-size:20pt;color: #0a4661;">TOTAL : </td> 
                                             <td class="textright" style="text-align: center;font-size:20pt;color: #0a4661;">$ '.$total.' </td>        
                                         
-                                        </tr>';
+                                        </tr>
+                                        
+                                        <tr>
+                                            <td colspan="5" class="textright"><button class="btn_view view_factura" ><i class="fas fa-eye"></i> PROCESAR PAGO</button </td> 
+                    
+                         
+                                        
+                                        </tr>
+                                        ';
 
                                         /*<tr>
+                                            <td colspan="5" class="textright">SUBTOTAL $ </td> 
+                                            <td class="textright">'.$tl_sniva.' </td>        
+                                        
+                                        </tr>
+                                        <tr>
                                             <td colspan="5" class="textright">SUBTOTAL $ </td> 
                                             <td class="textright">'.$tl_sniva.' </td>        
                                         
@@ -267,7 +279,7 @@
                                             <td class="textright">'.$data['precio_venta'].'</td>
                                             <td class="textcenter">'.$precioTotal.'</td>
                                             <td class="">
-                                                <a href="#" class="link_delete" onclick="event.preventDefault(); del_evento_detalle('.$data['correlativo'].');"><i class="far fa-trash-alt"></i> Eliminar</a>
+                                                <a href="#" class="link_delete" onclick="event.preventDefault(); del_evento_detalle('.$data['correlativo'].','.$data['codevento'].');"><i class="far fa-trash-alt"></i> Eliminar</a>
                                             </td>
                         
                                         </tr>';
@@ -360,7 +372,7 @@
                                             <td class="textright">'.$data['precio_venta'].'</td>
                                             <td class="textcenter">'.$precioTotal.'</td>
                                             <td class="">
-                                                <a href="#" class="link_delete" onclick="event.preventDefault(); del_evento_detalle('.$data['correlativo'].');"><i class="far fa-trash-alt"></i> Eliminar</a>
+                                                <a href="#" class="link_delete" onclick="event.preventDefault(); del_evento_detalle('.$data['correlativo'].','.$data['codevento'].');"><i class="far fa-trash-alt"></i> Eliminar</a>
                                             </td>
                         
                                         </tr>';

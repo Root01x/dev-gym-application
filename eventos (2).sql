@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: 127.0.0.1
--- Tiempo de generación: 18-02-2021 a las 06:28:14
+-- Tiempo de generación: 19-02-2021 a las 05:41:20
 -- Versión del servidor: 10.4.14-MariaDB
 -- Versión de PHP: 7.4.10
 
@@ -234,6 +234,13 @@ CREATE TABLE `detallefactura` (
   `cod_cliente` int(11) DEFAULT 0
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
+--
+-- Volcado de datos para la tabla `detallefactura`
+--
+
+INSERT INTO `detallefactura` (`correlativo`, `nofactura`, `codevento`, `cantidad`, `precio_venta`, `cod_cliente`) VALUES
+(75, 37, 12, 1, '454.00', 74);
+
 -- --------------------------------------------------------
 
 --
@@ -247,6 +254,16 @@ CREATE TABLE `detalle_temp` (
   `cantidad` int(11) NOT NULL,
   `precio_venta` decimal(10,2) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+--
+-- Volcado de datos para la tabla `detalle_temp`
+--
+
+INSERT INTO `detalle_temp` (`correlativo`, `token_user`, `codevento`, `cantidad`, `precio_venta`) VALUES
+(410, 'd645920e395fedad7bbbed0eca3fe2e0', 13, 1, '4500.00'),
+(411, 'd645920e395fedad7bbbed0eca3fe2e0', 11, 1, '565.00'),
+(412, 'd645920e395fedad7bbbed0eca3fe2e0', 12, 1, '454.00'),
+(413, 'd645920e395fedad7bbbed0eca3fe2e0', 14, 1, '45.00');
 
 -- --------------------------------------------------------
 
@@ -270,7 +287,9 @@ CREATE TABLE `entradas` (
 INSERT INTO `entradas` (`correlativo`, `codevento`, `fecha`, `cantidad`, `precio`, `usuario_id`) VALUES
 (11, 11, '2021-02-16 12:59:22', 100, '565.00', 1),
 (12, 12, '2021-02-16 15:11:44', 100, '454.00', 1),
-(13, 13, '2021-02-17 23:40:38', 300, '4500.00', 1);
+(13, 13, '2021-02-17 23:40:38', 300, '4500.00', 1),
+(14, 14, '2021-02-18 22:45:01', 100, '45.00', 1),
+(15, 15, '2021-02-18 22:45:47', 45, '45.00', 1);
 
 -- --------------------------------------------------------
 
@@ -299,7 +318,9 @@ CREATE TABLE `evento` (
 INSERT INTO `evento` (`codevento`, `descripcion`, `precio`, `capMax`, `direccion`, `foto`, `fecha_evento`, `dateAdd`, `usuario_id`, `status`, `id_tipo_seminario`) VALUES
 (11, 'texts1', '565.00', 91, NULL, 'img_1691018ce4e9bc9aae3630f84b912910.jpg', '2222-02-02 02:02:00', '2021-02-16 12:59:22', 1, 1, 1),
 (12, 'curso de redes 3', '454.00', 93, 'utm', 'img_evento.png', '2021-02-16 15:02:00', '2021-02-16 15:11:44', 1, 1, 2),
-(13, 'curso de disennio grafico 3', '4500.00', 300, 'faculta de economia56', 'img_evento.png', '2021-02-17 23:02:00', '2021-02-17 23:40:38', 1, 1, 2);
+(13, 'curso de disennio grafico 3', '4500.00', 300, 'faculta de economia56', 'img_evento.png', '2021-02-17 23:02:00', '2021-02-17 23:40:38', 1, 1, 2),
+(14, 'java web', '45.00', 100, 'faculad de informatica', 'img_evento.png', '2002-05-08 00:05:00', '2021-02-18 22:45:01', 1, 1, 2),
+(15, 'robotica', '45.00', 45, '34', 'img_evento.png', '2010-05-05 00:05:00', '2021-02-18 22:45:47', 1, 1, 1);
 
 --
 -- Disparadores `evento`
@@ -326,6 +347,13 @@ CREATE TABLE `factura` (
   `totaltFactura` decimal(10,2) DEFAULT NULL,
   `status` int(11) NOT NULL DEFAULT 1
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+--
+-- Volcado de datos para la tabla `factura`
+--
+
+INSERT INTO `factura` (`nofactura`, `fecha`, `usuario`, `codcliente`, `totaltFactura`, `status`) VALUES
+(37, '2021-02-18 19:24:17', 1, 74, '454.00', 2);
 
 -- --------------------------------------------------------
 
@@ -641,31 +669,31 @@ ALTER TABLE `datos`
 -- AUTO_INCREMENT de la tabla `detallefactura`
 --
 ALTER TABLE `detallefactura`
-  MODIFY `correlativo` bigint(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=75;
+  MODIFY `correlativo` bigint(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=76;
 
 --
 -- AUTO_INCREMENT de la tabla `detalle_temp`
 --
 ALTER TABLE `detalle_temp`
-  MODIFY `correlativo` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=123;
+  MODIFY `correlativo` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=414;
 
 --
 -- AUTO_INCREMENT de la tabla `entradas`
 --
 ALTER TABLE `entradas`
-  MODIFY `correlativo` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=14;
+  MODIFY `correlativo` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=16;
 
 --
 -- AUTO_INCREMENT de la tabla `evento`
 --
 ALTER TABLE `evento`
-  MODIFY `codevento` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=14;
+  MODIFY `codevento` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=16;
 
 --
 -- AUTO_INCREMENT de la tabla `factura`
 --
 ALTER TABLE `factura`
-  MODIFY `nofactura` bigint(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=37;
+  MODIFY `nofactura` bigint(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=38;
 
 --
 -- AUTO_INCREMENT de la tabla `ingresos`

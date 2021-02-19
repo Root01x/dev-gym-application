@@ -90,7 +90,7 @@ if ($_SESSION['rol'] != 1) {
             <label for="evento">Nombre Seminario</label>
             <input type="text" name="evento" id="evento" placeholder="Nombre del Seminario" autofocus>
             <label for="precio">Precio</label>
-            <input type="number" name="precio" id="precio" placeholder="Precio del Evento">
+            <input type="number"  name="precio" id="precio" placeholder="Precio del Evento">
             <label for="nombre">Tipo de Seminario</label>
 
                 <?php
