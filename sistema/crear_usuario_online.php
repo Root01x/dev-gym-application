@@ -62,7 +62,7 @@
              $query_insert = mysqli_query($conection,"INSERT INTO cliente(cedula,nombre,apellidos,Correo,telefono,direccion,usuario_id,cod_tarjeta) 
                                                    VALUES('$cedula', '$nombre', '$apellido', '$email', '$telefono', '$direccion', 0,'$codTarjeta')") ;
 
-             $query_insert2 = mysqli_query($conection,"INSERT INTO usuario(nombre,correo,usuario,clave,rol) VALUES('$nombre.$apellido', '$email', '$user', '$clave', 5)") ;
+             $query_insert2 = mysqli_query($conection,"INSERT INTO usuario(nombre,correo,usuario,clave,rol) VALUES('$nombre $apellido', '$email', '$user', '$clave', 5)") ;
 
 
              print_r($query_insert);

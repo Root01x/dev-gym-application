@@ -53,7 +53,7 @@
 						<li><a href="Nueva_transaccion.php">Nueva Transacción</a></li>
 						
 					
-						# code...
+						
 					
 				
 						<li><a href="transacciones.php">Lista de Transacciones</a></li>

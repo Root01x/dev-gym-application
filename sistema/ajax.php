@@ -178,7 +178,7 @@
 
                     $detalleTotales = ' 
                     <tr>
-                    <td colspan="5" class="textright" style="text-align: center; font-weight: Bold; font-size:18pt;color: #0a4661;">Total a Pagar : $'.$total.' </td> 
+                    <td colspan="5" class="textright" style="text-align: center; font-weight: Bold; font-size:18pt;color: #337ab7;">Total a Pagar : $'.$total.' </td> 
                                                                  
                 </tr>';
 
@@ -284,7 +284,7 @@
 
                     $detalleTotales = ' 
                                         <tr>
-                                            <td colspan="5" class="textright" style="text-align: center; font-weight: Bold; font-size:18pt;color: #0a4661;">Total a Pagar : $'.$total.' </td> 
+                                            <td colspan="5" class="textright" style="text-align: center; font-weight: Bold; font-size:18pt;color: #337ab7;">Total a Pagar : $'.$total.' </td> 
                                                                                          
                                         </tr>';
 
@@ -376,7 +376,7 @@
 
                     $detalleTotales = ' 
                                         <tr>
-                                        <td colspan="5" class="textright" style="text-align: center; font-weight: Bold; font-size:18pt;color: #0a4661;">Total a Pagar : $'.$total.' </td> 
+                                        <td colspan="5" class="textright" style="text-align: center; font-weight: Bold; font-size:18pt;color: #337ab7;">Total a Pagar : $'.$total.' </td> 
                                                                                     
                                         </tr>';
 

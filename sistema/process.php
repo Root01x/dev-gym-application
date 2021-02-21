@@ -1,11 +1,97 @@
 <?php 
 require_once('stripe-php/init.php');
 session_start(); 
+
+if ($_SESSION['rol'] != 5) {
+    # code...
+
+    header("location: ../");
+}
+
 include "../conection.php";
 \Stripe\Stripe::setApiKey('sk_test_51IMmgKIFXq65j7mHdpO2Vy3sKvJtRHLxgBh8nx98yzW1VS1Bz0QVp5gOXwTf8bBtMShpDPTPcGHi84McavrPrwqD00Ur0eoZkT');
 
 $token = $_POST['stripeToken'];
-$total  = $_POST["total"];
+$total  = 0;
+
+
+
+
+
+   
+	$token2      = md5($_SESSION['idUser']);
+
+
+	$query = mysqli_query($conection,"SELECT    tmp.correlativo,
+												tmp.token_user,
+												tmp.cantidad,
+												tmp.precio_venta,
+												p.codevento,
+												p.descripcion
+									  FROM detalle_temp tmp
+									  INNER JOIN evento p
+									  ON tmp.codevento = p.codevento 
+									  WHERE token_user = '$token2' ");         
+												
+												
+	$result = mysqli_num_rows($query);
+
+	$query_iva = mysqli_query($conection,"SELECT iva FROM configuracion");
+	$result_iva = mysqli_num_rows($query_iva);
+	
+   
+
+	$detalleTabla = '';
+	$sub_total = 0;
+	$iva       = 0;
+	$total     = 0;
+	$arrayData = array();
+
+	if ($result > 0) {
+
+		if ($result_iva > 0) {
+			$info_iva = mysqli_fetch_assoc($query_iva);
+			$iva = $info_iva['iva'];
+			# code...
+		}
+			while ($data = mysqli_fetch_assoc($query)) {
+			   
+				$precioTotal = round($data['cantidad'] * $data['precio_venta'], 2);
+				$sub_total = round($sub_total + $precioTotal, 2);
+				$total = round($total + $precioTotal, 2);
+
+				
+			}
+			
+
+			$impuesto = round($sub_total * ($iva / 100), 2);
+			$tl_sniva = round($sub_total - $impuesto, 2);
+			$total = round($tl_sniva + $impuesto, 2);
+
+			  
+		   
+		   
+		# code...
+	}else {
+		echo "<script>alert('ALGO SALIO MAL');</script>";
+		exit;
+	}
+
+	
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 try {
 	// Crear cargo de Stripe
@@ -17,10 +103,10 @@ $charge = \Stripe\Charge::create(
     )
 );
 
-	   $token = md5($_SESSION['idUser']);
+	   $token3 = md5($_SESSION['idUser']);
        $usuario = $_SESSION['idUser'];
 
-       $query = mysqli_query($conection,"SELECT * FROM detalle_temp WHERE token_user = '$token'");
+       $query = mysqli_query($conection,"SELECT * FROM detalle_temp WHERE token_user = '$token3'");
        $result = mysqli_num_rows($query);
 
 	   $query2 = mysqli_query($conection,"SELECT c.idcliente as idcliente FROM cliente c INNER JOIN usuario u on c.Correo=u.correo WHERE u.idusuario = $usuario");
@@ -40,7 +126,7 @@ if($charge->status=="succeeded"){
 	
 
 	if ($result > 0) {
-		$query_procesar = mysqli_query($conection,"CALL procesar_transaccion($usuario,$codcliente,'$token')");
+		$query_procesar = mysqli_query($conection,"CALL procesar_transaccion($usuario,$codcliente,'$token3')");
 		$result_detalle = mysqli_num_rows($query_procesar);
 
 		if ($result_detalle > 0) {

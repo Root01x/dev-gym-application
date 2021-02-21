@@ -121,14 +121,16 @@ if ($_SESSION['rol'] != 1) {
                   
                     
                     <?php 
-                    $usuario = $_SESSION['idUser'];
+                    
+                    if ($_SESSION['rol']==5) { 
+
+                        $usuario = $_SESSION['idUser'];
                     $query2 = mysqli_query($conection,"SELECT c.idcliente as idcliente FROM cliente c INNER JOIN usuario u on c.Correo=u.correo WHERE u.idusuario = $usuario");
        
                     $data2 = mysqli_fetch_assoc($query2);
                     $codcliente    = $data2['idcliente'];
 
                     $token = md5($_SESSION['idUser']);
-                    if ($_SESSION['rol']==5) { 
 
                         $coddevent = $data['codevento'];
 
