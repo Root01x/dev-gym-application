@@ -28,7 +28,7 @@
             <form name="form_new_cliente_venta" id="form_new_cliente_venta" class="datos" action="">
                 
                 <input type="hidden" name="action" value="addCliente">
-                <input type="hidden" id="idcliente" name="idcliente" value="" required>
+                <input type="hidden" id="idcliente" name="idcliente" value="" required> 
                 <div class="wd30">
                     <label for="">Cedula</label>
                     <input type="number" name="nit_cliente" id="nit_cliente">

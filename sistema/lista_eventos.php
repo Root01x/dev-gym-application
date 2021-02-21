@@ -121,20 +121,29 @@ if ($_SESSION['rol'] != 1) {
                   
                     
                     <?php 
+                    $usuario = $_SESSION['idUser'];
+                    $query2 = mysqli_query($conection,"SELECT c.idcliente as idcliente FROM cliente c INNER JOIN usuario u on c.Correo=u.correo WHERE u.idusuario = $usuario");
+       
+                    $data2 = mysqli_fetch_assoc($query2);
+                    $codcliente    = $data2['idcliente'];
 
+                    $token = md5($_SESSION['idUser']);
                     if ($_SESSION['rol']==5) { 
 
                         $coddevent = $data['codevento'];
+
                         $sql = mysqli_query($conection,"SELECT *
                                                         FROM detalle_temp
-                                                        WHERE codevento = $coddevent ");
+                                                        WHERE codevento = $coddevent AND token_user='$token'");
                                                         
-
-                        
-
+                        $sql2 = mysqli_query($conection,"SELECT *
+                                                        FROM detallefactura
+                                                        WHERE codevento = $coddevent AND cod_cliente= $codcliente");
                         $result_sql = mysqli_num_rows($sql);
+                        $result_sql2 = mysqli_num_rows($sql2);
 
-                        if($result_sql==0)
+
+                        if($result_sql==0 && $result_sql2==0)
                         {
 
                         
@@ -235,9 +244,9 @@ if ($_SESSION['rol'] != 1) {
                 <tr>
                     <th>Codigo</th>
                     <th colspan="2">Descripcion</th>
-                    <th>Reservas</th>
+                   
                     <th class="textright">Precio</th>
-                    <th class="textright">Precio_total</th>
+                    
                     <th>Accion</th>
                 </tr>
             </thead>

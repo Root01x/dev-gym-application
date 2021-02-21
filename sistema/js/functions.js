@@ -463,7 +463,7 @@ $(document).ready(function(){
             var action = 'procesarVenta';
             var codcliente = $('#idcliente').val();
 
-            $.ajax({
+            $.ajax({ 
                 url: 'ajax.php',
                 type: 'POST',
                 async: true,
@@ -1090,3 +1090,4 @@ function probar(){
     //alert("eureka")
     
 }
+

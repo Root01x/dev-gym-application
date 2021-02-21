@@ -61,6 +61,19 @@
 					</ul>
 				</li>
 				<?php }?>
+				<?php if ($_SESSION['rol'] == 5) { ?>
+				<li class="principal">
+					<a href="#"><i class="far fa-calendar-check"></i> Pagos</a>
+					<ul>
+
+						<li><a href="pagos.php">Procesar Pago</a></li>
+						
+					
+						
+						
+					</ul>
+				</li>
+				<?php }?>
 
 				<!--
 				
