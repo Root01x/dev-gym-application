@@ -51,6 +51,7 @@
 					<ul>
 
 						<li><a href="Nueva_transaccion.php">Nueva Transacción</a></li>
+						<li><a href="reservas.php">Procesar Reservas</a></li>
 						
 					
 						

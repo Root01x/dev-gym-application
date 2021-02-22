@@ -64,7 +64,7 @@ if ($_SESSION['rol'] != 1) {
            $sql_registre = mysqli_query($conection,"SELECT COUNT(*) AS total_registro FROM evento WHERE status =1");
            $result_registre = mysqli_fetch_array($sql_registre);
            $total_resgistros = $result_registre['total_registro'];
-           $por_pagina = 5;
+           $por_pagina = 4;
 
            if (empty($_GET['pagina'])) {
                $pagina =1;
@@ -115,22 +115,21 @@ if ($_SESSION['rol'] != 1) {
                    
                      |
                     <a class="link_delete del_event" href="#" event="<?php echo $data["codevento"];?>">Eliminar</a>
-
-                    <?php } ?>
-
-                  
+                </td>
+                    <?php } 
+                    ?>                  
                     
                     <?php 
                     
                     if ($_SESSION['rol']==5) { 
 
                         $usuario = $_SESSION['idUser'];
-                    $query2 = mysqli_query($conection,"SELECT c.idcliente as idcliente FROM cliente c INNER JOIN usuario u on c.Correo=u.correo WHERE u.idusuario = $usuario");
-       
-                    $data2 = mysqli_fetch_assoc($query2);
-                    $codcliente    = $data2['idcliente'];
+                        $query2 = mysqli_query($conection,"SELECT c.idcliente as idcliente FROM cliente c INNER JOIN usuario u on c.Correo=u.correo WHERE u.idusuario = $usuario");
+        
+                        $data2 = mysqli_fetch_assoc($query2);
+                        $codcliente    = $data2['idcliente'];
 
-                    $token = md5($_SESSION['idUser']);
+                        $token = md5($_SESSION['idUser']);
 
                         $coddevent = $data['codevento'];
 
@@ -149,20 +148,20 @@ if ($_SESSION['rol'] != 1) {
                         {
 
                         
-                    ?>
-                    <div class="div_factura">
-                     <button class="btn_view view_factura" fac="<?php echo $data["codevento"]; ?>" onclick="event.preventDefault(); mostrar(<?php echo $data['codevento'].','.$data['capMax'] ?>)" ><i class="far fa-trash-alt"></i> Reservar</button>
+                         ?>
+                        <div class="div_factura">
+                        <button class="btn_view view_factura" fac="<?php echo $data["codevento"]; ?>" onclick="event.preventDefault(); mostrar(<?php echo $data['codevento'].','.$data['capMax'] ?>)" ><i class="far fa-trash-alt"></i> Reservar</button>
 
-                    </div>
-                    <?php 
+                        </div>
+                        <?php 
 
-                        }else{
-                            
-                    ?>
-                    <div class="div_factura">
-                     <button class="btn_view view_factura inactive" disabled><i class="far fa-trash-alt"></i> Reservar</button>
+                            }else{
+                                
+                        ?>
+                        <div class="div_factura">
+                        <button class="btn_view view_factura inactive" disabled><i class="far fa-trash-alt"></i> Reservar</button>
 
-                    </div>
+                        </div>
 
                     <?php } ?>
                 </td>

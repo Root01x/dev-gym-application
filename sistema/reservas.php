@@ -15,20 +15,23 @@
 <body>
  <?php include "includes/header.php"?>
 	<section id="container">
-        <div class="title_page"><h1><i class="fas fa-check-circle"></i> Nueva Transaccion</h1></div>
+        <div class="title_page"><h1><i class="fas fa-check-circle"></i> Reservas de Usuarios</h1></div>
 
         <hr>
 		
         <div class="datos_cliente">
             <div class="action_cliente">
                 <h4>DATOS DEL CLIENTE:</h4>
-                <a href="#" class="btn_new btn_new_cliente"> <i class="fas fa-plus"> </i> Nuevo Cliente</a>
+                
 
             </div>
             <form name="form_new_cliente_venta" id="form_new_cliente_venta" class="datos" action="">
                 
                 <input type="hidden" name="action" value="addCliente">
+                
                 <input type="hidden" id="idcliente" name="idcliente" value="" required> 
+                
+
                 <div class="wd30">
                     <label for="">Cedula</label>
                     <input type="number" name="nit_cliente" id="nit_cliente">
@@ -78,8 +81,9 @@
                 </div>
              
                 
-                <div id="div_registro_cliente" class="wd100">
-                    <button type="submit" class="btn_save" ><i class="far fa-save fa-lg"></i> Guardar</button>
+                <div id="div_registro_cliente2" class="wd100">
+                    
+                    
                 
                 </div>
                 
@@ -100,69 +104,49 @@
                 <div class="wd50">
                     <label for="" Acciones></label>
                     <div id="acciones_venta">
-                        <a href="#" class="btn_ok textcenter" id="btn_anular_venta"><i class="fas fa-ban"></i> Anular</a>
-                        <a href="#" class="btn_new textcenter" id="btn_factura_venta" style="display: none;"><i class="far fa-edit"></i> Procesar</a>
+                        <a href="#" class="btn_ok textcenter" id="btn_anular_venta_reservas"><i class="fas fa-ban"></i> Anular Reservas</a>
+                        <a href="#" class="btn_ok textcenter" id="btn_factura_venta_reservas" ><i class="far fa-edit"></i> Procesar Reservas</a>
                        
                     </div>
                 </div>
             </div>
         </div>
+        
         <table class="tbl_venta">
+          
             <thead>
-                <tr>
-                    <th width="100px">Codigo</th>
-                    <th>Descripcion</th>
-                    <th>Disponibilidad</th>
-                   
-                    <th class="textright">Precio</th>
-                    
-                    <th>Accion</th>
-                    
-                </tr>
-                <tr>
-                    <td><input type="text" name="txt_cod_evento" id="txt_cod_evento"></td>
-                    <td id="txt_descripcion">-</td>
-                    <td id="txt_existencia">-</td>
-                    <input type="hidden" name="txt_cant_evento" id="txt_cant_evento" vale="0" min="1" disabled>
-                    <td id="txt_precio" class="textright">0.00</td>
-
-    
-                    
-
-                    
-                    <td><a href="" id="add_evento_venta" class="link_add"> <i class="fas fa-plus"></i> Agregar</a></td>
                 
-                </tr>
+                
                 <tr>
                     <th>Codigo</th>
                     <th colspan="2">Descripcion</th>
                   
                     <th class="textright">Precio</th>
                    
-                    <th>Accion</th>
+                    
                 </tr>
             </thead>
-            <tbody id="detalle_venta">
+            <tbody id="detalle_venta2">
                 <!-- CONTINO AJAX  -->
 
                 
 
             </tbody>
-            <tfoot id="detalle_totales">
+            <tfoot id="detalle_totales2">
 
                 <!-- CONTINO AJAX  -->
                
             </tfoot>
         </table>
 	</section>
-<?php include "includes/footer.php"?>
-<script type="text/javascript">
+<?php include "includes/footer.php";
 
-    $(document).ready(function(){
-        var usuario_id = '<?php echo $_SESSION['idUser']; ?>';
-        serchForDetalle(usuario_id);
-    })
+//$query2 = mysqli_query($conection,"SELECT u.idusuario as idusuario FROM cliente c INNER JOIN usuario u on c.Correo=u.correo WHERE c.idcliente = $cliente");
 
-</script>
+
+
+
+?>
+
 </body>
 </html>

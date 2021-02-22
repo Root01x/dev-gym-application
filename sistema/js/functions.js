@@ -1,5 +1,5 @@
 //alert("hola mundo");
-$(document).ready(function(){ 
+$(document).ready(function(){  
 
     //--------------------- SELECCIONAR FOTO PRODUCTO ---------------------
     $("#foto").on("change",function(){
@@ -156,8 +156,12 @@ $(document).ready(function(){
 
                     
                 }else{
+
+                    
+                    //alert("hasta aqi")
                     var data = $.parseJSON(response);
                     $('#idcliente').val(data.idcliente);
+                    serchForDetalleReservas(data.idcliente)
                     $('#nom_cliente').val(data.nombre);
                     $('#tel_cliente').val(data.telefono);
                     $('#correo_cliente').val(data.Correo);
@@ -308,11 +312,11 @@ $(document).ready(function(){
     //agregar evento al dettalle
     $('#add_evento_venta').click(function(e){
         e.preventDefault();
-        
+        var cant=1;
     
-        if ($('#txt_cant_evento').val()>0) {
+        if (cant>0) {
             var codevento = $('#txt_cod_evento').val();
-            var cantidad = $('#txt_cant_evento').val();
+            var cantidad = 1;//$('#txt_cant_evento').val();
             var action = 'addEventoDetalle';
 
             $.ajax({
@@ -324,12 +328,11 @@ $(document).ready(function(){
                 success: function(response)
                 {
                     
-                    if (response != 'ERROR') {
+                    if (response != 'ERROR' && response!= 'ERROR_GARRAFAL') {
 
                         var info = JSON.parse(response);
                         $('#detalle_venta').html(info.detalle);
                         $('#detalle_totales').html(info.totales);
-
 
 
                         //LIMPIAR DATOS 
@@ -337,7 +340,7 @@ $(document).ready(function(){
                         $('#txt_descripcion').html('-');
                         $('#txt_existencia').html('-');
                         $('#txt_cant_producto').val('0');
-                        $('#txt_precio').html('0.00');
+                        $('#txt_precio').html('');
                         $('#txt_precio_total').html('');
 
                         //BLOQUEAR CANTIDAD
@@ -348,8 +351,19 @@ $(document).ready(function(){
                         $('#add_evento_venta').slideUp();
 
                         
-                    }else{
-                        console.log('no hay datos');
+                    }else if(response =='ERROR_GARRAFAL'){
+
+                        alert('SOLO UN SEMINARIO POR PERSONA');
+                        $('#txt_cod_evento').val('');
+                        $('#txt_descripcion').html('-');
+                        $('#txt_existencia').html('-');
+                        $('#txt_cant_producto').val('0');
+                        $('#txt_precio').html('');
+                        $('#txt_precio_total').html('');
+                        $('#add_evento_venta').slideUp();
+                        
+                    }else if(response=='ERROR'){
+                        console.log('errores re');
                     }
                      viewProcesar();
                     
@@ -453,6 +467,40 @@ $(document).ready(function(){
         }
     });
 
+     //anular transaccion reservsas
+     $('#btn_anular_venta_reservas').click(function(e){
+        e.preventDefault();
+
+        var rows = $('#detalle_venta2 tr').length;
+        if (rows > 0) {
+            var action = 'anularVentaReservas';
+            var codusuarioR = $('#idusuarioR').val(); 
+
+            $.ajax({
+                url: 'ajax.php',
+                type: 'POST',
+                async: true,
+                data: {action:action,codusuarioR:codusuarioR},
+        
+                success: function(response)
+                {
+                    
+                   
+                   if (response !='error') {
+                       alert("RESERVA ANULADA")
+                       location.reload();
+                   }
+                    
+        
+                },
+                error: function(error){
+        
+                }
+            });
+
+        }
+    });
+
      //facturar transaccion
     $('#btn_factura_venta').click(function(e){
         e.preventDefault();
@@ -475,11 +523,55 @@ $(document).ready(function(){
                    
                    if (response !='error') {
                        var info = JSON.parse(response);
+                       alert("TRANSACCION EXITOSA")
                        //console.log(info);
 
                        location.reload();
                      }else{
                          console.log('no data');
+                         alert("ALGO SALIO MAL")
+                     }
+                    
+        
+                },
+                error: function(error){
+        
+                }
+            });
+
+        }
+    });
+        //facturar transaccion reservas
+    $('#btn_factura_venta_reservas').click(function(e){
+        e.preventDefault();
+
+        var rows = $('#detalle_venta2 tr').length;
+        if (rows > 0) {
+
+            var action = 'procesarVentaReservas';
+            var codcliente = $('#idcliente').val();
+            var codusuarioR = $('#idusuarioR').val();
+            //alert(codusuarioR);
+
+            $.ajax({ 
+                url: 'ajax.php',
+                type: 'POST',
+                async: true,
+                data: {action:action,codcliente:codcliente,codusuarioR:codusuarioR},
+        
+                success: function(response)
+                {
+                    
+                   
+                   if (response !='error') {
+                       var info = JSON.parse(response);
+                       alert("TRANSACCION EXITOSA")
+                       //console.log(info);
+
+                       location.reload();
+                     }else{
+                         console.log('no data');
+                         alert("ALGO SALIO MAL")
                      }
                     
         
@@ -594,7 +686,7 @@ $(document).ready(function(){
                 async: true,
                 data: {action:action,codigo:codigo},
         
-                success: function(response)
+                success: function(response) 
                 {
                     
 
@@ -722,10 +814,10 @@ function reload_access(){
                     $('.alertErrorAcceso' ).html('')
 
                     if (info.op==1) {
-                        $('.alertErrorAcceso' ).html('ACCESO AUTORZADO')
+                        $('.alertErrorAcceso' ).html('<p style="color:Black;  font-size:20pt; width: 100%; background: #66e07d66;border-radius: 6px; margin: 20px auto; padding: 10px">ACCESO AUTORIZADO.</p>')
                     }
                     else if(info.op==2){
-                        $('.alertErrorAcceso' ).html('ACCESO RESTRINGIDO')
+                        $('.alertErrorAcceso' ).html('<p style="color:Black;  font-size:20pt; width: 100%; background: #dd797e66;border-radius: 6px; margin: 20px auto; padding: 10px">ACCESO RESTRINGIDO.</p>')
                     }
                     
                     //$('.alertErrorEvento').html('<p style="color:Black;">CLIENTE CREADO CORRECTAMENTE.</p>');
@@ -736,7 +828,7 @@ function reload_access(){
                     $('.nombre' ).html('')
                     $('.telefono' ).html('')
                     $('.codigo' ).html('')
-                    $('.alertErrorAcceso' ).html('EL CODIGO NO ESTA ASIGNADO A NINGUN CLIENTE')
+                    $('.alertErrorAcceso' ).html('<p style="color:Black;  font-size:20pt; width: 100%; background: #F0F8FF;border-radius: 6px; margin: 20px auto; padding: 10px">EL CODIGO O ESTA ASIGNADO A NINGUN CLIENTE.</p>')
                    }
                    
                    else if(response == 'error3'){
@@ -750,7 +842,7 @@ function reload_access(){
                     $('.nombre' ).html('')
                     $('.telefono' ).html('')
                     $('.codigo' ).html('')
-                    $('.alertErrorAcceso' ).html('ACESSO DENEGADO AL EVENTO')
+                    $('.alertErrorAcceso' ).html('<p style="color:Black;  font-size:20pt; width: 100%; background: #dd797e66;border-radius: 6px; margin: 20px auto; padding: 10px">ACCESO RESTRINGIDO AL SEMINARIO.</p>')
                   //$('.alertErrorEvento').html('<p style="color:Black;">CLIENTE CREADO CORRECTAMENTE.</p>');
 
                 }
@@ -996,6 +1088,44 @@ function serchForDetalle(id){
         }
     });
 }
+//buscat datos tabla detalle
+function serchForDetalleReservas(id){
+    var action = 'serchForDetalleReservas';
+    var user = id;
+    
+    $.ajax({
+        url: 'ajax.php',
+        type: 'POST',
+        async: true,
+        data: {action:action,user:user},
+
+        success: function(response)
+        {
+            
+            //alert(user)
+            if (response != 'ERROR') {
+
+                
+                var info = JSON.parse(response);
+                //console.log("33");
+                
+                $('#detalle_venta2').html(info.detalle);
+                $('#detalle_totales2').html(info.totales);
+
+
+                
+            }else{
+                alert("NO SE ENCONTRARON RESERVAS")
+            }
+            viewProcesar();
+
+           
+        },
+        error: function(error){
+
+        }
+    });
+}
 
 function delEvent(){
     var pr = $('#evento_id').val();
@@ -1044,7 +1174,7 @@ function mostrar(cod_evento, disponible){
             success: function(response)
             {
                 
-                if (response != 'ERROR') {
+                if (response != 'ERROR' && response!= 'ERROR_GARRAFAL') {
 
                     var info = JSON.parse(response);
                     $('#detalle_venta').html(info.detalle);
@@ -1060,7 +1190,7 @@ function mostrar(cod_evento, disponible){
                     $('#txt_descripcion').html('-');
                     $('#txt_existencia').html('-');
                     $('#txt_cant_producto').val('0');
-                    $('#txt_precio').html('0.00');
+                    $('#txt_precio').html('-');
                     $('#txt_precio_total').html('');
 
                     //BLOQUEAR CANTIDAD
@@ -1071,8 +1201,13 @@ function mostrar(cod_evento, disponible){
                     $('#add_evento_venta').slideUp();
 
                     
-                }else{
-                    console.log('no hay datos');
+                }else if(response =='ERROR_GARRAFAL'){
+
+                    alert('SOLO UN SEMINARIO POR PERSONA');
+                    $('#add_evento_venta').slideUp();
+                    
+                }else if(response=='ERROR'){
+                    console.log('errores re');
                 }
                  viewProcesar();
                 

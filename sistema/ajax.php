@@ -7,6 +7,7 @@
     if (!empty($_POST)) {
         # code...
     
+        //buscar evento
     if ($_POST['action'] == 'infoEvent') 
     {
         $evento_id = $_POST['evento'];
@@ -23,6 +24,7 @@
         exit;
         # code...
     }
+
     //eliminar datos del evento
     if ($_POST['action'] == 'delEvent') 
     {
@@ -124,53 +126,70 @@
         
     }
 
-    //AGREGAR EVENTO A DETALL
+    //AGREGAR EVENTO A DETALLE
     if($_POST['action'] == 'addEventoDetalle')
-    {
+    {   
+
         if (empty($_POST['evento'])||empty($_POST['cantidad'])) {
             
             echo "ERROR";
+            exit;
+
         }else{
-            $codevento  = $_POST['evento'];
-            $cantidad   = $_POST['cantidad'];
-            $token      = md5($_SESSION['idUser']);
 
-            $query_iva = mysqli_query($conection,"SELECT iva FROM configuracion");
-            $result_iva = mysqli_num_rows($query_iva);
+            $token = md5($_SESSION['idUser']);
+            $coddevent = $_POST['evento'];
 
-            $query_detalle_temp = mysqli_query($conection,"CALL add_detalle_temp($codevento,$cantidad,'$token')");
-            $result = mysqli_num_rows($query_detalle_temp);
+            $sql2 = mysqli_query($conection,"SELECT *
+                                                FROM detalle_temp
+                                                WHERE codevento = $coddevent AND token_user='$token'");
 
-            $detalleTabla = '';
-            $sub_total = 0;
-            $iva       = 0;
-            $total     = 0;
-            $arrayData = array();
+            $result_sql2 = mysqli_num_rows($sql2);
 
-            if ($result > 0) {
+            if($result_sql2==0)
+            {
 
-                if ($result_iva > 0) {
-                    $info_iva = mysqli_fetch_assoc($query_iva);
-                    $iva = $info_iva['iva'];
-                    # code...
-                }
-                    while ($data = mysqli_fetch_assoc($query_detalle_temp)) {
-                        $precioTotal = round($data['cantidad'] * $data['precio_venta'], 2);
-                        $sub_total = round($sub_total + $precioTotal, 2);
-                        $total = round($total + $precioTotal, 2);
 
-                        $detalleTabla .= '<tr>
-                                            <td>'.$data['codevento'].'</td>
-                                            <td colspan="2">'.$data['descripcion'].'</td>
-                                            
-                                            <td class="textright">'.$data['precio_venta'].'</td>
-                                            
-                                            <td class="">
-                                                <a href="#" class="link_delete" onclick="event.preventDefault(); del_evento_detalle('.$data['correlativo'].','.$data['codevento'].');"><i class="far fa-trash-alt"></i> Eliminar</a>
-                                            </td>
-                                        </tr>';
+                $codevento  = $_POST['evento'];
+                $cantidad   = $_POST['cantidad'];
+                $token      = md5($_SESSION['idUser']);
+
+                $query_iva = mysqli_query($conection,"SELECT iva FROM configuracion");
+                $result_iva = mysqli_num_rows($query_iva);
+
+                $query_detalle_temp = mysqli_query($conection,"CALL add_detalle_temp($codevento,$cantidad,'$token')");
+                $result = mysqli_num_rows($query_detalle_temp);
+
+                $detalleTabla = '';
+                $sub_total = 0;
+                $iva       = 0;
+                $total     = 0;
+                $arrayData = array();
+
+                if ($result > 0) {
+
+                    if ($result_iva > 0) {
+                        $info_iva = mysqli_fetch_assoc($query_iva);
+                        $iva = $info_iva['iva'];
                         # code...
                     }
+                        while ($data = mysqli_fetch_assoc($query_detalle_temp)) {
+                            $precioTotal = round($data['cantidad'] * $data['precio_venta'], 2);
+                            $sub_total = round($sub_total + $precioTotal, 2);
+                            $total = round($total + $precioTotal, 2);
+
+                            $detalleTabla .= '<tr>
+                                                <td>'.$data['codevento'].'</td>
+                                                <td colspan="2">'.$data['descripcion'].'</td>
+                                                
+                                                <td class="textright">'.$data['precio_venta'].'</td>
+                                                
+                                                <td class="">
+                                                    <a href="#" class="link_delete" onclick="event.preventDefault(); del_evento_detalle('.$data['correlativo'].','.$data['codevento'].');"><i class="far fa-trash-alt"></i> Quitar</a>
+                                                </td>
+                                            </tr>';
+                            # code...
+                        }
 
                     $impuesto = round($sub_total * ($iva / 100), 2);
                     $tl_sniva = round($sub_total - $impuesto, 2);
@@ -202,9 +221,20 @@
                    $arrayData['totales'] = $detalleTotales;       
                    
                    echo json_encode($arrayData,JSON_UNESCAPED_UNICODE);
-                # code...
+                   exit;
+                          
+                }
+                else{
+
+                    echo "ERROR_GARRAFAL";  
+                    exit;                  
+
+                }
+
             }else {
-                echo "ERROR GARRAFAL";
+
+                echo "ERROR_GARRAFAL";
+                exit;
             }
 
             mysqli_close($conection);
@@ -315,6 +345,119 @@
         exit;
     }
 
+    //extraer datos del detallespara reservas
+    if($_POST['action'] == 'serchForDetalleReservas')
+
+    {
+        $cliente=$_POST['user'];
+        
+        if (empty($_POST['user'])) {
+            
+            echo "ERROR";
+            exit;
+
+        }else{
+
+            $query2 = mysqli_query($conection,"SELECT u.idusuario as idusuario FROM cliente c INNER JOIN usuario u on c.Correo=u.correo WHERE c.idcliente = $cliente");
+            $data2 = mysqli_fetch_assoc($query2);
+
+            $codusario1   = $data2['idusuario'];
+           
+            $token      = md5($codusario1);
+            
+
+
+            $query = mysqli_query($conection,"SELECT    tmp.correlativo,
+                                                        tmp.token_user,
+                                                        tmp.cantidad,
+                                                        tmp.precio_venta,
+                                                        p.codevento,
+                                                        p.descripcion
+                                              FROM detalle_temp tmp
+                                              INNER JOIN evento p
+                                              ON tmp.codevento = p.codevento 
+                                              WHERE token_user = '$token' ");         
+                                                        
+                                                        
+            $result = mysqli_num_rows($query);
+
+            $query_iva = mysqli_query($conection,"SELECT iva FROM configuracion");
+            $result_iva = mysqli_num_rows($query_iva);
+            
+           
+
+            $detalleTabla = '';
+            $sub_total = 0;
+            $iva       = 0;
+            $total     = 0;
+            $arrayData = array();
+
+            if ($result > 0) {
+
+                if ($result_iva > 0) {
+                    $info_iva = mysqli_fetch_assoc($query_iva);
+                    $iva = $info_iva['iva'];
+                    # code...
+                }
+                    while ($data = mysqli_fetch_assoc($query)) {
+                       
+                        $precioTotal = round($data['cantidad'] * $data['precio_venta'], 2);
+                        $sub_total = round($sub_total + $precioTotal, 2);
+                        $total = round($total + $precioTotal, 2);
+
+                        $detalleTabla .= '<tr>
+                                            <td>'.$data['codevento'].'</td>
+                                            <td colspan="2">'.$data['descripcion'].'</td>
+                                            
+                                            <td class="textright">'.$data['precio_venta'].'</td>
+                                            
+                                           
+                        
+                                        </tr>';
+                                          # code...
+                    }
+                    
+
+                    $impuesto = round($sub_total * ($iva / 100), 2);
+                    $tl_sniva = round($sub_total - $impuesto, 2);
+                    $total = round($tl_sniva + $impuesto, 2);
+
+                    $detalleTotales = ' 
+                                        <tr>
+                                            <td colspan="5" class="textright" style="text-align: center; font-weight: Bold; font-size:18pt;color: #337ab7;">Total a Pagar : $'.$total.' </td>
+                                            <input type="hidden" id="idusuarioR" name="idusuarioR" value="'.$codusario1.'" required>  
+                                                                                         
+                                        </tr>';
+
+                                        /*<tr>
+                                            <td colspan="5" class="textright">SUBTOTAL $ </td> 
+                                            <td class="textright">'.$tl_sniva.' </td>        
+                                        
+                                        </tr>
+                                        <tr>
+                                            <td colspan="5" class="textright">IVA ('.$iva.'%) $ </td> 
+                                            <td class="textright">'.$impuesto.'</td>        
+                                        
+                                        </tr> */
+
+                   $arrayData['detalle'] = $detalleTabla;
+                   $arrayData['totales'] = $detalleTotales;       
+                   
+                   echo json_encode($arrayData,JSON_UNESCAPED_UNICODE);
+                   exit;
+                # code...
+            }else {
+                echo "ERROR";
+                exit;
+            }
+
+            mysqli_close($conection);
+
+
+        }
+        exit;
+    }
+
     //BORRAR DEL DETALLE
     if($_POST['action'] == 'delEventoDetalle')
     {
@@ -362,7 +505,7 @@
                                             <td class="textright">'.$data['precio_venta'].'</td>
                                             
                                             <td class="">
-                                                <a href="#" class="link_delete" onclick="event.preventDefault(); del_evento_detalle('.$data['correlativo'].','.$data['codevento'].');"><i class="far fa-trash-alt"></i> Eliminar</a>
+                                                <a href="#" class="link_delete" onclick="event.preventDefault(); del_evento_detalle('.$data['correlativo'].','.$data['codevento'].');"><i class="far fa-trash-alt"></i> Quitar</a>
                                             </td>
                         
                                         </tr>';
@@ -423,6 +566,29 @@
         exit;
     }
 
+    //anular venta reserva
+    if($_POST['action'] == 'anularVentaReservas'){
+        
+        if (empty($_POST['codusuarioR'])) {
+            echo 'error';
+            exit;
+            # code...
+        }
+        else {
+            $idusuarioR= $_POST['codusuarioR'];
+        }
+        $token     = md5($idusuarioR);
+        $query_del = mysqli_query($conection,"DELETE FROM detalle_temp WHERE token_user = '$token'");
+        mysqli_close($conection);
+        if ($query_del) {
+            echo 'ok';
+            # code...
+        }else {
+            echo 'error';
+        }
+        exit;
+    }
+
     //procesar venta
     if($_POST['action'] == 'procesarVenta'){
        if (empty($_POST['codcliente'])) {
@@ -457,6 +623,42 @@
        exit;
     
     }
+
+    //procesar venta reservas
+    if($_POST['action'] == 'procesarVentaReservas'){
+        if (empty($_POST['codcliente']) || empty($_POST['codusuarioR'])) {
+            //$codcliente =1;
+            echo 'error';
+            exit;
+ 
+        }else {
+             $codcliente = $_POST['codcliente'];
+             $codusuarioR = $_POST['codusuarioR'];
+        }
+ 
+        $token = md5($codusuarioR);
+        $usuario = $codusuarioR;
+ 
+        $query = mysqli_query($conection,"SELECT * FROM detalle_temp WHERE token_user = '$token'");
+        $result = mysqli_num_rows($query);
+ 
+        if ($result > 0) {
+            $query_procesar = mysqli_query($conection,"CALL procesar_transaccion($usuario,$codcliente,'$token')");
+            $result_detalle = mysqli_num_rows($query_procesar);
+ 
+            if ($result_detalle > 0) {
+                $data = mysqli_fetch_assoc($query_procesar);
+                echo json_encode($data,JSON_UNESCAPED_UNICODE);
+            }else {
+                 echo "error";
+            }
+        }else {
+            echo "error";
+        }
+        mysqli_close($conection);
+        exit;
+     
+     }
 
 
      //INFORMACCIO TRASNACCIONS

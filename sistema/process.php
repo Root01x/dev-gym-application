@@ -73,7 +73,8 @@ $total  = 0;
 		   
 		# code...
 	}else {
-		echo "<script>alert('ALGO SALIO MAL');</script>";
+		echo "<script>alert('NO EXISTEN SEMINARIOS EN EL DETALLE');</script>";
+		echo "<script>window.location='lista_eventos.php';</script>";
 		exit;
 	}
 
@@ -154,5 +155,5 @@ if($charge->status=="succeeded"){
 }catch(Exception $e){
 	echo "<script>alert('".$e->getMessage()."');</script>";
 }
-	echo "<script>window.location='pagos.php';</script>";
+	echo "<script>window.location='lista_eventos.php';</script>";
 ?>

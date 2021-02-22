@@ -45,29 +45,37 @@ if ($_SESSION['rol'] != 1) {
 		<hr>
 		<br>
 		<input type="hidden" id="codigo_acceso" name="codigo_acceso" value="">
-		<div class="cedula">PASE LA TARJETA DE ACCESO POR EL IDENTIFICADOR</div>	
 		
-		<br>
-		<div class="nombre"></div>	
 		
-		<br>
-		<div class="telefono"></div>	
-		
-		<br>
-		<div class="codigo"></div>	
-		
-		<br>
+		<div class="datos_venta">
+
+			
+			<div class="datos">
+				<div class="cedula" style="text-aling:center">PASE LA TARJETA DE ACCESO POR EL IDENTIFICADOR</div>	
+				<br>
+				<div class="nombre"></div>	
+				
+				<br>
+				<div class="telefono"></div>	
+				
+				<br>
+				<div class="codigo"></div>	
+				
+				<br>
+				
+			</div>
+		</div>
 	</div>
 		
-		<div class=grid_prueba>
+		<div class=grid_prueba style="text-align: center; font-weight: bold;">
 			
 				
 
-                <div class="wd30">
+                <div class="wd100">
                 
                 	
                 
-					<div class="alert alertErrorAcceso"></div>
+					<div class="alertErrorAcceso"></div>
 
                 
                 </div>
