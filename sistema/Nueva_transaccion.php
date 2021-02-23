@@ -1,7 +1,12 @@
 <?php
 
-    session_start();
-    //echo md5($_SESSION['idUser']);
+session_start();
+if ($_SESSION['rol'] != 1 && $_SESSION['rol'] != 2) {
+    # code...
+
+    header("location: ../");
+}
+ include "../conection.php";
 
 ?>
 
@@ -22,7 +27,7 @@
         <div class="datos_cliente">
             <div class="action_cliente">
                 <h4>DATOS DEL CLIENTE:</h4>
-                <a href="#" class="btn_new btn_new_cliente"> <i class="fas fa-plus"> </i> Nuevo Cliente</a>
+                <a href="registrar_usuario_cliente.php" target="_blank" class="btn_new btn_new_cliente3"> <i class="fas fa-plus"> </i> Nuevo Cliente</a>
 
             </div>
             <form name="form_new_cliente_venta" id="form_new_cliente_venta" class="datos" action="">
@@ -31,7 +36,7 @@
                 <input type="hidden" id="idcliente" name="idcliente" value="" required> 
                 <div class="wd30">
                     <label for="">Cedula</label>
-                    <input type="number" name="nit_cliente" id="nit_cliente">
+                    <input type="number" name="nit_cliente2" id="nit_cliente">
                 
                 </div>
                 <div class="wd30">

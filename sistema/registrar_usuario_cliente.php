@@ -1,11 +1,12 @@
 <?php
 
 //session_start();
+session_start();
+if ($_SESSION['rol'] != 1 && $_SESSION['rol'] != 2) {
+    # code...
 
-
-
-
-
+    header("location: ./");
+}
 
 
  include "../conection.php";
@@ -33,7 +34,7 @@
         $telefono   = $_POST['telefono'];            
         $direccion  = $_POST['direccion'];
         $codTarjeta = $_POST['cod_tarjeta'];
-        //$usuario_id = $_SESSION['idUser'];
+        $usuario_id = $_SESSION['idUser'];
 
          //$rol = $_POST['rol'];
 
@@ -62,12 +63,12 @@
          else {
 
              $query_insert = mysqli_query($conection,"INSERT INTO cliente(cedula,nombre,apellidos,Correo,telefono,direccion,usuario_id,cod_tarjeta) 
-                                                   VALUES('$cedula', '$nombre', '$apellido', '$email', '$telefono', '$direccion', 0,'$codTarjeta')") ;
+                                                   VALUES('$cedula', '$nombre', '$apellido', '$email', '$telefono', '$direccion', $usuario_id,'$codTarjeta')") ;
 
              $query_insert2 = mysqli_query($conection,"INSERT INTO usuario(nombre,correo,usuario,clave,rol) VALUES('$nombre $apellido', '$email', '$user', '$clave', 5)") ;
 
 
-             print_r($query_insert);
+             //print_r($query_insert);
              if ($query_insert && $query_insert2) {
                  $alert = '<p class="msg_save"> Cliente guardado correctamente</p>';
                  # code...
@@ -89,15 +90,15 @@
 <head>
 	<meta charset="UTF-8">
 	<?php include "includes/scripts.php"?>
-	<title>REGISTRO DE USUARIOS</title>
+	<title>CREAR CUENTA</title>
 </head>
 <body> 
-<br>
-<br>
-	<section id="containers">
+<?php include "includes/header.php"?>
+
+	<section id="container">
 		<div class="form_registre">
  
-        <h1><i class="fas fa-user-plus"></i> Crear Nueva Cuenta</h1>
+        <h1><i class="fas fa-user-plus"></i> Crear Nuevo Cliente</h1>
         <hr>
         <div class="alert"> <?php  echo isset($alert) ? $alert : '';   ?></div>
 
@@ -125,7 +126,6 @@
             <br>
             <div class="tarjeta_cod">
                     
-            <div class="texto-grid"><p>En caso de tener una tarjeta o teléfono con esta tecnología, ingrese el código caso contrario acercarse a la oficina encargada del seminario.</p></div>
                 <div>
                     <input type="text" name="cod_tarjeta" id="cod_tarjeta" placeholder="Codigo Tarjeta "  >
                 </div>
@@ -147,9 +147,8 @@
             
             ?>
                       
-            <button type="submit"  class="btn_save"><i class="fas fa-sd-card"></i> Guardar Usuario</button>              
+            <button type="submit"  class="btn_save"><i class="fas fa-sd-card"></i> Guardar Cliente</button>              
             <div class="voler" style="text-align: center;">       
-            <a  class="btn_ok textcenter" href="index.php"><i class="fas fa-arrow-circle-left"></i> Volver</a>
             </div>   
         
         </form>

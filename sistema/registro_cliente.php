@@ -3,7 +3,7 @@
 session_start();
 
 
-if ($_SESSION['rol'] != 1) {
+if ($_SESSION['rol'] != 9) {
     # code...
 
     header("location: ./");

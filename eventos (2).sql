@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: 127.0.0.1
--- Tiempo de generación: 22-02-2021 a las 05:58:44
+-- Tiempo de generación: 23-02-2021 a las 03:15:57
 -- Versión del servidor: 10.4.14-MariaDB
 -- Versión de PHP: 7.4.10
 
@@ -170,7 +170,10 @@ INSERT INTO `cliente` (`idcliente`, `cedula`, `nombre`, `apellidos`, `Correo`, `
 (75, 435435, '2323', '234', '2322@adsa.com', 986330869, 'Ecuador', '2021-02-17 23:03:41', 0, 1, '00676234'),
 (76, 565123123, 'ddave', 'rodromo', 'root0166221x@gmail.com', 986330869, 'Ecuador', '2021-02-17 23:06:57', 0, 1, '9909712'),
 (77, 131409834, 'lets', 'prueba', 'prueba@gail.com', 33333, '23234', '2021-02-20 23:29:04', 0, 1, ''),
-(78, 2147483647, 'dave', 'Rodriguez', 'root01xr53@gmail.com', 986330869, 'Ecuador', '2021-02-20 23:32:50', 0, 1, '');
+(78, 2147483647, 'dave', 'Rodriguez', 'root01xr53@gmail.com', 986330869, 'Ecuador', '2021-02-20 23:32:50', 0, 1, ''),
+(79, 22221, 'frre', 'free', 'roo1fft01x@gmail.com', 986330869, 'Ecuador', '2021-02-22 18:21:16', 0, 1, ''),
+(80, 4522112, 'clit', 'cclit', 'clir@gma.com', 986330869, 'Ecuador', '2021-02-22 19:40:16', 0, 1, '9998866'),
+(81, 343431, 'dave', 'rddd', 'root22301x@gmail.com', 986330869, 'jasjjd qwe', '2021-02-22 19:43:37', 1, 1, '452300923');
 
 -- --------------------------------------------------------
 
@@ -235,6 +238,13 @@ CREATE TABLE `detallefactura` (
   `cod_cliente` int(11) DEFAULT 0
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
+--
+-- Volcado de datos para la tabla `detallefactura`
+--
+
+INSERT INTO `detallefactura` (`correlativo`, `nofactura`, `codevento`, `cantidad`, `precio_venta`, `cod_cliente`) VALUES
+(115, 53, 11, 1, '565.00', 79);
+
 -- --------------------------------------------------------
 
 --
@@ -248,13 +258,6 @@ CREATE TABLE `detalle_temp` (
   `cantidad` int(11) NOT NULL,
   `precio_venta` decimal(10,2) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
-
---
--- Volcado de datos para la tabla `detalle_temp`
---
-
-INSERT INTO `detalle_temp` (`correlativo`, `token_user`, `codevento`, `cantidad`, `precio_venta`) VALUES
-(531, 'c4ca4238a0b923820dcc509a6f75849b', 11, 1, '565.00');
 
 -- --------------------------------------------------------
 
@@ -307,7 +310,7 @@ CREATE TABLE `evento` (
 --
 
 INSERT INTO `evento` (`codevento`, `descripcion`, `precio`, `capMax`, `direccion`, `foto`, `fecha_evento`, `dateAdd`, `usuario_id`, `status`, `id_tipo_seminario`) VALUES
-(11, 'texts1', '565.00', 83, NULL, 'img_1691018ce4e9bc9aae3630f84b912910.jpg', '2222-02-02 02:02:00', '2021-02-16 12:59:22', 1, 1, 1),
+(11, 'texts1', '565.00', 82, NULL, 'img_1691018ce4e9bc9aae3630f84b912910.jpg', '2222-02-02 02:02:00', '2021-02-16 12:59:22', 1, 1, 1),
 (12, 'curso de redes 3', '454.00', 87, 'utm', 'img_evento.png', '2021-02-16 15:02:00', '2021-02-16 15:11:44', 1, 1, 2),
 (13, 'curso de disennio grafico 3', '4500.00', 296, 'faculta de economia56', 'img_evento.png', '2021-02-17 23:02:00', '2021-02-17 23:40:38', 1, 1, 2),
 (14, 'java web', '45.00', 94, 'faculad de informatica', 'img_evento.png', '2002-05-08 00:05:00', '2021-02-18 22:45:01', 1, 1, 2),
@@ -338,6 +341,13 @@ CREATE TABLE `factura` (
   `totaltFactura` decimal(10,2) DEFAULT NULL,
   `status` int(11) NOT NULL DEFAULT 1
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+--
+-- Volcado de datos para la tabla `factura`
+--
+
+INSERT INTO `factura` (`nofactura`, `fecha`, `usuario`, `codcliente`, `totaltFactura`, `status`) VALUES
+(53, '2021-02-22 20:31:48', 1, 79, '565.00', 1);
 
 -- --------------------------------------------------------
 
@@ -421,7 +431,8 @@ CREATE TABLE `rol` (
 INSERT INTO `rol` (`idrol`, `rol`) VALUES
 (1, 'Administrador'),
 (2, 'Supervisor'),
-(5, 'Asistente');
+(3, 'Asistente'),
+(5, 'Cliente');
 
 -- --------------------------------------------------------
 
@@ -486,7 +497,10 @@ INSERT INTO `usuario` (`idusuario`, `nombre`, `correo`, `usuario`, `clave`, `rol
 (39, '2323.234', '2322@adsa.com', '6566', 'adc2985779b620ec206f3648267ca4b4', 5, 1, 0),
 (40, 'ddave.rodromo', 'root0166221x@gmail.com', 'rootmain', '202cb962ac59075b964b07152d234b70', 5, 1, 0),
 (41, 'lets..prueba', 'prueba@gail.com', 'prueba2000', '202cb962ac59075b964b07152d234b70', 5, 1, 0),
-(42, 'dave Rodriguez', 'root01xr53@gmail.com', '4www', '310dcbbf4cce62f762a2aaa148d556bd', 5, 1, 0);
+(42, 'dave Rodriguez', 'root01xr53@gmail.com', '4www', '310dcbbf4cce62f762a2aaa148d556bd', 5, 1, 0),
+(43, 'frre free', 'roo1fft01x@gmail.com', 'cliente', '202cb962ac59075b964b07152d234b70', 5, 1, 0),
+(44, 'clit cclit', 'clir@gma.com', 'cliente2', 'd81f9c1be2e08964bf9f24b15f0e4900', 5, 1, 0),
+(45, 'dave rddd', 'root22301x@gmail.com', 'client433', 'c6f057b86584942e415435ffb1fa93d4', 5, 1, 0);
 
 --
 -- Índices para tablas volcadas
@@ -592,7 +606,7 @@ ALTER TABLE `usuario`
 -- AUTO_INCREMENT de la tabla `cliente`
 --
 ALTER TABLE `cliente`
-  MODIFY `idcliente` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=79;
+  MODIFY `idcliente` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=82;
 
 --
 -- AUTO_INCREMENT de la tabla `configuracion`
@@ -610,13 +624,13 @@ ALTER TABLE `datos`
 -- AUTO_INCREMENT de la tabla `detallefactura`
 --
 ALTER TABLE `detallefactura`
-  MODIFY `correlativo` bigint(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=115;
+  MODIFY `correlativo` bigint(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=116;
 
 --
 -- AUTO_INCREMENT de la tabla `detalle_temp`
 --
 ALTER TABLE `detalle_temp`
-  MODIFY `correlativo` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=540;
+  MODIFY `correlativo` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=541;
 
 --
 -- AUTO_INCREMENT de la tabla `entradas`
@@ -634,7 +648,7 @@ ALTER TABLE `evento`
 -- AUTO_INCREMENT de la tabla `factura`
 --
 ALTER TABLE `factura`
-  MODIFY `nofactura` bigint(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=53;
+  MODIFY `nofactura` bigint(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=54;
 
 --
 -- AUTO_INCREMENT de la tabla `ingresos`
@@ -664,7 +678,7 @@ ALTER TABLE `tip_seminario`
 -- AUTO_INCREMENT de la tabla `usuario`
 --
 ALTER TABLE `usuario`
-  MODIFY `idusuario` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=43;
+  MODIFY `idusuario` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=46;
 
 --
 -- Restricciones para tablas volcadas

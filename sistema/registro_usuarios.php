@@ -74,7 +74,7 @@ if ($_SESSION['rol'] != 1) {
             <label for="nombre">Tipo de Usuario</label>
 
             <?php
-                $query_rol = mysqli_query($conection, "SELECT * FROM rol");
+                $query_rol = mysqli_query($conection, "SELECT * FROM rol WHERE idrol !=5");
                 mysqli_close($conection);
                 $result_rol = mysqli_num_rows($query_rol);
                            

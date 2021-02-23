@@ -161,6 +161,85 @@ $(document).ready(function(){
                     //alert("hasta aqi")
                     var data = $.parseJSON(response);
                     $('#idcliente').val(data.idcliente);
+                    //serchForDetalleReservas(data.idcliente)
+                    $('#nom_cliente').val(data.nombre);
+                    $('#tel_cliente').val(data.telefono);
+                    $('#correo_cliente').val(data.Correo);
+                    $('#dir_cliente').val(data.direccion);
+                    $('#cod_tarjeta').val(data.cod_tarjeta);
+                    $('.alertErrorEvento').html('');
+                    
+                    $("#btn_refresh").attr('class', 'btn_view inactive');
+
+                    //oculta boton agregar
+                    $('.btn_new_cliente').slideUp();
+                    
+                    //bloquea campos
+                    $('#nom_cliente').attr('disabled','disabled');
+                    $('#tel_cliente').attr('disabled','disabled');
+                    $('#correo_cliente').attr('disabled','disabled');
+                    $('#dir_cliente').attr('disabled','disabled');
+                    $('#cod_tarjeta').attr('disabled','disabled');
+                    //oculta boton guardar
+                    $('#div_registro_cliente').slideUp();
+
+
+                }
+               
+    
+            },
+            error: function(error){
+
+            }
+        });
+
+
+    });
+
+    //Buscar Cliente Reseras
+    $('#nit_cliente2').keyup(function(e){
+        e.preventDefault();
+
+        var cl = $(this).val();
+        var action = 'searchCliente';
+       
+        $.ajax({
+            url: 'ajax.php',
+            type: 'POST',
+            async: true,
+            data: {action:action,cliente:cl},
+    
+            success: function(response)
+            {
+                //console.log(response); 
+                if (response == 0) {
+                    $('#idcliente').val('');
+                    $('#nom_cliente').val('');
+                    $('#tel_cliente').val('');
+                    $('#correo_cliente').val('');
+                    $('#dir_cliente').val('');
+                    $('#cod_tarjeta').val('');
+                    $("#btn_refresh").attr('class', 'btn_view inactive');
+                    $('.alertErrorEvento').html('');
+                    $('#btn_refresh').attr('disabled','disabled');
+
+
+                   // $('#btn_refresh ').html('<button class="btn_view" ><i class="fas fa-sync"></i></button>');
+                   
+                    
+                
+                   
+                    //mostrar boton agregar
+                    $('.btn_new_cliente').slideDown();
+
+
+                    
+                }else{
+
+                    
+                    //alert("hasta aqi")
+                    var data = $.parseJSON(response);
+                    $('#idcliente').val(data.idcliente);
                     serchForDetalleReservas(data.idcliente)
                     $('#nom_cliente').val(data.nombre);
                     $('#tel_cliente').val(data.telefono);
@@ -809,7 +888,7 @@ function reload_access(){
                     //$('#cedula').val(info.cedula);
                     $('.cedula' ).html('CEDULA: '+info.cedula)
                     $('.nombre' ).html('NOMBRES: '+info.nombre+' '+info.apellidos)
-                    $('.telefono' ).html('TELEFONO: '+info.op)
+                    $('.telefono' ).html('TELEFONO: '+info.telefono)
                     $('.codigo' ).html('CODIGO TARJETA: '+info.cod_tarjeta)
                     $('.alertErrorAcceso' ).html('')
 
@@ -1228,5 +1307,39 @@ function mostrar(cod_evento, disponible){
 function probar(){
     //alert("eureka")
     
+}
+
+function verificarPasswords() {
+ 
+    // Ontenemos los valores de los campos de contraseñas 
+    pass1 = document.getElementById('pass1');
+    pass2 = document.getElementById('pass2');
+ 
+    // Verificamos si las constraseñas no coinciden 
+    if (pass1.value != pass2.value) {
+ 
+        // Si las constraseñas no coinciden mostramos un mensaje 
+        document.getElementById("error").classList.add("mostrar");
+ 
+        return false;
+    } else {
+ 
+        // Si las contraseñas coinciden ocultamos el mensaje de error
+        document.getElementById("error").classList.remove("mostrar");
+ 
+        // Mostramos un mensaje mencionando que las Contraseñas coinciden 
+        document.getElementById("ok").classList.remove("ocultar");
+ 
+        // Desabilitamos el botón de login 
+        document.getElementById("login").disabled = true;
+ 
+        // Refrescamos la página (Simulación de envío del formulario) 
+        setTimeout(function() {
+            location.reload();
+        }, 3000);
+ 
+        return true;
+    }
+ 
 }
 

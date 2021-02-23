@@ -1,7 +1,12 @@
 <?php
 
-    session_start();
-    //echo md5($_SESSION['idUser']);
+session_start();
+if ($_SESSION['rol'] != 1 && $_SESSION['rol'] != 2) {  ///validacion de roles
+    # code...
+    header("location: ./");
+}
+
+ include "../conection.php";
 
 ?>
 
@@ -34,7 +39,7 @@
 
                 <div class="wd30">
                     <label for="">Cedula</label>
-                    <input type="number" name="nit_cliente" id="nit_cliente">
+                    <input type="number" name="nit_cliente2" id="nit_cliente2">
                 
                 </div>
                 <div class="wd30">

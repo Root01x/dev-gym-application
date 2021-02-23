@@ -1,7 +1,7 @@
 <?php
 
     session_start();
-    if ($_SESSION['rol'] != 1) {  ///validacion de roles
+    if ($_SESSION['rol'] != 1 && $_SESSION['rol'] != 2) {  ///validacion de roles
         # code...
         header("location: ./");
     }
