@@ -110,15 +110,15 @@
             <br>
             <input type="password" name="clave2" id="clave2" placeholder="Confirmar Clave">
             <br>
-            <input type="number" name="cedula" id="cedula" placeholder="Numero de Cedula" required autofocus>
+            <input type="number" name="cedula" id="cedula" placeholder="Numero de Cedula" required pattern="[0-9]+" title="Solo se permiten numeros!" autofocus>
             <br>
-            <input type="text" name="nombre" id="nombre" placeholder="Nombres" required>
+            <input type="text" name="nombre" id="nombre" placeholder="Nombres" required pattern="[A-Za-z ]{2,100}" title="Solo se permiten letras!">
             <br>
-            <input type="text" name="apellidos" id="apellidos" placeholder="Apellidos" required>
+            <input type="text" name="apellidos" id="apellidos" placeholder="Apellidos" required pattern="[A-Za-z ]{2,100}" title="Solo se permiten letras!">
             <br>
             <input type="email" name="correo" id="correo" placeholder="Correo Electronico" required>
             <br>
-            <input type="number" name="telefono" id="telefono" placeholder="Numero de Telefono" required>
+            <input type="number" name="telefono" id="telefono" placeholder="Numero de Telefono" required pattern="[0-9]+" title="Solo se permiten numeros!">
             <br>
             
             <input type="text" name="direccion" id="direccion" placeholder="Direccion Completa">

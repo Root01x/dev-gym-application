@@ -87,9 +87,9 @@ if ($_SESSION['rol'] != 9) {
             <br>
             <input type="number" name="cedula" id="cedula" placeholder="Numero de Cedula" required autofocus>
             <br>
-            <input type="text" name="nombre" id="nombre" placeholder="Nombres" required>
+            <input type="text" name="nombre" id="nombre" placeholder="Nombres" required pattern="[A-Za-z ]{2,100}" title="Solo se permiten letras!">
             <br>
-            <input type="text" name="apellidos" id="apellidos" placeholder="Apellidos" required>
+            <input type="text" name="apellidos" id="apellidos" placeholder="Apellidos" required pattern="[A-Za-z ]{2,100}" title="Solo se permiten letras!">
             <br>
             <input type="email" name="correo" id="correo" placeholder="Correo Electronico" required>
             <br>

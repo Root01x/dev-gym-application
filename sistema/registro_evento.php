@@ -88,9 +88,9 @@ if ($_SESSION['rol'] != 1 && $_SESSION['rol'] != 2 ) {
 
         <form action="" method="post" enctype="multipart/form-data">
             <label for="evento">Nombre Seminario</label>
-            <input type="text" name="evento" id="evento" placeholder="Nombre del Seminario" autofocus>
+            <input type="text" name="evento" id="evento" placeholder="Nombre del Seminario" required pattern="[A-Za-z ]{2,100}" title="Solo se permiten letras!" autofocus>
             <label for="precio">Precio</label>
-            <input type="number"  name="precio" id="precio" placeholder="Precio del Evento">
+            <input type="number"  name="precio" id="precio" placeholder="Precio del Evento" required>
             <label for="nombre">Tipo de Seminario</label>
 
                 <?php
@@ -118,7 +118,7 @@ if ($_SESSION['rol'] != 1 && $_SESSION['rol'] != 2 ) {
                             
                 </select> 
             <label for="capacidad">Capacidad Maxima</label>
-            <input type="number" name="capacidad" id="capacidad" placeholder="Capacidad del Evento">
+            <input type="number" name="capacidad" id="capacidad" placeholder="Capacidad del Evento" required>
             <label for="direccion">Direccion Seminario</label>
             <input type="text" name="direccion" id="direccion" placeholder="Direccion del Seminario">
             <label for="fecha">Fecha Evento</label>

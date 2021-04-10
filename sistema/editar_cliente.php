@@ -123,7 +123,7 @@ if($result_sql == 0){
             <label for="cedula">Cedula</label>
             <input type="text" name="cedula" id="cedula" placeholder="Numero de Cedula" value="<?php echo $cedula?>">
             <label for="nombre">Nombres</label>
-            <input type="text" name="nombre" id="nombre" placeholder="Nombre" value="<?php echo $nombre?>">
+            <input type="text" name="nombre" id="nombre" placeholder="Nombre" required pattern="[A-Za-z ]{2,100}" title="Solo se permiten letras!" value="<?php echo $nombre?>">
             <label for="apellido">Apellidos</label>
             <input type="text" name="apellido" id="apellido" placeholder="Apellido" value="<?php echo $apellido?>">
             <label for="correo">Correo Electronico</label>

@@ -116,7 +116,7 @@ if($result_sql == 0){
         <form action="" method="post">
             <input type="hidden" name="id" value="<?php echo $iduser;?>">
             <label for="nombre">Nombre</label>
-            <input type="text" name="nombre" id="nombre" placeholder="Nombre Completo" value="<?php echo $nombre; ?>">
+            <input type="text" name="nombre" id="nombre" placeholder="Nombre Completo" pattern="[A-Za-z ]{2,100}" title="Solo se permiten letras!" value="<?php echo $nombre; ?>">
             <label for="nombre">Correo Electronico</label>
             <input type="email" name="correo" id="correo" placeholder="Correo Electronico " value="<?php echo $correo; ?>">
             <label for="usuario">Usuario</label>

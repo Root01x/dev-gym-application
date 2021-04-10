@@ -176,7 +176,7 @@ if ($_SESSION['rol'] != 1 && $_SESSION['rol'] != 2) {
             <input type="hidden" id="foto_remove" name="foto_remove" value="<?php echo $data_evento['foto']?>">
 
             <label for="evento">Nombre Seminario</label>
-            <input type="text" name="evento" id="evento" placeholder="Nombre del Evento" value="<?php echo $data_evento['descripcion'];?>">
+            <input type="text" name="evento" id="evento" placeholder="Nombre del Evento" pattern="[A-Za-z ]{2,100}" title="Solo se permiten letras!" value="<?php echo $data_evento['descripcion'];?>">
             <label for="precio">Precio</label>
             <input type="number" name="precio" id="precio" placeholder="Precio del Evento" value="<?php echo $data_evento['precio'];?>">
             <label for="evento">Tipo de Seminario</label>
