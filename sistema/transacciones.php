@@ -96,7 +96,12 @@ if ($_SESSION['rol'] != 1 && $_SESSION['rol'] != 2) {
                     if ($data["status"] == 1) {
                         $estado = '<span class="pagada">Pagada</span>';
                         # code...
-                    }else {
+                    }else if ($data["status"] == 3) {
+                        $estado = '<span class="pendiente">Pendiente</span>';
+                        # code...
+                    }
+                    
+                    else {
                         $estado = '<span class="anulada">Anulada</span>';
                     }
            ?>

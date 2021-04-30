@@ -674,7 +674,7 @@ background: #ddd;
 	justify-content: space-between;
 }
 
-.pagada, .anulada{
+.pagada, .anulada, .pendiente{
 	color: #FFF;
 	background: #60a756;
 	text-align: center;
@@ -683,6 +683,9 @@ background: #ddd;
 }
 .anulada{
 	background: #f36a6a;
+}
+.pendiente{
+	background: #cf9235;
 }
 .inactive{
 	background-color: #a4a4a4;
