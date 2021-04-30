@@ -168,6 +168,16 @@ nav li ul li:last-child{
 	width: 450px;
 	margin: auto;
 }
+
+
+.form_registre_deposito{
+	width: 450px;
+	margin: auto;
+	display:none;
+}
+
+
+
 .form_registre h1{
 	color: #0f4355;
 	margin-top: auto;

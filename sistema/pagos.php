@@ -136,39 +136,22 @@ if ($_SESSION['rol'] != 5) {
     </div>
    
 
-    <div class="form_registre_deposito" style="display:none;">
-        <form action="process.php" method="post"  id="payment-form">
+    <div class="form_registre_deposito" >
+
+       
+        <form action="" method="post"  id="trans">
             
-            <div class="form-group">
-                <label for="exampleInputEmail1">Nombre:</label>
-                <input type="hidden" name="email" class="form-control" id="exampleInputEmail1" placeholder="Email" >
-                <input type="text" value="<?php echo $nombre.' '.$apellidos?>" name="email" class="form-control" id="exampleInputEmail1" disabled >
+        <div class="leyend" style="text-align: justify; font-family: 'arial';padding-top: 35px;color:#515e80;padding-bottom: 12px;">Para transferencias bancarias depositar a la cuenta 2206100219 del banco Pichincha a nombre de
+        Gerardo Veliz con cedula de identidad  1314286947 e ingresar el boucher en el formulario siguiente.
+        </div>
 
+  
+        <div class="form-group">
+                <label for="exampleInputPassword1">Numero de Boucher:</label>
+                <input type="number" value="" name="total" required class="form-control" id="exampleInputPassword1" >
               </div>
-              <div class="form-group">
-                <label for="exampleInputPassword1">Identificacion:</label>
-                <input type="text" value="<?php echo $cedula?>" name="total" required class="form-control" id="exampleInputPassword1" disabled>
-              </div>
-              <div class="form-group">
-                <label for="exampleInputPassword2">Correo:</label>
-                <input type="text" value="<?php echo $email?>" name="total" required class="form-control" id="exampleInputPassword1" disabled>
-              </div>
-              <div class="form-group">
-                <label for="exampleInputPassword1">Telefono:</label>
-                <input type="text" value="<?php echo $telefono?>" name="total" required class="form-control" id="exampleInputPassword1" disabled>
-              </div>
-
-                <label for="card-element">Tarjeta de Credito o Debito:</label>
-                <div id="card-element">
-                  <!-- a Stripe Element will be inserted here. -->
-                </div>
-                <!-- Used to display form errors -->
-                <div id="card-errors"></div>
-
-
-            <input type="hidden" class="form-control" required name="paymethod_id" value="stripe">
             <br>
-            <button class="btn_save"><i class="fas fa-id-card"></i> Guardar</button>
+            <button class="btn_save"><i class="fas fa-id-card"></i> Procesar Pago</button>
         </form>
     </div>
 
@@ -203,8 +186,21 @@ if ($_SESSION['rol'] != 5) {
   function toggle(o) {
   var el=document.querySelector(".form_registre");
   var el2=document.querySelector(".form_registre_deposito")
-  if (o.value=="value1") el.style.display="block"; el2.style.display="none";
-  if (o.value=="value2") el.style.display="none"; el2.style.display="grid";
+  
+
+
+  if (o.value=="value1") {
+
+    el.style.display="block"; 
+    el2.style.display="none";
+    
+  } 
+
+  else if(o.value=="value2"){
+    el.style.display="none"; 
+    el2.style.display="block";
+  }
+  
   }
 </script>
 
