@@ -71,7 +71,7 @@
 					<a href="#"><i class="far fa-address-book"></i> Reportes</a>
 					<ul>
 
-						<li><a href="Nueva_transaccion.php">Reportes Seminarios</a></li>
+						<li><a href="lista_eventos.php">Reportes Seminarios</a></li>
 						
 						
 					</ul>
