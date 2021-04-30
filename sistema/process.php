@@ -1,3 +1,16 @@
+<script>
+  function PdfCreate(cliente,factura){
+    var ancho = 1000;
+    var alto = 800;
+    //calcular la posicion x, y para centrar la ventana
+    var x = parseInt((window.screen.width/2)-(ancho/2));
+    var y = parseInt((window.screen.height/2)-(alto/2));
+
+    $url = 'factura/generaFactura.php?cl='+cliente+'&f='+factura;
+    window.open($url,"Factura","left="+x+",top="+y+",height="+alto+",width="+ancho+",scrollbar=si,location=no,resizeble=si,menubar=no");
+
+}
+</script>
 <?php 
 require_once('stripe-php/init.php');
 session_start(); 
@@ -130,9 +143,23 @@ if($charge->status=="succeeded"){
 		$query_procesar = mysqli_query($conection,"CALL procesar_transaccion($usuario,$codcliente,'$token3')");
 		$result_detalle = mysqli_num_rows($query_procesar);
 
+
+
+
+
 		if ($result_detalle > 0) {
 			
-			echo "<script>alert('TRANSACCION EXITOSA!');</script>";
+			
+			$data = mysqli_fetch_assoc($query_procesar);
+			$cliente=$data['codcliente'];
+			$factu=$data['nofactura'];
+			//echo "<script>alert('TRANSACCION EXITOSA!');</script>";
+			
+			echo "<script>PdfCreate($cliente,$factu);</script>";
+
+			
+			
+
 
 		}else {
 
@@ -157,3 +184,4 @@ if($charge->status=="succeeded"){
 }
 	echo "<script>window.location='lista_eventos.php';</script>";
 ?>
+

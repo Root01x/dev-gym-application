@@ -1378,4 +1378,7 @@ function verificarPasswords() {
     }
  
 }
+function prueba(){
+    alert("ghjgj")
+}
 
