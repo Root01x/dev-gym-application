@@ -93,7 +93,7 @@ if ($_SESSION['rol'] != 1 && $_SESSION['rol'] != 2) {
            if ($result > 0) {
                while ($data = mysqli_fetch_array($query)) {
 
-                    if ($data["status"] == 1) {
+                    if ($data["status"] == 1 || $data["status"] == 5) {
                         $estado = '<span class="pagada">Pagada</span>';
                         # code...
                     }else if ($data["status"] == 3) {

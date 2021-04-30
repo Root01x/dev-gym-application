@@ -140,21 +140,29 @@ if($charge->status=="succeeded"){
 	
 
 	if ($result > 0) {
+
+
 		$query_procesar = mysqli_query($conection,"CALL procesar_transaccion($usuario,$codcliente,'$token3')");
 		$result_detalle = mysqli_num_rows($query_procesar);
-
+		mysqli_close($conection);
 
 
 
 
 		if ($result_detalle > 0) {
 			
+					
+
+
 			
+
+
 			$data = mysqli_fetch_assoc($query_procesar);
 			$cliente=$data['codcliente'];
 			$factu=$data['nofactura'];
 			//echo "<script>alert('TRANSACCION EXITOSA!');</script>";
-			
+			include "../conection.php";
+        	$alv = mysqli_query($conection,"UPDATE factura SET status = 5 WHERE nofactura = $factu");
 			echo "<script>PdfCreate($cliente,$factu);</script>";
 
 			
