@@ -65,6 +65,19 @@
 					</ul>
 				</li>
 				<?php }?>
+
+				<?php if ($_SESSION['rol'] == 1 || $_SESSION['rol'] == 2) { ?>
+				<li class="principal">
+					<a href="#"><i class="far fa-address-book"></i> Reportes</a>
+					<ul>
+
+						<li><a href="Nueva_transaccion.php">Reportes Seminarios</a></li>
+						
+						
+					</ul>
+				</li>
+				<?php }?>
+					
 				<?php if ($_SESSION['rol'] == 5) { ?>
 				<li class="principal">
 					<a href="#"><i class="far fa-calendar-check"></i> Pagos</a>

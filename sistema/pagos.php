@@ -54,7 +54,7 @@ if ($_SESSION['rol'] != 5) {
       <table class="tbl_venta">
                 <thead>
                     
-                <h2 style="text-align: center; margin: 0px 0px 2px 0px;  color: #0a4661; padding: 10px;
+                <h2 style="text-align: left; margin: 0px 0px 2px 0px;  color: #0a4661; padding: 10px;
                             font-size: 20pt;"><i class="fas fa-cart-arrow-down"></i> Detalle de Compra</h2>
                             <hr>
                               
@@ -83,9 +83,22 @@ if ($_SESSION['rol'] != 5) {
 
 
   <div class="form_r">
-  <h2 style="text-align: center;  color: #0a4661; padding: 10px;
-                font-size: 20pt;"><i class="fas fa-file-invoice-dollar"></i> Datos de Facturacion</h2>
+  <h2 style="text-align: left;  color: #0a4661; padding: 10px;
+                font-size: 20pt;"><i class="fas fa-wallet"></i> Método de Pago</h2>
                 <hr>
+    <div class="form_registre24">
+    <label for="tipoP">PAGAR CON:</label>
+      <select name="metodo_pago" id="select" onclick="toggle(this)">
+        <option value="value1" selected>Tarjeta de crédito o debito</option>
+        <option value="value2" >Transferencia o deposito bancario</option>        
+      </select>
+    </div>
+    <br>
+  <hr>
+    <h2 style="text-align: left;  color: #0a4661; padding: 10px;
+                font-size: 20pt;"><i class="fas fa-file-invoice-dollar"></i> Detalles</h2>
+                <hr>
+
     <div class="form_registre">
         <form action="process.php" method="post"  id="payment-form">
             
@@ -121,6 +134,48 @@ if ($_SESSION['rol'] != 5) {
             <button class="btn_save"><i class="fas fa-id-card"></i> Procesar Pago</button>
         </form>
     </div>
+   
+
+    <div class="form_registre_deposito" style="display:none;">
+        <form action="process.php" method="post"  id="payment-form">
+            
+            <div class="form-group">
+                <label for="exampleInputEmail1">Nombre:</label>
+                <input type="hidden" name="email" class="form-control" id="exampleInputEmail1" placeholder="Email" >
+                <input type="text" value="<?php echo $nombre.' '.$apellidos?>" name="email" class="form-control" id="exampleInputEmail1" disabled >
+
+              </div>
+              <div class="form-group">
+                <label for="exampleInputPassword1">Identificacion:</label>
+                <input type="text" value="<?php echo $cedula?>" name="total" required class="form-control" id="exampleInputPassword1" disabled>
+              </div>
+              <div class="form-group">
+                <label for="exampleInputPassword2">Correo:</label>
+                <input type="text" value="<?php echo $email?>" name="total" required class="form-control" id="exampleInputPassword1" disabled>
+              </div>
+              <div class="form-group">
+                <label for="exampleInputPassword1">Telefono:</label>
+                <input type="text" value="<?php echo $telefono?>" name="total" required class="form-control" id="exampleInputPassword1" disabled>
+              </div>
+
+                <label for="card-element">Tarjeta de Credito o Debito:</label>
+                <div id="card-element">
+                  <!-- a Stripe Element will be inserted here. -->
+                </div>
+                <!-- Used to display form errors -->
+                <div id="card-errors"></div>
+
+
+            <input type="hidden" class="form-control" required name="paymethod_id" value="stripe">
+            <br>
+            <button class="btn_save"><i class="fas fa-id-card"></i> Guardar</button>
+        </form>
+    </div>
+
+    
+
+
+
   </div>
 
 </div>
@@ -143,6 +198,14 @@ if ($_SESSION['rol'] != 5) {
         serchForDetalle(usuario_id);
     })
 
+</script>
+<script>
+  function toggle(o) {
+  var el=document.querySelector(".form_registre");
+  var el2=document.querySelector(".form_registre_deposito")
+  if (o.value=="value1") el.style.display="block"; el2.style.display="none";
+  if (o.value=="value2") el.style.display="none"; el2.style.display="grid";
+  }
 </script>
 
 </body>

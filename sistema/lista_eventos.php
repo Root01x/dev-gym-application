@@ -115,6 +115,8 @@ if ($_SESSION['rol'] != 1) {
                    
                      |
                     <a class="link_delete del_event" href="#" event="<?php echo $data["codevento"];?>">Eliminar</a>
+                    |
+                    <a class="link_report rep_event" href="#" event="<?php echo $data["codevento"];?>">Reporte</a>
                 </td>
                     <?php } 
                     ?>                  

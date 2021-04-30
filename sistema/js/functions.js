@@ -99,6 +99,18 @@ $(document).ready(function(){
     });
 
     
+    //REPORTE SEMINARIO
+    $('.rep_event').click(function(e){
+        e.preventDefault();
+        var evento = $(this).attr('event');
+        //var action = 'infoEvent';
+        //alert(evento);
+
+        PdfCreateReport(evento);
+
+    });
+
+    
     //activa campos para resgistrar clientes
     $('.btn_new_cliente').click(function(e){
         e.preventDefault();
@@ -602,8 +614,9 @@ $(document).ready(function(){
                    
                    if (response !='error') {
                        var info = JSON.parse(response);
-                       alert("TRANSACCION EXITOSA")
-                       //console.log(info);
+                       //alert("TRANSACCION EXITOSA3")
+                       console.log(info);
+                       PdfCreate(info.codcliente,info.nofactura)
 
                        location.reload();
                      }else{
@@ -846,6 +859,29 @@ $(document).ready(function(){
 
 }); //end readdy
 
+function PdfCreate(cliente,factura){
+    var ancho = 1000;
+    var alto = 800;
+    //calcular la posicion x, y para centrar la ventana
+    var x = parseInt((window.screen.width/2)-(ancho/2));
+    var y = parseInt((window.screen.height/2)-(alto/2));
+
+    $url = 'factura/generaFactura.php?cl='+cliente+'&f='+factura;
+    window.open($url,"Factura","left="+x+",top="+y+",height="+alto+",width="+ancho+",scrollbar=si,location=no,resizeble=si,menubar=no");
+
+}
+
+function PdfCreateReport(evento){
+    var ancho = 1000;
+    var alto = 800;
+    //calcular la posicion x, y para centrar la ventana
+    var x = parseInt((window.screen.width/2)-(ancho/2));
+    var y = parseInt((window.screen.height/2)-(alto/2));
+
+    $url = 'reporte_seminario/generaFactura.php?ev='+evento;
+    window.open($url,"Factura","left="+x+",top="+y+",height="+alto+",width="+ancho+",scrollbar=si,location=no,resizeble=si,menubar=no");
+
+}
 
 function getHora(){
      
