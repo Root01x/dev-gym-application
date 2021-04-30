@@ -633,6 +633,49 @@ $(document).ready(function(){
 
         }
     });
+
+     //procesar pago deposito bancario
+     $('#btn_factura_deposito').click(function(e){
+        e.preventDefault();
+      
+        var rows = $('#detalle_venta tr').length;
+        if (rows > 0) {
+
+            var action = 'procesarVentaDeposito';
+            var codcliente = $('#idcliente').val();
+
+            $.ajax({ 
+                url: 'ajax.php',
+                type: 'POST',
+                async: true,
+                data: {action:action,codcliente:codcliente},
+        
+                success: function(response)
+                {
+                    
+                   
+                   if (response !='error') {
+                       var info = JSON.parse(response);
+                       alert("ESPERE MIENTRAS UN ADMINISTRADOR VALIDA SU TRANSFERENCIA O COMUNIQUECE AL 999999")
+                       //console.log(info);
+                       
+                       //PdfCreate(info.codcliente,info.nofactura)
+
+                       location.reload();
+                     }else{
+                         console.log('no data');
+                         alert("ALGO SALIO MAL")
+                     }
+                    
+        
+                },
+                error: function(error){
+        
+                }
+            });
+
+        }
+    });
         //facturar transaccion reservas
     $('#btn_factura_venta_reservas').click(function(e){
         e.preventDefault();
