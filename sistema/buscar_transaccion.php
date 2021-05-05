@@ -81,7 +81,7 @@ if ($_SESSION['rol'] != 1 && $_SESSION['rol'] != 2) {
             <input type="date" name="fecha_de" id="fecha_de" value="<?php echo $fecha_de;?>" required>
             <label for="">A</label>
             <input type="date" name="fecha_a" id="fecha_a" value="<?php echo $fecha_a;?>"required>
-            <button type="submit" class="btn_view"><i class="fas-search"></i></button>
+            <button type="submit" class="btn_view">BUSCAR</button>
         </form>
     </div>
 
@@ -133,12 +133,18 @@ if ($_SESSION['rol'] != 1 && $_SESSION['rol'] != 2) {
            if ($result > 0) {
                while ($data = mysqli_fetch_array($query)) {
 
-                    if ($data["status"] == 1) {
-                        $estado = '<span class="pagada">Pagada</span>';
-                        # code...
-                    }else {
-                        $estado = '<span class="anulada">Anulada</span>';
-                    }
+                  
+                if ($data["status"] == 1 || $data["status"] == 5) {
+                    $estado = '<span class="pagada">Pagada</span>';
+                    # code...
+                }else if ($data["status"] == 3) {
+                    $estado = '<span class="pendiente">Pendiente</span>';
+                    # code...
+                }
+                
+                else {
+                    $estado = '<span class="anulada">Anulada</span>';
+                }
            ?>
             <tr id="row_<?php echo $data["nofactura"];?>">
                 <td><?php echo $data["nofactura"];?></td>
@@ -146,14 +152,11 @@ if ($_SESSION['rol'] != 1 && $_SESSION['rol'] != 2) {
                 <td><?php echo $data["cliente"];?></td>
                 <td><?php echo $data["encargado"];?></td>
                 <td class="estado"><?php echo $estado;?></td>
-                <td class="textright totalfactura"><span>$</span><?php echo $data["totaltFactura"]; ?></td>
+                <td class="textright totalfactura"><span></span><?php echo '$ '.$data["totaltFactura"]; ?></td>
                
                 <td>
                     <div class="div_acciones">
-                        <div>
-                            <button class="btn_view view_factura" type="button" cl="<?php echo $data["concliente"];?>"f="<?php echo $data['nofactura'];?>"><i class="fas fa-eye"></i></button>
-
-                        </div>
+                     
                     
 
                     <?php 

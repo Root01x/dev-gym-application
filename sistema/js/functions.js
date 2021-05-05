@@ -925,6 +925,17 @@ function PdfCreateReport(evento){
     window.open($url,"Factura","left="+x+",top="+y+",height="+alto+",width="+ancho+",scrollbar=si,location=no,resizeble=si,menubar=no");
 
 }
+function PdfCreateReportGeneral(evento){
+    var ancho = 1000;
+    var alto = 800;
+    //calcular la posicion x, y para centrar la ventana
+    var x = parseInt((window.screen.width/2)-(ancho/2));
+    var y = parseInt((window.screen.height/2)-(alto/2));
+
+    $url = 'reporte_general/generaFactura.php?ev='+evento;
+    window.open($url,"Factura","left="+x+",top="+y+",height="+alto+",width="+ancho+",scrollbar=si,location=no,resizeble=si,menubar=no");
+
+}
 
 function getHora(){
      

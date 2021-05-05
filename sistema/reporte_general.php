@@ -11,7 +11,48 @@ if ($_SESSION['rol'] != 1 && $_SESSION['rol'] != 2) {
 
 
  include "../conection.php";
+ $busqueda = '';
+ $fecha_de = '';
+ $fecha_a = '';
 
+ if (isset($_REQUEST['busqueda']) && $_REQUEST['busqueda']=='') {
+     header("location: buscar_transaccion.php");
+ }
+
+ if (isset($_REQUEST['fecha_de']) || isset($_REQUEST['fecha_a'])) {
+     if ($_REQUEST['fecha_de'] == '' || $_REQUEST['fecha_a'] == '') {
+         header("location: buscar_transaccion.php");
+     }
+ }
+
+ if(!empty($_REQUEST['busqueda'])){
+     if(!is_numeric($_REQUEST['busqueda'])){
+         header("location: buscar_transaccion.php");
+     }
+     $busqueda = strtolower($_REQUEST['busqueda']);
+     $where = "nofactura = $busqueda";
+     $buscar = "busqueda = $busqueda";
+
+ }
+ if (!empty($_REQUEST['fecha_de']) && !empty($_REQUEST['fecha_a'])) {
+     $fecha_de = $_REQUEST['fecha_de'];
+     $fecha_a = $_REQUEST['fecha_a'];
+     $buscar = '';
+
+     if ($fecha_de > $fecha_a) {
+         header("location: buscar_trasaccion.php");
+         # code...
+     }else if($fecha_de ==$fecha_a){
+         $where = "fecha LIKE '$fecha_de%'";
+         $buscar = "fecha_de = $fecha_de&fecha_a=$fecha_a";
+     }else {
+         $f_de = $fecha_de.' 00:00:00';
+         $f_a = $fecha_a.' 23:59:59';
+         $where = "fecha BETWEEN '$f_de' AND '$f_a'";
+         $buscar = "fecha_de=$fecha_de&fecha_a=$fecha_a";
+     }
+
+ }
 ?>
 
 <!DOCTYPE html>
@@ -19,31 +60,30 @@ if ($_SESSION['rol'] != 1 && $_SESSION['rol'] != 2) {
 <head>
 	<meta charset="UTF-8">
 	<?php include "includes/scripts.php"?>
-	<title>LISTA DE TRANSACCIONES</title>
+	<title>REPORTE GENERAL</title>
 </head>
 <body>
  <?php include "includes/header.php"?>
 	<section id="container">
 		
-        <h1><i class="fas fa-list-alt"></i> Lista de Transacciones</h1>
+        <h1>Reporte General de Transacciones</h1>
 
-        <a href="Nueva_transaccion.php" class="btn_new">Nueva Transaccion</a>
+        <a href="Nueva_transaccion.php" class="btn_new"><i class="fas fa-print"></i> IMPRIMIR</a>
 
     <form action="buscar_transaccion.php" method="get" class="form_search">
-        <input type="text" name="busqueda" id="busqueda" placeholder="No. Transaccion">
+        <input type="text" name="busqueda" id="busqueda" placeholder="No. Transaccion" value="<?php echo $busqueda;?>">
         <button type ="submit" class="btn_search"><i class="fas fa-search"></i></button>
     </form>
-    
     <div>
-        <h5>Buscar por Fecha</h5>
+        <h5>Reporte por fecha</h5>
         <form action="buscar_transaccion.php" method="get" class="form_search_date">
             <label for="">De: </label>
-            <input type="date" name="fecha_de" id="fecha_de" required>
+            <input type="date" name="fecha_de" id="fecha_de" value="<?php echo $fecha_de;?>" required>
             <label for="">A</label>
-            <input type="date" name="fecha_a" id="fecha_a" required>
-            <button type="submit" class="btn_view">BUSCAR</button>
+            <input type="date" name="fecha_a" id="fecha_a" value="<?php echo $fecha_a;?>"required>
+            <button type="submit" class="btn_view">GENERAR</button>
         </form>
-    
+    </div>
 
         <table>
             <tr>
@@ -61,7 +101,7 @@ if ($_SESSION['rol'] != 1 && $_SESSION['rol'] != 2) {
             <?php
 
             //PAGINADO CCODIGO
-           $sql_registre = mysqli_query($conection,"SELECT COUNT(*) AS total_registro FROM factura WHERE status !=10");
+           $sql_registre = mysqli_query($conection,"SELECT COUNT(*) AS total_registro FROM factura WHERE $where");
            $result_registre = mysqli_fetch_array($sql_registre);
            $total_resgistros = $result_registre['total_registro'];
            $por_pagina = 4;
@@ -86,24 +126,25 @@ if ($_SESSION['rol'] != 1 && $_SESSION['rol'] != 2) {
                                             ON f.usuario = u.idusuario
                                             INNER JOIN cliente cl
                                             ON f.codcliente = cl.idcliente
-                                            WHERE f.status != 10
+                                            WHERE $where AND f.status != 10
                                             ORDER BY f.fecha DESC LIMIT $desde,$por_pagina");
            $result = mysqli_num_rows($query);
            mysqli_close($conection);
            if ($result > 0) {
                while ($data = mysqli_fetch_array($query)) {
 
-                    if ($data["status"] == 1 || $data["status"] == 5) {
-                        $estado = '<span class="pagada">Pagada</span>';
-                        # code...
-                    }else if ($data["status"] == 3) {
-                        $estado = '<span class="pendiente">Pendiente</span>';
-                        # code...
-                    }
-                    
-                    else {
-                        $estado = '<span class="anulada">Anulada</span>';
-                    }
+                  
+                if ($data["status"] == 1 || $data["status"] == 5) {
+                    $estado = '<span class="pagada">Pagada</span>';
+                    # code...
+                }else if ($data["status"] == 3) {
+                    $estado = '<span class="pendiente">Pendiente</span>';
+                    # code...
+                }
+                
+                else {
+                    $estado = '<span class="anulada">Anulada</span>';
+                }
            ?>
             <tr id="row_<?php echo $data["nofactura"];?>">
                 <td><?php echo $data["nofactura"];?></td>
@@ -115,12 +156,8 @@ if ($_SESSION['rol'] != 1 && $_SESSION['rol'] != 2) {
                
                 <td>
                     <div class="div_acciones">
-                    <!--   
-                    <div>
-                            <button class="btn_view view_factura" type="button" cl="<?php echo $data["concliente"];?>"f="<?php echo $data['nofactura'];?>"><i class="fas fa-eye"></i></button>
-
-                        </div>
-                -->
+                     
+                    
 
                     <?php 
                         if($data["status"]==1)
@@ -171,8 +208,8 @@ if ($_SESSION['rol'] != 1 && $_SESSION['rol'] != 2) {
                             if ($pagina != 1) {
                               
                             ?>  
-                            <li><a href="?pagina=<?php echo 1;?>">|<</a></li>
-                            <li><a href="?pagina=<?php echo $pagina-1;?>"><<</a></li>
+                            <li><a href="?pagina=<?php echo 1;?>&<?php echo $buscar;?>">|<</a></li>
+                            <li><a href="?pagina=<?php echo $pagina-1;?>&<?php echo $buscar;?>"><<</a></li>
 
                             <?php
                                 # code...
@@ -193,7 +230,7 @@ if ($_SESSION['rol'] != 1 && $_SESSION['rol'] != 2) {
                         }
                         else {
 
-                            echo '<li><a href="?pagina='.$i.'">'.$i.'</a></li>';
+                            echo '<li><a href="?pagina='.$i.'$'.$buscar.'">'.$i.'</a></li>';
                         # code...
                         }
 
@@ -204,8 +241,8 @@ if ($_SESSION['rol'] != 1 && $_SESSION['rol'] != 2) {
                     
                     ?>
                      
-                    <li><a href="?pagina=<?php echo $pagina+1;?>">>></a></li>
-                    <li><a href="?pagina=<?php echo $total_paginas;?>">>|</a></li>
+                    <li><a href="?pagina=<?php echo $pagina+1;?>&<?php echo $buscar;?>">>></a></li>
+                    <li><a href="?pagina=<?php echo $total_paginas;?>&<?php echo $buscar;?>">>|</a></li>
                         <?php 
                             }
                         

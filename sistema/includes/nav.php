@@ -72,9 +72,11 @@
 					<ul>
 
 						<li><a href="lista_eventos.php">Reportes Seminarios</a></li>
+						<li><a href="reporte_general.php">Reporte General</a></li>
 						
 						
 					</ul>
+					
 				</li>
 				<?php }?>
 					
