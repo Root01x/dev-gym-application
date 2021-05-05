@@ -68,7 +68,7 @@ if ($_SESSION['rol'] != 1 && $_SESSION['rol'] != 2) {
 		
         <h1>Reporte General de Transacciones</h1>
 
-        <a href="Nueva_transaccion.php" class="btn_new"><i class="fas fa-print"></i> IMPRIMIR</a>
+        <a href="" class="btn_new rep_total"><i class="fas fa-print"></i> IMPRIMIR</a>
 
     <form action="buscar_transaccion.php" method="get" class="form_search">
         <input type="text" name="busqueda" id="busqueda" placeholder="No. Transaccion" value="<?php echo $busqueda;?>">

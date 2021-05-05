@@ -110,6 +110,17 @@ $(document).ready(function(){
 
     });
 
+     //REPORTE TOTAL
+     $('.rep_total').click(function(e){
+        e.preventDefault();
+        //var evento = $(this).attr('event');
+        //var action = 'infoEvent';
+        //alert(evento);
+
+        PdfCreateReportGeneral();
+
+    });
+
     
     //activa campos para resgistrar clientes
     $('.btn_new_cliente').click(function(e){
@@ -925,14 +936,16 @@ function PdfCreateReport(evento){
     window.open($url,"Factura","left="+x+",top="+y+",height="+alto+",width="+ancho+",scrollbar=si,location=no,resizeble=si,menubar=no");
 
 }
-function PdfCreateReportGeneral(evento){
+function PdfCreateReportGeneral(){
+
+
     var ancho = 1000;
     var alto = 800;
     //calcular la posicion x, y para centrar la ventana
     var x = parseInt((window.screen.width/2)-(ancho/2));
     var y = parseInt((window.screen.height/2)-(alto/2));
 
-    $url = 'reporte_general/generaFactura.php?ev='+evento;
+    $url = 'reporte_general/generaFactura.php?ev=1'
     window.open($url,"Factura","left="+x+",top="+y+",height="+alto+",width="+ancho+",scrollbar=si,location=no,resizeble=si,menubar=no");
 
 }

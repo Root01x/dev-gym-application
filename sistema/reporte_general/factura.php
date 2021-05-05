@@ -47,15 +47,24 @@ include "../../conection.php";
 			</td>
 			<td class="info_factura">
 				<div class="round">
-					<span class="h3">REPORTE GENERAL</span>
-					<p>Seminario: <strong><?php echo 1 ?></strong></p>
-					<p>Fecha: <?php echo 2 ?></p>
-					<p>Hora: <?php echo 3 ?></p>
-					<p>Encargado: <?php echo 4 ?></p>
+					<span class="h3">REPORTE GENERAL</span>	
+							
+					<p>Fecha: <?php 
+					$fechaActual = date('d-m-Y');
+   
+					echo $fechaActual;?></p>
+					<p>Hora: <?php 
+					date_default_timezone_set('America/Mexico_City');
+					$hora = date("H:i:s");;  
+					
+					echo $hora ?></p>
+
+					<p>Encargado: <?php echo $user2 ?></p>
 				</div>
 			</td>
 		</tr>
 	</table>
+	<!--
 	<table id="factura_cliente">
 		<tr>
 			<td class="info_cliente">
@@ -77,6 +86,7 @@ include "../../conection.php";
 
 		</tr>
 	</table>
+	-->
 	<span class="h3">SEMINARIOS ACTIVOS</span>
 	
 	<table id="factura_detalle">
