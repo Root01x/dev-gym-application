@@ -163,6 +163,7 @@ if($charge->status=="succeeded"){
 			//echo "<script>alert('TRANSACCION EXITOSA!');</script>";
 			include "../conection.php";
         	$alv = mysqli_query($conection,"UPDATE factura SET status = 5 WHERE nofactura = $factu");
+			
 			echo "<script>PdfCreate($cliente,$factu);</script>";
 
 			

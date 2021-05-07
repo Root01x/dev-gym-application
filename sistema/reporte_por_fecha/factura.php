@@ -47,7 +47,7 @@ include "../../conection.php";
 			</td>
 			<td class="info_factura">
 				<div class="round">
-					<span class="h3">REPORTE GENERAL</span>	
+					<span class="h3">REPORTE POR FECHAS</span>	
 							
 					<p>Fecha: <?php 
 					$fechaActual = date('d-m-Y');
@@ -87,16 +87,17 @@ include "../../conection.php";
 		</tr>
 	</table>
 	-->
-	<span class="h3">SEMINARIOS ACTIVOS</span>
+	
+	<span class="h3">TRANSACCIONES DESDE EL <?php echo $fecha_de?> AL <?php echo $fecha_a?></span>
 	
 	<table id="factura_detalle">
 			<thead>
 				<tr>
 					<th width="50px">Cod.</th>
-					<th class="textleft">Seminario</th>
-					<th class="textright" width="150px">Precio</th>
-					<th class="textright" width="150px">Participantes</th>
-					<th class="textright" width="150px">Total Recaudado</th>
+					<th class="textleft">Fecha</th>
+					<th class="textright" width="150px">Cliente</th>
+					<th class="textright" width="150px">Metodo de Pago</th>
+					<th class="textright" width="150px">Total</th>
 				</tr>
 			</thead>
 			<tbody id="detalle_productos">
@@ -108,30 +109,36 @@ include "../../conection.php";
 					while ($row = mysqli_fetch_assoc($query)){
 			 ?>
 				<tr>
-					<td class="textcenter"><?php echo $row['codevento']; ?></td>
-					<td><?php echo $row['descripcion'];?></td>
+					<td class="textcenter"><?php echo $row['codfactura']; ?></td>
+
+					<td><?php echo $row['fechaF'];?></td>
 
 					
-					<td class="textright"><?php echo $row['precio']."$"; ?></td>
-					<td class="textright"><?php
+					<td class="textright"><?php echo $row['cliente']; ?></td>
+					<td class="textright"><?php			
+					
+					if ($row['estado']==2) {
+						echo "Cancelado";
+					}
+					if ($row['estado']==1) {
+						echo "Efectivo";
+					}
+					if ($row['estado']==5) {
+						echo "Tarjeta";
+					}
+					if ($row['estado']==3) {
+						echo "Deposito";
+					}
+				 ?>
 
-					$codevento=$row['codevento'];
-					$precio_seminario = $row['precio'];
-					$conts = mysqli_query($conection,"SELECT CONCAT(cl.nombre, ' ', cl.apellidos) as cliente, cl.cedula, cl.idcliente, cl.telefono FROM detallefactura df INNER JOIN cliente cl ON df.cod_cliente = cl.idcliente WHERE df.codevento = $codevento");
-					$contador = mysqli_num_rows($conts);
-					
-					
-					echo $contador; ?></td>
+
+					</td>
+
+
 					<td class="textright"><?php 
 					
 
-					if ($contador > 0) {
-						
-						$total 	 = round($precio_seminario * $contador,2);
-						echo $total."$";
-					}else {
-						echo "0$";
-					}
+				echo $row['total']."$";
 					
 					
 					?></td>

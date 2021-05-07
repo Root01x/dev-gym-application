@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: 127.0.0.1
--- Tiempo de generación: 23-02-2021 a las 03:15:57
+-- Tiempo de generación: 07-05-2021 a las 22:56:08
 -- Versión del servidor: 10.4.14-MariaDB
 -- Versión de PHP: 7.4.10
 
@@ -49,7 +49,7 @@ CREATE DEFINER=`root`@`localhost` PROCEDURE `anular_factura` (IN `no_factura` IN
         DECLARE existencia_actual int;
         DECLARE nueva_existencia int;
         
-        SET existe_factura =(SELECT COUNT(*) FROM factura WHERE nofactura = no_factura AND status = 1);
+        SET existe_factura =(SELECT COUNT(*) FROM factura WHERE nofactura = no_factura AND status !=2);
         
         IF existe_factura > 0 THEN
         	CREATE TEMPORARY TABLE tbl_tmp (
@@ -173,7 +173,10 @@ INSERT INTO `cliente` (`idcliente`, `cedula`, `nombre`, `apellidos`, `Correo`, `
 (78, 2147483647, 'dave', 'Rodriguez', 'root01xr53@gmail.com', 986330869, 'Ecuador', '2021-02-20 23:32:50', 0, 1, ''),
 (79, 22221, 'frre', 'free', 'roo1fft01x@gmail.com', 986330869, 'Ecuador', '2021-02-22 18:21:16', 0, 1, ''),
 (80, 4522112, 'clit', 'cclit', 'clir@gma.com', 986330869, 'Ecuador', '2021-02-22 19:40:16', 0, 1, '9998866'),
-(81, 343431, 'dave', 'rddd', 'root22301x@gmail.com', 986330869, 'jasjjd qwe', '2021-02-22 19:43:37', 1, 1, '452300923');
+(81, 343431, 'dave', 'rddd', 'root22301x@gmail.com', 986330869, 'jasjjd qwe', '2021-02-22 19:43:37', 1, 1, '452300923'),
+(82, 2147483647, 'dave', 'Rodriguez', 'root012323@gmail.com', 99923, 'Ecuador', '2021-04-10 18:06:56', 0, 1, '0674723r'),
+(83, 3334444, 'david', 'prueba', 'asd@gmail.com', 9999, 'Ecuador', '2021-04-12 15:09:55', 0, 1, 'ddddfff3'),
+(84, 9998886, 'frre', 'fire', 'ggt@gmai.com', 5556, 'Venezuela y Chimborazo cell: 0981860428', '2021-04-12 17:12:00', 1, 1, '13011999');
 
 -- --------------------------------------------------------
 
@@ -198,7 +201,7 @@ CREATE TABLE `configuracion` (
 --
 
 INSERT INTO `configuracion` (`id`, `cedula`, `nombre`, `razon_social`, `telefono`, `email`, `direccion`, `iva`, `codEvento`) VALUES
-(1, '000000', 'SAE', '00000000', 0, '0000@GMAIL.COM', '000000', '0.00', 12);
+(1, '000000', 'SAS', 'Sistema de Acceso a Seminarios', 9999997, 'SAS@GMAIL.COM', 'CALLE 3 Y 5', '0.00', 12);
 
 -- --------------------------------------------------------
 
@@ -238,13 +241,6 @@ CREATE TABLE `detallefactura` (
   `cod_cliente` int(11) DEFAULT 0
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
---
--- Volcado de datos para la tabla `detallefactura`
---
-
-INSERT INTO `detallefactura` (`correlativo`, `nofactura`, `codevento`, `cantidad`, `precio_venta`, `cod_cliente`) VALUES
-(115, 53, 11, 1, '565.00', 79);
-
 -- --------------------------------------------------------
 
 --
@@ -283,7 +279,8 @@ INSERT INTO `entradas` (`correlativo`, `codevento`, `fecha`, `cantidad`, `precio
 (12, 12, '2021-02-16 15:11:44', 100, '454.00', 1),
 (13, 13, '2021-02-17 23:40:38', 300, '4500.00', 1),
 (14, 14, '2021-02-18 22:45:01', 100, '45.00', 1),
-(15, 15, '2021-02-18 22:45:47', 45, '45.00', 1);
+(15, 15, '2021-02-18 22:45:47', 45, '45.00', 1),
+(16, 16, '2021-04-10 18:21:36', 10066, '78.00', 1);
 
 -- --------------------------------------------------------
 
@@ -310,11 +307,12 @@ CREATE TABLE `evento` (
 --
 
 INSERT INTO `evento` (`codevento`, `descripcion`, `precio`, `capMax`, `direccion`, `foto`, `fecha_evento`, `dateAdd`, `usuario_id`, `status`, `id_tipo_seminario`) VALUES
-(11, 'texts1', '565.00', 82, NULL, 'img_1691018ce4e9bc9aae3630f84b912910.jpg', '2222-02-02 02:02:00', '2021-02-16 12:59:22', 1, 1, 1),
-(12, 'curso de redes 3', '454.00', 87, 'utm', 'img_evento.png', '2021-02-16 15:02:00', '2021-02-16 15:11:44', 1, 1, 2),
-(13, 'curso de disennio grafico 3', '4500.00', 296, 'faculta de economia56', 'img_evento.png', '2021-02-17 23:02:00', '2021-02-17 23:40:38', 1, 1, 2),
-(14, 'java web', '45.00', 94, 'faculad de informatica', 'img_evento.png', '2002-05-08 00:05:00', '2021-02-18 22:45:01', 1, 1, 2),
-(15, 'robotica', '45.00', 40, '34', 'img_evento.png', '2010-05-05 00:05:00', '2021-02-18 22:45:47', 1, 1, 1);
+(11, 'texts1', '565.00', 61, NULL, 'img_1691018ce4e9bc9aae3630f84b912910.jpg', '2222-02-02 02:02:00', '2021-02-16 12:59:22', 1, 1, 1),
+(12, 'curso de redes 3', '454.00', 71, 'utm', 'img_evento.png', '2021-02-16 15:02:00', '2021-02-16 15:11:44', 1, 1, 2),
+(13, 'curso de disennio grafico 3', '4500.00', 271, 'faculta de economia56', 'img_evento.png', '2021-02-17 23:02:00', '2021-02-17 23:40:38', 1, 1, 2),
+(14, 'java web', '45.00', 69, 'faculad de informatica', 'img_evento.png', '2002-05-08 00:05:00', '2021-02-18 22:45:01', 1, 1, 2),
+(15, 'robotica', '45.00', 13, '34', 'img_evento.png', '2010-05-05 00:05:00', '2021-02-18 22:45:47', 1, 1, 1),
+(16, 'freeevent eee6', '78.00', 10041, 'Quito Norte', 'img_evento.png', '2021-04-17 18:04:00', '2021-04-10 18:21:36', 1, 1, 2);
 
 --
 -- Disparadores `evento`
@@ -339,15 +337,9 @@ CREATE TABLE `factura` (
   `usuario` int(11) DEFAULT NULL,
   `codcliente` int(11) DEFAULT NULL,
   `totaltFactura` decimal(10,2) DEFAULT NULL,
-  `status` int(11) NOT NULL DEFAULT 1
+  `status` int(11) NOT NULL DEFAULT 1,
+  `boucher` varchar(40) DEFAULT '0000000'
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
-
---
--- Volcado de datos para la tabla `factura`
---
-
-INSERT INTO `factura` (`nofactura`, `fecha`, `usuario`, `codcliente`, `totaltFactura`, `status`) VALUES
-(53, '2021-02-22 20:31:48', 1, 79, '565.00', 1);
 
 -- --------------------------------------------------------
 
@@ -482,7 +474,7 @@ INSERT INTO `usuario` (`idusuario`, `nombre`, `correo`, `usuario`, `clave`, `rol
 (6, 'dave', 'dave@gmail.com', 'dave001', 'fa246d0262c3925617b0c72bb20eeb1d', 2, 0, NULL),
 (7, 'Kurt', 'root03@gmail.com', 'kurt23', '202cb962ac59075b964b07152d234b70', 1, 0, NULL),
 (8, 'a145', 'a@gmail.com', 'a1', '202cb962ac59075b964b07152d234b70', 1, 1, NULL),
-(9, 'b', 'b@gmail.com', 'b2', '202cb962ac59075b964b07152d234b70', 5, 1, NULL),
+(9, 'br', 'b@gmail.com', 'b2', '202cb962ac59075b964b07152d234b70', 5, 1, NULL),
 (10, 'c', 'c@gmail.com', 'cc2', '202cb962ac59075b964b07152d234b70', 2, 1, NULL),
 (11, 'n', 'n@gmail.com', 'n2', '202cb962ac59075b964b07152d234b70', 5, 1, NULL),
 (12, 'fr', 'fr@outllok.ccom', 'out', '202cb962ac59075b964b07152d234b70', 2, 1, NULL),
@@ -500,7 +492,10 @@ INSERT INTO `usuario` (`idusuario`, `nombre`, `correo`, `usuario`, `clave`, `rol
 (42, 'dave Rodriguez', 'root01xr53@gmail.com', '4www', '310dcbbf4cce62f762a2aaa148d556bd', 5, 1, 0),
 (43, 'frre free', 'roo1fft01x@gmail.com', 'cliente', '202cb962ac59075b964b07152d234b70', 5, 1, 0),
 (44, 'clit cclit', 'clir@gma.com', 'cliente2', 'd81f9c1be2e08964bf9f24b15f0e4900', 5, 1, 0),
-(45, 'dave rddd', 'root22301x@gmail.com', 'client433', 'c6f057b86584942e415435ffb1fa93d4', 5, 1, 0);
+(45, 'dave rddd', 'root22301x@gmail.com', 'client433', 'c6f057b86584942e415435ffb1fa93d4', 5, 1, 0),
+(46, 'dave Rodriguez', 'root012323@gmail.com', 'public', '202cb962ac59075b964b07152d234b70', 5, 1, 0),
+(47, 'david prueba', 'asd@gmail.com', 'cliente3', '202cb962ac59075b964b07152d234b70', 5, 1, 0),
+(48, 'frre fire', 'ggt@gmai.com', 'cliente5', '202cb962ac59075b964b07152d234b70', 5, 1, 0);
 
 --
 -- Índices para tablas volcadas
@@ -606,7 +601,7 @@ ALTER TABLE `usuario`
 -- AUTO_INCREMENT de la tabla `cliente`
 --
 ALTER TABLE `cliente`
-  MODIFY `idcliente` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=82;
+  MODIFY `idcliente` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=85;
 
 --
 -- AUTO_INCREMENT de la tabla `configuracion`
@@ -624,31 +619,31 @@ ALTER TABLE `datos`
 -- AUTO_INCREMENT de la tabla `detallefactura`
 --
 ALTER TABLE `detallefactura`
-  MODIFY `correlativo` bigint(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=116;
+  MODIFY `correlativo` bigint(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=298;
 
 --
 -- AUTO_INCREMENT de la tabla `detalle_temp`
 --
 ALTER TABLE `detalle_temp`
-  MODIFY `correlativo` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=541;
+  MODIFY `correlativo` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=714;
 
 --
 -- AUTO_INCREMENT de la tabla `entradas`
 --
 ALTER TABLE `entradas`
-  MODIFY `correlativo` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=16;
+  MODIFY `correlativo` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=17;
 
 --
 -- AUTO_INCREMENT de la tabla `evento`
 --
 ALTER TABLE `evento`
-  MODIFY `codevento` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=16;
+  MODIFY `codevento` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=17;
 
 --
 -- AUTO_INCREMENT de la tabla `factura`
 --
 ALTER TABLE `factura`
-  MODIFY `nofactura` bigint(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=54;
+  MODIFY `nofactura` bigint(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=173;
 
 --
 -- AUTO_INCREMENT de la tabla `ingresos`
@@ -678,7 +673,7 @@ ALTER TABLE `tip_seminario`
 -- AUTO_INCREMENT de la tabla `usuario`
 --
 ALTER TABLE `usuario`
-  MODIFY `idusuario` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=46;
+  MODIFY `idusuario` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=49;
 
 --
 -- Restricciones para tablas volcadas

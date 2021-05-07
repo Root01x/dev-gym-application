@@ -29,7 +29,11 @@
 		}
 
 
-		$query = mysqli_query($conection,"SELECT CONCAT(cl.nombre, ' ', cl.apellidos) as cliente, cl.cedula, cl.idcliente, cl.telefono FROM detallefactura df INNER JOIN cliente cl ON df.cod_cliente = cl.idcliente WHERE df.codevento = $eventoCodigo");
+		$query = mysqli_query($conection,"SELECT CONCAT(cl.nombre, ' ', cl.apellidos) as cliente, cl.cedula, cl.idcliente, cl.telefono 
+											FROM detallefactura df 
+											INNER JOIN cliente cl ON df.cod_cliente = cl.idcliente  
+											INNER JOIN factura fc ON fc.nofactura = df.nofactura
+											WHERE df.codevento = $eventoCodigo AND fc.status!=2 AND fc.status!=6");
 		
 
 		$result = mysqli_num_rows($query);
@@ -37,11 +41,20 @@
 		if($result > 0){
 
 			//$clientes = mysqli_fetch_assoc($query);
-
+			//selecciona el evento
 			$query_semi = mysqli_query($conection,"SELECT * FROM evento WHERE codevento =$eventoCodigo");
-			$seminario = mysqli_fetch_assoc($query_semi);
-			$cod_semi = $seminario['codevento'];
 
+			$query_tarjeta = mysqli_query($conection,"SELECT * FROM detallefactura df INNER JOIN factura fc ON df.nofactura= fc.nofactura WHERE  df.codevento =$eventoCodigo and fc.status=5");
+			$query_deposito = mysqli_query($conection,"SELECT * FROM detallefactura df INNER JOIN factura fc ON df.nofactura= fc.nofactura WHERE df.codevento =$eventoCodigo and fc.status=3");
+			$query_efectivo = mysqli_query($conection,"SELECT * FROM detallefactura df INNER JOIN factura fc ON df.nofactura= fc.nofactura WHERE df.codevento =$eventoCodigo and fc.status=1");
+			$seminario = mysqli_fetch_assoc($query_semi);
+			$total_tarjeta= mysqli_num_rows($query_tarjeta);
+			$total_deposito= mysqli_num_rows($query_deposito);
+			$total_efectivo= mysqli_num_rows($query_efectivo);
+
+			
+			$cod_semi = $seminario['codevento'];
+			$user2     = $_SESSION['nombre'];
 			ob_start();
 		    include(dirname('__FILE__').'/factura.php');
 		    $html = ob_get_clean();
@@ -59,6 +72,8 @@
 			ob_get_clean();
 			$dompdf->stream('factura_'.$cod_semi.'.pdf',array('Attachment'=>0));
 			exit;
+		}else{
+			echo "No hay personas asignadas a este seminario aun";
 		}
 	}
 

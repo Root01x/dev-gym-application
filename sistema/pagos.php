@@ -149,7 +149,7 @@ if ($_SESSION['rol'] != 5) {
   
         <div class="form-group">
                 <label for="exampleInputPassword1">Numero de Boucher:</label>
-                <input type="number" value="" name="total" required class="form-control" id="exampleInputPassword1" >
+                <input type="number" value="" name="total" class="form-control" id="boucher" required >
               </div>
             <br>
             <button class="btn_save" id="btn_factura_deposito"><i class="fas fa-id-card"></i> Procesar Pago</button>

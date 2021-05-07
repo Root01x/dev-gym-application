@@ -52,6 +52,7 @@ if ($_SESSION['rol'] != 1 && $_SESSION['rol'] != 2) {
                 <th>Cliente</th>
                 <th>Encargado</th>
                 <th>Estado</th>
+                <th>Numero de Boucher</th>
                 <th class="textright">Valor Total</th>
                 <th class="textright">Acciones</th>
 
@@ -80,7 +81,8 @@ if ($_SESSION['rol'] != 1 && $_SESSION['rol'] != 2) {
 
            $query = mysqli_query($conection,"SELECT f.nofactura,f.fecha,f.totaltFactura,f.codcliente,f.status,
                                                     u.nombre as encargado,
-                                                    cl.nombre as cliente
+                                                    cl.nombre as cliente,
+                                                    f.boucher
                                             FROM factura f
                                             INNER JOIN usuario u
                                             ON f.usuario = u.idusuario
@@ -93,10 +95,10 @@ if ($_SESSION['rol'] != 1 && $_SESSION['rol'] != 2) {
            if ($result > 0) {
                while ($data = mysqli_fetch_array($query)) {
 
-                    if ($data["status"] == 1 || $data["status"] == 5) {
+                    if ($data["status"] == 1 || $data["status"] == 5 || $data["status"] == 3) {
                         $estado = '<span class="pagada">Pagada</span>';
                         # code...
-                    }else if ($data["status"] == 3) {
+                    }else if ($data["status"] == 6) {
                         $estado = '<span class="pendiente">Pendiente</span>';
                         # code...
                     }
@@ -111,36 +113,50 @@ if ($_SESSION['rol'] != 1 && $_SESSION['rol'] != 2) {
                 <td><?php echo $data["cliente"];?></td>
                 <td><?php echo $data["encargado"];?></td>
                 <td class="estado"><?php echo $estado;?></td>
+                <td><?php echo $data["boucher"];?></td>
                 <td class="textright totalfactura"><span></span><?php echo '$ '.$data["totaltFactura"]; ?></td>
                
                 <td>
                     <div class="div_acciones">
-                    <!--   
-                    <div>
-                            <button class="btn_view view_factura" type="button" cl="<?php echo $data["concliente"];?>"f="<?php echo $data['nofactura'];?>"><i class="fas fa-eye"></i></button>
-
-                        </div>
-                -->
+                  
 
                     <?php 
-                        if($data["status"]==1)
+                        if($data["status"]==1 || $data["status"]==5 || $data["status"]==3  )
                         {
 
                         
                     ?>
                     <div class="div_factura">
-                            <button class="btn_anular anular_factura" fac="<?php echo $data["nofactura"]; ?>"><i class="fas fa-ban"></i></button>
+
+                            <button class="btn_anular anular_factura" fac="<?php echo $data["nofactura"]; ?>" title="Anular"><i class="fas fa-ban"></i></button>
+                            <button type="button" class="btn_aprobar inactive"><i class="fas fa-check-circle"></i></button>
+                            
                     </div>
                     <?php 
-                        }else{
+                        }else if($data["status"]==6){
                             
                     ?>
                     <div class="div_factura">
+
                         <button type="button" class="btn_anular inactive"><i class="fas fa-ban"></i></button>
+                        <button class="btn_aprobar aprobar_factura" fac="<?php echo $data["nofactura"]; ?>" title="Aprobar"><i class="fas fa-check-circle"></i></button>
+                          
 
                     </div>
 
-                    <?php } ?>
+                    <?php }
+                    else {
+                        ?>
+                        
+                        <button type="button" class="btn_anular inactive"><i class="fas fa-ban"></i></button>
+                        <button type="button" class="btn_aprobar inactive"><i class="fas fa-check-circle"></i></button>
+
+                        <?php
+                    }
+                    
+                    
+                    ?>
+                    
                     </div>
                 </td>
 

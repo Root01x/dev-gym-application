@@ -41,7 +41,7 @@
 			$query_efectivo = mysqli_query($conection,"SELECT totaltFactura FROM factura WHERE status =1");
 			$query_tarjeta = mysqli_query($conection,"SELECT totaltFactura FROM factura WHERE status =5");
 			$query_deposito = mysqli_query($conection,"SELECT totaltFactura FROM factura WHERE status =3");
-			$query_total = mysqli_query($conection,"SELECT totaltFactura FROM factura WHERE status !=2");
+			$query_total = mysqli_query($conection,"SELECT totaltFactura FROM factura WHERE status !=2 and status !=6");
 			$user2     = $_SESSION['nombre'];
 			//$seminario = mysqli_fetch_assoc($query_efectivo);
 			$cod_semi = $seminario['codevento'];

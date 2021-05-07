@@ -634,6 +634,7 @@
  
         }else {
              $codcliente = $_POST['codcliente'];
+             $boucher = $_POST['boucher'];
         }
  
         $token = md5($_SESSION['idUser']);
@@ -655,7 +656,8 @@
                 $factu=$data['nofactura'];
 
                 include "../conection.php";
-                $alv = mysqli_query($conection,"UPDATE factura SET status = 3 WHERE nofactura = $factu");
+                $alv = mysqli_query($conection,"UPDATE factura SET status = 6, boucher = '$boucher' WHERE nofactura = $factu");
+                
         
                 echo json_encode($data,JSON_UNESCAPED_UNICODE);
             }else {
@@ -714,7 +716,7 @@
          if (!empty($_POST['nofactura'])) {
  
              $nofactura = $_POST['nofactura'];
-             $query = mysqli_query($conection,"SELECT * FROM factura WHERE nofactura = '$nofactura' AND status = 1");
+             $query = mysqli_query($conection,"SELECT * FROM factura WHERE nofactura = '$nofactura' AND status != 2");
              mysqli_close($conection);
 
              $result = mysqli_num_rows($query);
@@ -757,6 +759,33 @@
           exit;
     }
 
+      //APROBAR DEPOSITO BANCARIO
+      if ($_POST['action'] == 'aprobarFactura') 
+      {
+            
+            if (!empty($_POST['noFactura'])) {
+    
+                $nofactura = $_POST['noFactura'];
+  
+                //$query_anular = mysqli_query($conection,"CALL anular_factura($nofactura)");
+                $query_anular = mysqli_query($conection,"UPDATE factura SET status = 3 WHERE nofactura = $nofactura");
+                mysqli_close($conection);
+               
+                $result = mysqli_num_rows($query_anular);
+  
+                if ($result > 0) {
+   
+                   //$data = mysqli_fetch_assoc($query_anular);
+                   //echo json_encode($data,JSON_UNESCAPED_UNICODE);
+                   echo 'existoso';
+                   exit;
+                    # code...
+                }
+                
+            }
+            echo 'error';
+            exit;
+      }
      //refrescar codigo tarjeta
      if($_POST['action'] == 'obtenerCodigo')
      {

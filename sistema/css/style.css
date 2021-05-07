@@ -340,14 +340,18 @@ table td{
 }
 .btn_cancel,.btn_ok{
 	width: 124px;
-	background: #478ba2;
+	background: #1d84e4;
 	color: #FFF;
 	display: inline-block;
 	padding: 5px;
 	border-radius: 5px;
 	cursor: pointer;
 	margin: 15px;
+	border: none;
+	font-weight: bold;
+	font-size: 15px;
 }
+
 .btn_cancel{
 	background: #42b343;
 }
@@ -502,7 +506,7 @@ background: #ddd;
 	display: none;
 }
 .modal h1{
-	color: #0E725D;
+	color: #0a4661;
 	text-transform: uppercase;
 
 }
@@ -610,6 +614,16 @@ background: #ddd;
 }
 .btn_anular{
 	background-color: #f36a6a;
+	border: 0;
+	border-radius: 5px;
+	cursor: pointer;
+	padding: 10px;
+	margin: 0 3px;
+	color: #FFF;
+}
+
+.btn_aprobar{
+	background-color: #74aa5e;
 	border: 0;
 	border-radius: 5px;
 	cursor: pointer;

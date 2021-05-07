@@ -650,16 +650,22 @@ $(document).ready(function(){
         e.preventDefault();
       
         var rows = $('#detalle_venta tr').length;
-        if (rows > 0) {
+        var valor = $('#boucher').val().length;
+
+        if (valor<6) {
+            alert("NUMERO BOUCHER INVALIDO");
+            //location.reload();
+        }else if (rows > 0) {
 
             var action = 'procesarVentaDeposito';
             var codcliente = $('#idcliente').val();
+            var boucher = $('#boucher').val();
 
             $.ajax({ 
                 url: 'ajax.php',
                 type: 'POST',
                 async: true,
-                data: {action:action,codcliente:codcliente},
+                data: {action:action,codcliente:codcliente,boucher:boucher},
         
                 success: function(response)
                 {
@@ -672,7 +678,8 @@ $(document).ready(function(){
                        
                        //PdfCreate(info.codcliente,info.nofactura)
 
-                       location.reload();
+                       //location.reload();
+                       window.location.href = "/dev-seminarios-application/sistema/";
                      }else{
                          console.log('no data');
                          alert("ALGO SALIO MAL")
@@ -685,7 +692,7 @@ $(document).ready(function(){
                 }
             });
 
-        }
+        }else(alert("NO HAY SEMINARIOS AGREGADOS"))
     });
         //facturar transaccion reservas
     $('#btn_factura_venta_reservas').click(function(e){
@@ -753,7 +760,7 @@ $(document).ready(function(){
                    $('.bodyModal').html('<form action="" method="post" name="form_anular_factura" id="form_anular_factura" onsubmit="event.preventDefault(); anularFactura();">'+
                                             '<h1><i class="fas fa-calendar-times" style="font-size: 35pt;"></i><br> Anular Transaccion</h1><br>'+
                                             
-                                            '<p style="color: red">Esta seguro de anular esta transaccion? </p><br>'+
+                                            '<p style="color: red;font-weight: bold;">ESTA SEGURO DE ANULAR ESTA TRANSACCION? </p><br>'+
 
                                             '<p><strong>No. '+info.nofactura+'</strong></p>'+
                                             '<p><strong>Monto. $ '+info.totaltFactura+'</strong></p>'+
@@ -765,7 +772,59 @@ $(document).ready(function(){
                                             '<div class="alert alertAddEvento"></div>'+
 
                                             
-                                            '<button type="submit" class="btn_ok"> Anular</button>'+
+                                            '<button type="submit" class="btn_ok"> Confirmar</button>'+
+                                            '<a href="#" class="btn_cancel" onclick="closeModal();">Cerrar</a>'+
+                                          '</form>');
+                                          
+
+                }
+            },
+            error: function(error){
+                console.log(error);
+            }
+        });
+        $('.modal').fadeIn();
+
+    });
+
+    //modal CONfirMAR APROBAR DEPOSITO BANCARIO
+    $('.aprobar_factura').click(function(e){
+        e.preventDefault();
+        var nofactura = $(this).attr('fac');
+        var action = 'infoFactura';
+       
+        $.ajax({
+            url: 'ajax.php',
+            type: 'POST',
+            async: true,
+            data: {action:action,nofactura:nofactura},
+
+            success: function(response){
+               
+                if(response !='error'){
+                    var info = JSON.parse(response);
+                   
+                   
+                
+
+                   $('.bodyModal').html('<form action="" method="post" name="form_anular_factura" id="form_anular_factura" onsubmit="event.preventDefault(); aprobarFactura();">'+
+                                            '<h1><i class="fas fa-calendar-check" style="font-size: 35pt;"></i><br> Aprobar Transaccion</h1><br>'+
+                                            
+                                            '<p style="color: green;font-weight: bold;">ESTA SEGURO DE APROBAR ESTE DEPOSITO BANCARIO? </p><br>'+
+
+                                            '<p><strong>No. '+info.nofactura+'</strong></p>'+
+                                            
+                                            '<p><strong>Monto. '+info.totaltFactura+'$ </strong></p>'+
+                                            '<p><strong>Boucher. '+info.boucher+'</strong></p>'+
+                                            '<p><strong>Fecha. '+info.fecha+'</strong></p>'+
+                                            '<input type="hidden" name="action" value="aprobarFactura">'+
+                                            '<input type="hidden" name="no_factura" id="no_factura" value="'+info.nofactura+'" required></input>'+
+
+                                           
+                                            '<div class="alert alertAddEvento"></div>'+
+
+                                            
+                                            '<button type="submit" class="btn_ok"> Confirmar</button>'+
                                             '<a href="#" class="btn_cancel" onclick="closeModal();">Cerrar</a>'+
                                           '</form>');
                                           
@@ -1095,8 +1154,45 @@ function anularFactura(){
             }else{
                 $('#row_'+noFactura+' .estado').html('<span class="anulada">Anulada</span>');
                 $('#form_anular_factura .btn_ok').remove();
-                $('#row_'+noFactura+' .div_factura').html('<button type="button" class="btn_anular inactive"><i class="fas fa-ban"></i></button>');
+                $('#row_'+noFactura+' .div_factura').html('<button type="button" class="btn_anular inactive"><i class="fas fa-ban"></i></button>'+
+                '<button type="button" class="btn_aprobar inactive"><i class="fas fa-check-circle"></i></button>');
                 $('.alertAddEvento').html('<p>Transaccion Anulada.</p>');
+                
+
+            }
+                     
+        },
+        error: function(error){
+
+        }
+    });
+
+
+}
+
+function aprobarFactura(){
+    var noFactura = $('#no_factura').val();
+    var action = 'aprobarFactura';
+    
+    $.ajax({
+        url: 'ajax.php',
+        type: 'POST',
+        async: true,
+        data: {action:action,noFactura:noFactura},
+
+        success: function(response)
+        {
+            if(response == 'error'){
+                $('.alertAddEvento').html('<p style="color:red;">Error al aprobar la transaccion.</p>');
+            }else{
+                $('#row_'+noFactura+' .estado').html('<span class="pagada">Pagada</span>');
+                $('#form_anular_factura .btn_ok').remove();
+                $('#row_'+noFactura+' .div_factura').html('<button type="button" class="btn_anular anular_factura" fac="'+noFactura+'" title="Anular"><i class="fas fa-ban"></i></button>'+
+                '<button type="button" class="btn_aprobar inactive"><i class="fas fa-check-circle"></i></button>');
+                //$('#row_'+noFactura+' .div_factura').html('');
+               
+                $('.alertAddEvento').html('<p>Deposito Aprobado.</p>');
+                //location.reload();
                 
 
             }

@@ -41,11 +41,19 @@
 			</td>
 			<td class="info_factura">
 				<div class="round">
-					<span class="h3">REPORTE</span>
-					<p>Seminario: <strong><?php echo 1 ?></strong></p>
-					<p>Fecha: <?php echo 2 ?></p>
-					<p>Hora: <?php echo 3 ?></p>
-					<p>Encargado: <?php echo 4 ?></p>
+					<span class="h3">REPORTE SEMINARIO</span>	
+							
+					<p>Fecha: <?php 
+					$fechaActual = date('d-m-Y');
+   
+					echo $fechaActual;?></p>
+					<p>Hora: <?php 
+					date_default_timezone_set('America/Mexico_City');
+					$hora = date("H:i:s");;  
+					
+					echo $hora ?></p>
+
+					<p>Encargado: <?php echo $user2 ?></p>
 				</div>
 			</td>
 		</tr>
@@ -110,19 +118,19 @@
 			<tfoot id="detalle_totales">
 				<tr>
 					<td colspan="3" class="textright"><span>TOTAL EN EFECTIVO :</span></td>
-					<td class="textright"><span><?php echo 1; ?></span></td>
+					<td class="textright"><span><?php echo $seminario['precio']*$total_efectivo."$"; ?></span></td>
 				</tr>
 				<tr>
 					<td colspan="3" class="textright"><span>TOTAL POR TARJETA :</span></td>
-					<td class="textright"><span><?php echo 3; ?></span></td>
+					<td class="textright"><span><?php echo $seminario['precio']*$total_tarjeta."$"; ?></span></td>
 				</tr>
 				<tr>
 					<td colspan="3" class="textright"><span>TOTAL POR TRANSFERENCIA :</span></td>
-					<td class="textright"><span><?php echo 4; ?></span></td>
+					<td class="textright"><span><?php echo $seminario['precio']*$total_deposito."$"; ?></span></td>
 				</tr>
 				<tr>
 					<td colspan="3" class="textright"><span>VALOR TOTAL RECAUDADO:</span></td>
-					<td class="textright"><span><?php echo 4; ?></span></td>
+					<td class="textright"><span><?php echo $seminario['precio']*($total_efectivo+$total_deposito+$total_tarjeta)."$"; ?></span></td>
 				</tr>
 		</tfoot>
 	</table>

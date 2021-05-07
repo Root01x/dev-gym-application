@@ -25,7 +25,7 @@ if ($_SESSION['rol'] != 1 && $_SESSION['rol'] != 2) {
      }
  }
 
- if(!empty($_REQUEST['busqueda'])){
+ if(!empty($_REQUEST['busqueda'])){ 
      if(!is_numeric($_REQUEST['busqueda'])){
          header("location: buscar_transaccion.php");
      }
