@@ -58,7 +58,7 @@ session_start();
                             # code...
                         
                     ?>   
-                <th>Acciones</th>                    
+                                  
                 <?php }?>
             </tr>
 
@@ -145,11 +145,14 @@ session_start();
                     ?>
                 
                 
-                    
-                    
-                    
-                    <a class="link_edit" href="editar_cliente.php?id=<?php echo $data["idcliente"];?>">Editar</a>
-                    <a class="link_delete" href="eliminar_cliente.php?id=<?php echo $data["idcliente"];?>">Eliminar</a>
+
+                    <a class="link_edit" href="editar_evento.php?id=<?php echo $data["codevento"];?>">Editar</a>                   
+                   
+                    |
+                   <a class="link_delete del_event" href="#" event="<?php echo $data["codevento"];?>">Eliminar</a>
+                    |
+                   <a class="link_report rep_event" href="#" event="<?php echo $data["codevento"];?>">Reporte</a>
+
                     </td>
                     <?php
                         }

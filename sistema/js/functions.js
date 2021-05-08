@@ -679,7 +679,7 @@ $(document).ready(function(){
                        //PdfCreate(info.codcliente,info.nofactura)
 
                        //location.reload();
-                       window.location.href = "/dev-seminarios-application/sistema/";
+                       window.location.href = "/dev-seminarios-application/";
                      }else{
                          console.log('no data');
                          alert("ALGO SALIO MAL")
