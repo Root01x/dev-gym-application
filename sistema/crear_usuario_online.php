@@ -37,10 +37,13 @@
 
          //$rol = $_POST['rol'];
 
-         $result = 0;
+         $result  = 0;
          $result2 = 0;
+         $result3 = 0;
+         $result4 = 0;
          
-
+         
+        /*
          if (is_numeric($cedula)) 
          {
              
@@ -49,33 +52,115 @@
 
              $result     = mysqli_num_rows($query);
              $result2     = mysqli_num_rows($query2);
+
+
+             if ($result2 > 0 && $result2 >0 ) 
+             {
+                 $alert = '<p class="msg_error"> EL NUMERO DE CEDULA, CODIGO DE TARJETA O CORREO YA ESTA EN USO</p>';
+                 
+             }
+    
+             else {
+    
+                 $query_insert = mysqli_query($conection,"INSERT INTO cliente(cedula,nombre,apellidos,Correo,telefono,direccion,usuario_id,cod_tarjeta) 
+                                                       VALUES('$cedula', '$nombre', '$apellido', '$email', '$telefono', '$direccion', 0,'$codTarjeta')") ;
+    
+                 $query_insert2 = mysqli_query($conection,"INSERT INTO usuario(nombre,correo,usuario,clave,rol) VALUES('$nombre $apellido', '$email', '$user', '$clave', 5)") ;
+    
+    
+                 print_r($query_insert);
+                 if ($query_insert && $query_insert2) {
+                     $alert = '<p class="msg_save"> Cliente guardado correctamente</p>';
+                     # code...
+                 }
+                 else{
+                     $alert = '<p class="msg_error"> Error al guardar usuario</p>';
+                 }
+             }
              
 
          }
-
-         if ($result2 > 0 && $result2 >0 ) 
-         {
-             $alert = '<p class="msg_error"> EL NUMERO DE CEDULA, CODIGO DE TARJETA O CORREO YA ESTA EN USO</p>';
-             
-         }
-
          else {
-
-             $query_insert = mysqli_query($conection,"INSERT INTO cliente(cedula,nombre,apellidos,Correo,telefono,direccion,usuario_id,cod_tarjeta) 
-                                                   VALUES('$cedula', '$nombre', '$apellido', '$email', '$telefono', '$direccion', 0,'$codTarjeta')") ;
-
-             $query_insert2 = mysqli_query($conection,"INSERT INTO usuario(nombre,correo,usuario,clave,rol) VALUES('$nombre $apellido', '$email', '$user', '$clave', 5)") ;
+            $alert = '<p class="msg_error"> FORMATO DE CEDULA INCORRECTO</p>';
+        }*/
 
 
-             print_r($query_insert);
-             if ($query_insert && $query_insert2) {
-                 $alert = '<p class="msg_save"> Cliente guardado correctamente</p>';
-                 # code...
-             }
-             else{
-                 $alert = '<p class="msg_error"> Error al guardar usuario</p>';
-             }
-         }
+        if (is_numeric($cedula)) 
+        {
+            
+
+               
+
+               $query      = mysqli_query($conection,"SELECT * FROM cliente WHERE cod_tarjeta = '$codTarjeta' and status=1 "); # code...
+               $query2     = mysqli_query($conection,"SELECT * FROM cliente WHERE cedula = '$cedula'  and status=1"); # code...
+              
+               $query3     = mysqli_query($conection,"SELECT * FROM usuario WHERE correo = '$email' ");
+               $query4     = mysqli_query($conection,"SELECT * FROM usuario WHERE usuario = '$user' ");
+
+               if ($codTarjeta =='') {
+               $result = 0;
+               }else {
+               $result     = mysqli_num_rows($query);
+               }
+
+               
+               $result2    = mysqli_num_rows($query2);
+               $result3    = mysqli_num_rows($query3);
+               $result4    = mysqli_num_rows($query4);
+
+
+               if ($result > 0 ) 
+               {
+                   $alert = '<p class="msg_error"> EL CODIGO DE TARJETA YA ESTA EN USO</p>';
+                   
+               }
+
+               else if ($result2 > 0 ) 
+               {
+                   $alert = '<p class="msg_error"> EL NUMERO DE CEDULA YA ESTA EN USO</p>';
+                   
+               }
+
+               else if ($result3 > 0 ) 
+               {
+                   $alert = '<p class="msg_error"> EL CORREO YA ESTA EN USO</p>';
+                   
+               }
+
+               else if ($result4 > 0 ) 
+               {
+                   $alert = '<p class="msg_error"> EL NOMBRE USUARIO YA ESTTA EN USO</p>';
+                   
+               }
+
+
+               else if($result == 0 && $result2==0 && $result3 == 0 && $result4==0) {
+
+                   $query_insert = mysqli_query($conection,"INSERT INTO cliente(cedula,nombre,apellidos,Correo,telefono,direccion,usuario_id,cod_tarjeta) 
+                                                       VALUES('$cedula', '$nombre', '$apellido', '$email', '$telefono', '$direccion', 0,'$codTarjeta')") ;
+
+                   $query_insert2 = mysqli_query($conection,"INSERT INTO usuario(nombre,correo,usuario,clave,rol) VALUES('$nombre $apellido', '$email', '$user', '$clave', 5)") ;
+
+
+                   //print_r($query_insert);
+                   if ($query_insert && $query_insert2) {
+                       $alert = '<p class="msg_save"> Cliente guardado correctamente</p>';
+                       # code...
+                   }
+                   else{
+                       $alert = '<p class="msg_error"> Error al guardar usuario</p>';
+                   }
+               }
+               else {
+                   $alert = '<p class="msg_error"> ERROR INESPERADO CONSULTE CON UN ADMINISRADOR</p>';
+               }
+            
+
+        }
+        else {
+           $alert = '<p class="msg_error"> FORMATO DE CEDULA INCORRECTO</p>';
+        }
+        
 
          
      }

@@ -38,26 +38,32 @@ if ($_SESSION['rol'] != 9) {
    
                 $query      = mysqli_query($conection,"SELECT * FROM cliente WHERE (cedula = '$cedula' or cod_tarjeta = '$codTarjeta') and status=1"); # code...
                 $result     = mysqli_fetch_array($query);
-            }
 
-            if ($result > 0) 
-            {
-                $alert = '<p class="msg_error"> EL NUMERO DE CEDULA O CODIGO DE TARJETA YA ESTA EN USO</p>';
-            }
-
-            else {
-
-                $query_insert = mysqli_query($conection,"INSERT INTO cliente(cedula,nombre,apellidos,Correo,telefono,direccion,usuario_id,cod_tarjeta) 
-                                                      VALUES('$cedula', '$nombre', '$apellido', '$email', '$telefono', '$direccion', '$usuario_id','$codTarjeta')") ;
-                
-                if ($query_insert) {
-                    $alert = '<p class="msg_save"> Cliente guardado correctamente</p>';
-                    # code...
+                if ($result > 0) 
+                {
+                    $alert = '<p class="msg_error"> EL NUMERO DE CEDULA O CODIGO DE TARJETA YA ESTA EN USO</p>';
                 }
-                else{
-                    $alert = '<p class="msg_error"> Error al guardar usuario</p>';
-                }
+
+                else {
+
+                    $query_insert = mysqli_query($conection,"INSERT INTO cliente(cedula,nombre,apellidos,Correo,telefono,direccion,usuario_id,cod_tarjeta) 
+                                                        VALUES('$cedula', '$nombre', '$apellido', '$email', '$telefono', '$direccion', '$usuario_id','$codTarjeta')") ;
+                    
+                    if ($query_insert) {
+                        $alert = '<p class="msg_save"> Cliente guardado correctamente</p>';
+                        # code...
+                    }
+                    else{
+                        $alert = '<p class="msg_error"> Error al guardar usuario</p>';
+                    }
+                 }
+
+
+            } else {
+                $alert = '<p class="msg_error"> FORMATO DE CEDULA INCORRECTO</p>';
             }
+
+            
 
         }
             //mysqli_close($conection);
