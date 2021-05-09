@@ -36,7 +36,7 @@ if ($_SESSION['rol'] != 9) {
             if (is_numeric($cedula)) 
             {
    
-                $query      = mysqli_query($conection,"SELECT * FROM cliente WHERE (cedula = '$cedula' or cod_tarjeta = '$codTarjeta') and status!=2 AND status !=6"); # code...
+                $query      = mysqli_query($conection,"SELECT * FROM cliente WHERE (cedula = '$cedula' or cod_tarjeta = '$codTarjeta') and status=1"); # code...
                 $result     = mysqli_fetch_array($query);
             }
 
