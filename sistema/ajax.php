@@ -706,7 +706,7 @@
         mysqli_close($conection);
         exit;
      
-     }
+        }
 
 
      //INFORMACCIO TRASNACCIONS
@@ -855,9 +855,13 @@
                    $query2 = mysqli_query($conection,"SELECT *
                                                      FROM cliente c 
                                                      INNER JOIN detallefactura d 
+                                                     INNER JOIN factura fc
+                                                     ON fc.nofactura = d.nofactura
                                                      ON cod_cliente = idcliente
                                                      WHERE cod_tarjeta = '$codigo' 
-                                                     and d.codevento = $codigoEvento");
+                                                     and d.codevento = $codigoEvento
+                                                     and fc.status !=2 and fc.status !=6
+                                                     ");
 
                    
                  

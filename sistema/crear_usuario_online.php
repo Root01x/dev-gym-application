@@ -129,7 +129,7 @@
 
                else if ($result4 > 0 ) 
                {
-                   $alert = '<p class="msg_error"> EL NOMBRE USUARIO YA ESTTA EN USO</p>';
+                   $alert = '<p class="msg_error"> EL NOMBRE USUARIO YA ESTA EN USO</p>';
                    
                }
 
