@@ -99,10 +99,14 @@ if ($_SESSION['rol'] != 1 && $_SESSION['rol'] != 2) {
 
                 else if($result == 0 && $result2==0 && $result3 == 0 && $result4==0) {
 
-                    $query_insert = mysqli_query($conection,"INSERT INTO cliente(cedula,nombre,apellidos,Correo,telefono,direccion,usuario_id,cod_tarjeta) 
-                                                        VALUES('$cedula', '$nombre', '$apellido', '$email', '$telefono', '$direccion', $usuario_id,'$codTarjeta')") ;
+                    $ramdon_token = $email.$cedula;                   
 
-                    $query_insert2 = mysqli_query($conection,"INSERT INTO usuario(nombre,correo,usuario,clave,rol) VALUES('$nombre $apellido', '$email', '$user', '$clave', 5)") ;
+                   $token_user   = md5($ramdon_token);
+
+                    $query_insert = mysqli_query($conection,"INSERT INTO cliente(cedula,nombre,apellidos,Correo,telefono,direccion,usuario_id,token_user,cod_tarjeta) 
+                                                        VALUES('$cedula', '$nombre', '$apellido', '$email', '$telefono', '$direccion', $usuario_id,'$token_user','$codTarjeta')") ;
+
+                    $query_insert2 = mysqli_query($conection,"INSERT INTO usuario(nombre,correo,usuario,clave,rol,token_user) VALUES('$nombre $apellido', '$email', '$user', '$clave', 5,'$token_user')") ;
 
 
                     //print_r($query_insert);

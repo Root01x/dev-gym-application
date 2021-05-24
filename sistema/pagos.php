@@ -12,7 +12,7 @@ if ($_SESSION['rol'] != 5) {
  include "../conection.php";
  $usuario=$_SESSION['idUser'];
 
- $query2 = mysqli_query($conection,"SELECT c.idcliente as idcliente, c.nombre, c.apellidos, c.cedula, c.Correo, c.telefono FROM cliente c INNER JOIN usuario u on c.Correo=u.correo WHERE u.idusuario = $usuario");
+ $query2 = mysqli_query($conection,"SELECT c.idcliente as idcliente, c.nombre, c.apellidos, c.cedula, c.Correo, c.telefono FROM cliente c INNER JOIN usuario u on c.token_user=u.token_user WHERE u.idusuario = $usuario");
        
  //$result = mysqli_num_rows($query);
 
@@ -20,7 +20,7 @@ if ($_SESSION['rol'] != 5) {
  
  $nombre        = $data['nombre'];
  $apellidos     = $data['apellidos'];
- $cedula        = $data['cedula'];
+ $cedula        = $data['cedula']; 
  $email         = $data['Correo'];
  $telefono      = $data['telefono'];
  $codcliente    = $data['idcliente'];
