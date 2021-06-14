@@ -10,7 +10,7 @@
  if(!empty($_POST))
  {
      $alert = '';
-     if (empty($_POST['nombre']) || empty($_POST['cedula']) || empty($_POST['correo']) ||  empty($_POST['telefono']) || empty($_POST['direccion']) || empty($_POST['cod_tarjeta'] )) {
+     if (empty($_POST['nombre']) || empty($_POST['cedula']) || empty($_POST['correo']) ||  empty($_POST['telefono']) || empty($_POST['direccion']) ) {
 
      $alert = '<p class="msg_error"> Todos los campos son obligatorios</p>';  # code...
     }
@@ -29,9 +29,13 @@
         if (is_numeric($cedula) and $cedula !=0) {
 
            $query = mysqli_query($conection,"SELECT * FROM cliente
-                                             WHERE (cedula = '$cedula'  OR cod_tarjeta = '$codTarjeta') AND idcliente != $idcliente");
+                                             WHERE cedula = '$cedula' AND idcliente != $idcliente ");
            
+           $query1 = mysqli_query($conection,"SELECT * FROM cliente
+                                             WHERE cod_tarjeta = '$codTarjeta' AND idcliente != $idcliente AND cod_tarjeta != ''");
+
            $result = mysqli_fetch_array($query);
+           $result1 = mysqli_fetch_array($query1);
            
            //$result = count($result);
            # code...
@@ -42,7 +46,12 @@
          if($result > 0)
          {
 
-            $alert = '<p class="msg_error"> LA CEDULA O CODIGO DE TARJETA YA ESTA EN USO</p>';
+            $alert = '<p class="msg_error"> LA CEDULA YA ESTA EN USO</p>';
+
+         }else if($result > 0)
+         {
+
+            $alert = '<p class="msg_error"> EL CODIGO DE TARJETA YA ESTA EN USO</p>';
 
          }else{
             
@@ -137,7 +146,7 @@ if($result_sql == 0){
                     
                     <div>
                         <label for="as">Codigo Tarjeta</label>
-                        <input type="text" name="cod_tarjeta" id="cod_tarjeta" value="<?php echo $codTarjeta?>" required >
+                        <input type="text" name="cod_tarjeta" id="cod_tarjeta" value="<?php echo $codTarjeta?>" >
                     </div>
                     <div class="cod_btn" >
                         <label for="as"> </label>

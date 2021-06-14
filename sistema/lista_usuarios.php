@@ -10,7 +10,7 @@ if ($_SESSION['rol'] != 1 && $_SESSION['rol'] != 2) {
 
 ?>
 
-<!DOCTYPE html>
+<!DOCTYPE html> 
 <html lang="en">
 <head>
 	<meta charset="UTF-8">
@@ -44,7 +44,7 @@ if ($_SESSION['rol'] != 1 && $_SESSION['rol'] != 2) {
            $sql_registre = mysqli_query($conection,"SELECT COUNT(*) AS total_registro FROM usuario WHERE Status =1");
            $result_registre = mysqli_fetch_array($sql_registre);
            $total_resgistros = $result_registre['total_registro'];
-           $por_pagina = 4;
+           $por_pagina = 8;
 
            if (empty($_GET['pagina'])) {
                $pagina =1;

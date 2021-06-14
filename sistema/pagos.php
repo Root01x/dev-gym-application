@@ -12,7 +12,7 @@ if ($_SESSION['rol'] != 5) {
  include "../conection.php";
  $usuario=$_SESSION['idUser'];
 
- $query2 = mysqli_query($conection,"SELECT c.idcliente as idcliente, c.nombre, c.apellidos, c.cedula, c.Correo, c.telefono FROM cliente c INNER JOIN usuario u on c.Correo=u.correo WHERE u.idusuario = $usuario");
+ $query2 = mysqli_query($conection,"SELECT c.idcliente as idcliente, c.nombre, c.apellidos, c.cedula, c.Correo, c.telefono FROM cliente c INNER JOIN usuario u on c.token_user=u.token_user WHERE u.idusuario = $usuario");
        
  //$result = mysqli_num_rows($query);
 
@@ -20,10 +20,12 @@ if ($_SESSION['rol'] != 5) {
  
  $nombre        = $data['nombre'];
  $apellidos     = $data['apellidos'];
- $cedula        = $data['cedula'];
+ $cedula        = $data['cedula']; 
  $email         = $data['Correo'];
  $telefono      = $data['telefono'];
  $codcliente    = $data['idcliente'];
+
+ 
 
 
 ?>
@@ -143,13 +145,24 @@ if ($_SESSION['rol'] != 5) {
         <form action="" method="post"  id="trans">
         <input type="hidden" id="idcliente" name="idcliente" value="<?php echo $codcliente?>" required>
           <div class="leyend" style="text-align: justify; font-family: 'arial';padding-top: 35px;color:#515e80;padding-bottom: 12px;">Para transferencias bancarias depositar a la cuenta 2206100219 del banco Pichincha a nombre de
-          Gerardo Veliz con cedula de identidad  1314286947 e ingresar el boucher en el formulario siguiente.
+          Gerardo Veliz con cedula de identidad  1314286947 y cargar la foto del boucher en el formulario siguiente.
           </div>
 
   
         <div class="form-group">
-                <label for="exampleInputPassword1">Numero de Boucher:</label>
-                <input type="number" value="" name="total" class="form-control" id="boucher" required >
+                
+                <div class="photo" >
+                    <label for="foto" style="text-align: center;">Foto del Boucher:</label>
+                    <br>
+                    <div class="prevPhoto">
+                    <span class="delPhoto notBlock">X</span>
+                    <label for="foto"></label>
+                    </div>
+                    <div class="upimg">
+                    <input type="file" name="foto" id="foto" required>
+                    </div>
+                    <div id="form_alert"></div>
+            </div>
               </div>
             <br>
             <button class="btn_save" id="btn_factura_deposito"><i class="fas fa-id-card"></i> Procesar Pago</button>

@@ -84,7 +84,7 @@
             $alert = '<p class="msg_error"> FORMATO DE CEDULA INCORRECTO</p>';
         }*/
 
-
+ 
         if (is_numeric($cedula)) 
         {
             
@@ -129,17 +129,25 @@
 
                else if ($result4 > 0 ) 
                {
-                   $alert = '<p class="msg_error"> EL NOMBRE USUARIO YA ESTTA EN USO</p>';
+                   $alert = '<p class="msg_error"> EL NOMBRE USUARIO YA ESTA EN USO</p>';
                    
                }
 
 
                else if($result == 0 && $result2==0 && $result3 == 0 && $result4==0) {
 
-                   $query_insert = mysqli_query($conection,"INSERT INTO cliente(cedula,nombre,apellidos,Correo,telefono,direccion,usuario_id,cod_tarjeta) 
-                                                       VALUES('$cedula', '$nombre', '$apellido', '$email', '$telefono', '$direccion', 0,'$codTarjeta')") ;
+                   
+                    
+                
+                   
+                   $ramdon_token = $email.$cedula;                   
 
-                   $query_insert2 = mysqli_query($conection,"INSERT INTO usuario(nombre,correo,usuario,clave,rol) VALUES('$nombre $apellido', '$email', '$user', '$clave', 5)") ;
+                   $token_user   = md5($ramdon_token);
+
+                   $query_insert = mysqli_query($conection,"INSERT INTO cliente(cedula,nombre,apellidos,Correo,telefono,direccion,usuario_id,token_user,cod_tarjeta) 
+                                                       VALUES('$cedula', '$nombre', '$apellido', '$email', '$telefono', '$direccion', 0,'$token_user', '$codTarjeta')") ;
+
+                   $query_insert2 = mysqli_query($conection,"INSERT INTO usuario(nombre,correo,usuario,clave,rol,token_user) VALUES('$nombre $apellido', '$email', '$user', '$clave', 5,'$token_user')") ;
 
 
                    //print_r($query_insert);
@@ -195,7 +203,7 @@
             <br>
             <input type="password" name="clave2" id="clave2" placeholder="Confirmar Clave">
             <br>
-            <input type="number" name="cedula" id="cedula" placeholder="Numero de Cedula" required pattern="[0-9]+" title="Solo se permiten numeros!" autofocus>
+            <input type="number" name="cedula" id="cedula" placeholder="Numero de Cedula" required pattern="[0-9]+" title="Solo se permiten numeros!" >
             <br>
             <input type="text" name="nombre" id="nombre" placeholder="Nombres" required pattern="[A-Za-z ]{2,100}" title="Solo se permiten letras!">
             <br>
