@@ -18,11 +18,114 @@ if ($_SESSION['rol'] != 1 && $_SESSION['rol'] != 2) {
 <html lang="en">
 <head>
 	<meta charset="UTF-8">
+    <style>
+body {font-family: Arial, Helvetica, sans-serif;}
+
+#myImg {
+  border-radius: 5px;
+  cursor: pointer;
+  transition: 0.3s;
+}
+
+#myImg:hover {opacity: 0.7;}
+
+/* The Modal (background) */
+.modal1 {
+  display: none; /* Hidden by default */
+  position: fixed; /* Stay in place */
+  z-index: 1; /* Sit on top */
+  padding-top: 100px; /* Location of the box */
+  left: 0;
+  top: 0;
+  width: 100%; /* Full width */
+  height: 100%; /* Full height */
+  overflow: auto; /* Enable scroll if needed */
+  background-color: rgb(0,0,0); /* Fallback color */
+  background-color: rgba(0,0,0,0.9); /* Black w/ opacity */
+}
+
+/* Modal Content (image) */
+.modal-content {
+  margin: auto;
+  display: block;
+  width: 80%;
+  max-width: 700px;
+}
+
+/* Caption of Modal Image */
+#caption {
+  margin: auto;
+  display: block;
+  width: 80%;
+  max-width: 700px;
+  text-align: center;
+  color: #ccc;
+  padding: 10px 0;
+  height: 150px;
+}
+
+/* Add Animation */
+.modal-content, #caption {  
+  -webkit-animation-name: zoom;
+  -webkit-animation-duration: 0.6s;
+  animation-name: zoom;
+  animation-duration: 0.6s;
+}
+
+@-webkit-keyframes zoom {
+  from {-webkit-transform:scale(0)} 
+  to {-webkit-transform:scale(1)}
+}
+
+@keyframes zoom {
+  from {transform:scale(0)} 
+  to {transform:scale(1)}
+}
+
+/* The Close Button */
+.close1 {
+  position: absolute;
+  top: 15px;
+  right: 35px;
+  color: #f1f1f1;
+  font-size: 40px;
+  font-weight: bold;
+  transition: 0.3s;
+}
+
+.close1:hover,
+.close1:focus {
+  color: #bbb;
+  text-decoration: none;
+  cursor: pointer;
+}
+
+/* 100% Image Width on Smaller Screens */
+@media only screen and (max-width: 700px){
+  .modal-content {
+    width: 100%;
+  }
+}
+</style>
+
 	<?php include "includes/scripts.php"?>
 	<title>LISTA DE TRANSACCIONES</title>
 </head>
 <body>
  <?php include "includes/header.php"?>
+
+
+ 
+
+<!-- The Modal -->
+<div id="myModal" class="modal1">
+  <span class="close1">&times;</span>
+  <img class="modal-content" id="img01">
+  <div id="caption"></div>
+</div>
+
+
+
 	<section id="container">
 		
         <h1><i class="fas fa-list-alt"></i> Lista de Transacciones</h1>
@@ -52,9 +155,9 @@ if ($_SESSION['rol'] != 1 && $_SESSION['rol'] != 2) {
                 <th>Cliente</th>
                 <th>Encargado</th>
                 <th>Estado</th>
-                <th>Numero de Boucher</th>
+                <th>Imagen Boucher</th>
                 <th class="textright">Valor Total</th>
-                <th class="textright">Acciones</th>
+                <th class="" style="text-align: center">Acciones</th>
 
                 
             </tr>
@@ -79,7 +182,7 @@ if ($_SESSION['rol'] != 1 && $_SESSION['rol'] != 2) {
            $total_paginas = ceil($total_resgistros / $por_pagina);
 
 
-           $query = mysqli_query($conection,"SELECT f.nofactura,f.fecha,f.totaltFactura,f.codcliente,f.status,
+           $query = mysqli_query($conection,"SELECT f.nofactura,f.fecha,f.totaltFactura,f.codcliente,f.status,f.img_boucher,
                                                     u.nombre as encargado,
                                                     cl.nombre as cliente,
                                                     f.boucher
@@ -94,6 +197,13 @@ if ($_SESSION['rol'] != 1 && $_SESSION['rol'] != 2) {
            mysqli_close($conection);
            if ($result > 0) {
                while ($data = mysqli_fetch_array($query)) {
+
+                if ($data['img_boucher'] !='img_boucher.png') {
+                    $foto ='img/bouchers/'.$data['img_boucher'];
+                }else {
+                    $foto ='img/'.$data['img_boucher'];  
+                }
+
 
                     if ($data["status"] == 1 || $data["status"] == 5 || $data["status"] == 3) {
                         $estado = '<span class="pagada">Pagada</span>';
@@ -113,8 +223,8 @@ if ($_SESSION['rol'] != 1 && $_SESSION['rol'] != 2) {
                 <td><?php echo $data["cliente"];?></td>
                 <td><?php echo $data["encargado"];?></td>
                 <td class="estado"><?php echo $estado;?></td>
-                <td><?php echo $data["boucher"];?></td>
-                <td class="textright totalfactura"><span></span><?php echo '$ '.$data["totaltFactura"]; ?></td>
+                <td class="img_evento"><img class="open_img" id="myImg" src="<?php echo $foto;?>" alt="boucher"></td>
+                <td class="textright"><?php echo '$ '.$data["totaltFactura"]; ?></td>
                
                 <td>
                     <div class="div_acciones">
@@ -231,5 +341,10 @@ if ($_SESSION['rol'] != 1 && $_SESSION['rol'] != 2) {
                 </div>
 	</section>
 <?php include "includes/footer.php"?>
+
+
+
+
+
 </body>
 </html>

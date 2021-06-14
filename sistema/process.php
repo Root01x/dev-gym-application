@@ -22,7 +22,7 @@ if ($_SESSION['rol'] != 5) {
 }
 
 include "../conection.php";
-\Stripe\Stripe::setApiKey('sk_test_51IMmgKIFXq65j7mHdpO2Vy3sKvJtRHLxgBh8nx98yzW1VS1Bz0QVp5gOXwTf8bBtMShpDPTPcGHi84McavrPrwqD00Ur0eoZkT');
+\Stripe\Stripe::setApiKey('sk_test_51IMmgKIFXq65j7mHdpO2Vy3sKvJtRHLxgBh8nx98yzW1VS1Bz0QVp5gOXwTf8bBtMShpDPTPcGHi84McavrPrwqD00Ur0eoZkT'); 
 
 $token = $_POST['stripeToken'];
 $total  = 0;

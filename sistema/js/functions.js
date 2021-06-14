@@ -20,7 +20,7 @@ $(document).ready(function(){
                     $('#foto').val('');
                     return false;
                 }else{  
-                        contactAlert.innerHTML='';
+                        contactAlert.innerHTML=''; 
                         $("#img").remove();
                         $(".delPhoto").removeClass('notBlock');
                         var objeto_url = nav.createObjectURL(this.files[0]);
@@ -107,6 +107,37 @@ $(document).ready(function(){
         //alert(evento);
 
         PdfCreateReport(evento);
+
+    });
+    //abrir imagen
+    $('.open_img').click(function(){
+        
+        
+        var modal = document.getElementById("myModal");
+       
+        var modalImg = document.getElementById("img01");
+        var captionText = document.getElementById("caption");
+        //var img = $(this).attr("src");
+
+        modal.style.display = "block";
+        modalImg.src = this.src;
+        captionText.innerHTML = this.alt;
+        
+       
+        
+       
+
+        // Get the <span> element that closes the modal
+        var span = document.getElementsByClassName("close1")[0];
+        console.log(span);
+
+        // When the user clicks on <span> (x), close the modal
+        span.onclick = function() { 
+            
+            modal.style.display = "none";
+    
+        }
+        
 
     });
 
@@ -648,24 +679,60 @@ $(document).ready(function(){
      //procesar pago deposito bancario
      $('#btn_factura_deposito').click(function(e){
         e.preventDefault();
-      
+        var state = 0;
         var rows = $('#detalle_venta tr').length;
-        var valor = $('#boucher').val().length;
+        //var valor = $('#boucher').val().length;
+        //var fullPath = document.getElementById("img").src;
+    	var uploadFoto = document.getElementById("foto").value;
 
-        if (valor<6) {
-            alert("NUMERO BOUCHER INVALIDO");
+        if (uploadFoto !='') {
+          state = 1;
+        }
+        
+        
+        
+        if (state == 0 ) {
+
+            alert('NO HA CARGADO LA IMAGEN DEL BOUCHER');
             //location.reload();
         }else if (rows > 0) {
 
             var action = 'procesarVentaDeposito';
             var codcliente = $('#idcliente').val();
-            var boucher = $('#boucher').val();
+            //var boucher = $('#boucher').val();
+           // var foto = $('#foto')[0].files[0];
+            //var fileName = foto.name;
+            //var filetype = foto.type;
+            //var fileurl=foto.url;
+            //alert(fileName+filetype+fileurl)/// cconitnuar ddesde aqui alguna dia
 
+            var file_data = $('#foto')[0].files[0];
+            var form_data = new FormData();                  
+            form_data.append('file', file_data);
+            form_data.append('action', action);
+            form_data.append('codcliente', codcliente);
+            //form_data.append('boucher', boucher);
+            //form_data.append('fileName', fileName);
+            //form_data.append('srcimage', srcimage);
+           
+
+
+
+            //var srcimage = document.getElementById("img").getAttribute('src');
+            
+            //var foto = document.getElementById("foto").files;
+            //var fileName = foto[0].name;
+            console.log(file_data);
+            
             $.ajax({ 
                 url: 'ajax.php',
+                contentType: false,
+                processData: false,                
                 type: 'POST',
                 async: true,
-                data: {action:action,codcliente:codcliente,boucher:boucher},
+                data: form_data,
+                //data: {action:action,codcliente:codcliente,boucher:boucher,fileName:fileName,srcimage:srcimage},form_data,
+                
         
                 success: function(response)
                 {
@@ -815,7 +882,7 @@ $(document).ready(function(){
                                             '<p><strong>No. '+info.nofactura+'</strong></p>'+
                                             
                                             '<p><strong>Monto. '+info.totaltFactura+'$ </strong></p>'+
-                                            '<p><strong>Boucher. '+info.boucher+'</strong></p>'+
+                                            
                                             '<p><strong>Fecha. '+info.fecha+'</strong></p>'+
                                             '<input type="hidden" name="action" value="aprobarFactura">'+
                                             '<input type="hidden" name="no_factura" id="no_factura" value="'+info.nofactura+'" required></input>'+

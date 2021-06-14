@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: 127.0.0.1
--- Tiempo de generación: 07-05-2021 a las 22:56:08
+-- Tiempo de generación: 14-06-2021 a las 07:13:23
 -- Versión del servidor: 10.4.14-MariaDB
 -- Versión de PHP: 7.4.10
 
@@ -159,6 +159,7 @@ CREATE TABLE `cliente` (
   `dateAdd` datetime NOT NULL DEFAULT current_timestamp(),
   `usuario_id` int(11) NOT NULL,
   `status` int(11) NOT NULL DEFAULT 1,
+  `token_user` varchar(100) NOT NULL,
   `cod_tarjeta` varchar(20) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
@@ -166,17 +167,15 @@ CREATE TABLE `cliente` (
 -- Volcado de datos para la tabla `cliente`
 --
 
-INSERT INTO `cliente` (`idcliente`, `cedula`, `nombre`, `apellidos`, `Correo`, `telefono`, `direccion`, `dateAdd`, `usuario_id`, `status`, `cod_tarjeta`) VALUES
-(75, 435435, '2323', '234', '2322@adsa.com', 986330869, 'Ecuador', '2021-02-17 23:03:41', 0, 1, '00676234'),
-(76, 565123123, 'ddave', 'rodromo', 'root0166221x@gmail.com', 986330869, 'Ecuador', '2021-02-17 23:06:57', 0, 1, '9909712'),
-(77, 131409834, 'lets', 'prueba', 'prueba@gail.com', 33333, '23234', '2021-02-20 23:29:04', 0, 1, ''),
-(78, 2147483647, 'dave', 'Rodriguez', 'root01xr53@gmail.com', 986330869, 'Ecuador', '2021-02-20 23:32:50', 0, 1, ''),
-(79, 22221, 'frre', 'free', 'roo1fft01x@gmail.com', 986330869, 'Ecuador', '2021-02-22 18:21:16', 0, 1, ''),
-(80, 4522112, 'clit', 'cclit', 'clir@gma.com', 986330869, 'Ecuador', '2021-02-22 19:40:16', 0, 1, '9998866'),
-(81, 343431, 'dave', 'rddd', 'root22301x@gmail.com', 986330869, 'jasjjd qwe', '2021-02-22 19:43:37', 1, 1, '452300923'),
-(82, 2147483647, 'dave', 'Rodriguez', 'root012323@gmail.com', 99923, 'Ecuador', '2021-04-10 18:06:56', 0, 1, '0674723r'),
-(83, 3334444, 'david', 'prueba', 'asd@gmail.com', 9999, 'Ecuador', '2021-04-12 15:09:55', 0, 1, 'ddddfff3'),
-(84, 9998886, 'frre', 'fire', 'ggt@gmai.com', 5556, 'Venezuela y Chimborazo cell: 0981860428', '2021-04-12 17:12:00', 1, 1, '13011999');
+INSERT INTO `cliente` (`idcliente`, `cedula`, `nombre`, `apellidos`, `Correo`, `telefono`, `direccion`, `dateAdd`, `usuario_id`, `status`, `token_user`, `cod_tarjeta`) VALUES
+(105, 99999993, 'pedro', 'diaz', 'sss@gmail.com', 89987665, 'calle 2y 4', '2021-05-24 11:24:27', 0, 1, '', ''),
+(106, 2147435, 'pedro', 'der', 'root01x444@gmail.com', 986330869, 'Ecuador', '2021-05-24 11:56:44', 0, 1, '798458950d8aa2407d9c9804097fefe2', '88888'),
+(107, 2147, 'Freed GIll', 'Rodriguez', 'r22123oot01x@gmail.com', 963684950, 'Ecuador', '2021-05-24 12:14:51', 0, 1, '8ab09c67e1b32c7627eb64c69c157911', ''),
+(108, 2147483647, 'dave', 'Rodriguez', 'root01x@gmail.com', 986330869, 'Ecuador', '2021-05-24 12:26:21', 0, 1, 'bb64720440379bd6fe8bebc726e81720', ''),
+(109, 33333, 'dad', 'ad', 'roo22t01x@gmail.com', 99, '1221', '2021-05-24 12:33:01', 0, 1, '7a88b6e7dfcb186b867931c851f5f330', ''),
+(110, 33223, 'dave', 'Rodriguez', 'root01111111x@gmail.com', 986330869, 'Ecuador', '2021-05-24 12:35:18', 0, 1, '9f45cfed1fd747389c7782c6cc9a88e6', ''),
+(111, 234234, 'dave', 'Rodriguez', 'roo111sst01x@gmail.com', 986330869, 'Ecuador', '2021-05-24 12:36:30', 0, 1, '6bed66793418e630fee75d75c062472b', ''),
+(112, 2147483647, 'dave', 'Rodriguez', 'root22201x@gmail.com', 986330869, 'Ecuador', '2021-05-24 12:48:59', 1, 1, '1a9efd7c8b7a184e3d79314f048590c9', '');
 
 -- --------------------------------------------------------
 
@@ -275,12 +274,10 @@ CREATE TABLE `entradas` (
 --
 
 INSERT INTO `entradas` (`correlativo`, `codevento`, `fecha`, `cantidad`, `precio`, `usuario_id`) VALUES
-(11, 11, '2021-02-16 12:59:22', 100, '565.00', 1),
-(12, 12, '2021-02-16 15:11:44', 100, '454.00', 1),
-(13, 13, '2021-02-17 23:40:38', 300, '4500.00', 1),
-(14, 14, '2021-02-18 22:45:01', 100, '45.00', 1),
-(15, 15, '2021-02-18 22:45:47', 45, '45.00', 1),
-(16, 16, '2021-04-10 18:21:36', 10066, '78.00', 1);
+(23, 23, '2021-06-13 14:19:31', 22, '333.00', 1),
+(24, 24, '2021-06-13 14:20:01', 223, '11.00', 1),
+(25, 25, '2021-06-13 14:57:12', 222, '2323.00', 1),
+(26, 26, '2021-06-13 14:58:31', 40, '56456.00', 1);
 
 -- --------------------------------------------------------
 
@@ -307,12 +304,10 @@ CREATE TABLE `evento` (
 --
 
 INSERT INTO `evento` (`codevento`, `descripcion`, `precio`, `capMax`, `direccion`, `foto`, `fecha_evento`, `dateAdd`, `usuario_id`, `status`, `id_tipo_seminario`) VALUES
-(11, 'texts1', '565.00', 61, NULL, 'img_1691018ce4e9bc9aae3630f84b912910.jpg', '2222-02-02 02:02:00', '2021-02-16 12:59:22', 1, 1, 1),
-(12, 'curso de redes 3', '454.00', 71, 'utm', 'img_evento.png', '2021-02-16 15:02:00', '2021-02-16 15:11:44', 1, 1, 2),
-(13, 'curso de disennio grafico 3', '4500.00', 271, 'faculta de economia56', 'img_evento.png', '2021-02-17 23:02:00', '2021-02-17 23:40:38', 1, 1, 2),
-(14, 'java web', '45.00', 69, 'faculad de informatica', 'img_evento.png', '2002-05-08 00:05:00', '2021-02-18 22:45:01', 1, 1, 2),
-(15, 'robotica', '45.00', 13, '34', 'img_evento.png', '2010-05-05 00:05:00', '2021-02-18 22:45:47', 1, 1, 1),
-(16, 'freeevent eee6', '78.00', 10041, 'Quito Norte', 'img_evento.png', '2021-04-17 18:04:00', '2021-04-10 18:21:36', 1, 1, 2);
+(23, 'redes', '333.00', 11, 'Ecuador l', 'img_2c31f53cf89da36c4bbbaa6d3b5af9c6.jpg', '2021-06-13 14:06:00', '2021-06-13 14:19:31', 1, 1, 1),
+(24, 'javascript avanzado', '11.00', 211, 'Ecuador l', 'img_6b70ae11c3d2c284ec427489a72b11d6.jpg', '2021-06-14 14:06:00', '2021-06-13 14:20:01', 1, 1, 1),
+(25, 'freee', '2323.00', 213, 'Venezuela y Chimborazo cell: 0981860428', 'C:xampp	mpphpA645.tmp', '2021-06-13 14:06:00', '2021-06-13 14:57:12', 1, 1, 1),
+(26, 'testte', '56456.00', 33, 'faculta de economia56', 'C:xampp	mpphpD8BB.tmp', '2021-06-13 14:06:00', '2021-06-13 14:58:31', 1, 1, 1);
 
 --
 -- Disparadores `evento`
@@ -338,7 +333,8 @@ CREATE TABLE `factura` (
   `codcliente` int(11) DEFAULT NULL,
   `totaltFactura` decimal(10,2) DEFAULT NULL,
   `status` int(11) NOT NULL DEFAULT 1,
-  `boucher` varchar(40) DEFAULT '0000000'
+  `boucher` varchar(200) DEFAULT '0000000',
+  `img_boucher` varchar(100) DEFAULT 'img_boucher.png'
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 -- --------------------------------------------------------
@@ -459,43 +455,25 @@ CREATE TABLE `usuario` (
   `clave` varchar(100) DEFAULT NULL,
   `rol` int(11) DEFAULT NULL,
   `Status` int(11) NOT NULL DEFAULT 1,
-  `cod_cliente` int(11) DEFAULT 0
+  `cod_cliente` int(11) DEFAULT 0,
+  `token_user` varchar(100) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
 -- Volcado de datos para la tabla `usuario`
 --
 
-INSERT INTO `usuario` (`idusuario`, `nombre`, `correo`, `usuario`, `clave`, `rol`, `Status`, `cod_cliente`) VALUES
-(0, 'USUARIO FINAL', 'info@final.com', 'usuarifinal', '33e78d60bc1f9dcc7291c891e6f069e4', 1, 1, 0),
-(1, 'Dave', 'sql01x@gmail.com', 'admin', '202cb962ac59075b964b07152d234b70', 1, 1, NULL),
-(2, 'gg', 'root01x@gmail.com', 'admin22', '81dc9bdb52d04dc20036dbd8313ed055', 2, 0, NULL),
-(4, 'test01', 'test01@gmail.com', 'tes01', '202cb962ac59075b964b07152d234b70', 2, 0, NULL),
-(6, 'dave', 'dave@gmail.com', 'dave001', 'fa246d0262c3925617b0c72bb20eeb1d', 2, 0, NULL),
-(7, 'Kurt', 'root03@gmail.com', 'kurt23', '202cb962ac59075b964b07152d234b70', 1, 0, NULL),
-(8, 'a145', 'a@gmail.com', 'a1', '202cb962ac59075b964b07152d234b70', 1, 1, NULL),
-(9, 'br', 'b@gmail.com', 'b2', '202cb962ac59075b964b07152d234b70', 5, 1, NULL),
-(10, 'c', 'c@gmail.com', 'cc2', '202cb962ac59075b964b07152d234b70', 2, 1, NULL),
-(11, 'n', 'n@gmail.com', 'n2', '202cb962ac59075b964b07152d234b70', 5, 1, NULL),
-(12, 'fr', 'fr@outllok.ccom', 'out', '202cb962ac59075b964b07152d234b70', 2, 1, NULL),
-(13, 'trte', 'wee@yahoo.com', 'web', '202cb962ac59075b964b07152d234b70', 1, 1, NULL),
-(14, 'kt', 'kt@gmail.com', 'kt45', '202cb962ac59075b964b07152d234b70', 1, 1, NULL),
-(15, 'yu', 'yu@gmail.com', 'yu23', '202cb962ac59075b964b07152d234b70', 5, 1, NULL),
-(16, '11', '11@gashd', 'admin56', '202cb962ac59075b964b07152d234b70', 2, 1, NULL),
-(20, 'admin45', 'root01x@gmail.c666', '4577777', 'dcddb75469b4b4875094e14561e573d8', 5, 1, NULL),
-(21, '5666666', 'root01x@wail.com', '45', '735b90b4568125ed6c3f678819b6e058', 5, 1, NULL),
-(36, 'daev.ad fad', 'asdas@sdsad', 'aaddf', '4124bc0a9335c27f086f24ba207a4912', 5, 1, 0),
-(38, '23423.123123', 'root1231ww01x@gmail.com', 'admin12', '202cb962ac59075b964b07152d234b70', 5, 1, 0),
-(39, '2323.234', '2322@adsa.com', '6566', 'adc2985779b620ec206f3648267ca4b4', 5, 1, 0),
-(40, 'ddave.rodromo', 'root0166221x@gmail.com', 'rootmain', '202cb962ac59075b964b07152d234b70', 5, 1, 0),
-(41, 'lets..prueba', 'prueba@gail.com', 'prueba2000', '202cb962ac59075b964b07152d234b70', 5, 1, 0),
-(42, 'dave Rodriguez', 'root01xr53@gmail.com', '4www', '310dcbbf4cce62f762a2aaa148d556bd', 5, 1, 0),
-(43, 'frre free', 'roo1fft01x@gmail.com', 'cliente', '202cb962ac59075b964b07152d234b70', 5, 1, 0),
-(44, 'clit cclit', 'clir@gma.com', 'cliente2', 'd81f9c1be2e08964bf9f24b15f0e4900', 5, 1, 0),
-(45, 'dave rddd', 'root22301x@gmail.com', 'client433', 'c6f057b86584942e415435ffb1fa93d4', 5, 1, 0),
-(46, 'dave Rodriguez', 'root012323@gmail.com', 'public', '202cb962ac59075b964b07152d234b70', 5, 1, 0),
-(47, 'david prueba', 'asd@gmail.com', 'cliente3', '202cb962ac59075b964b07152d234b70', 5, 1, 0),
-(48, 'frre fire', 'ggt@gmai.com', 'cliente5', '202cb962ac59075b964b07152d234b70', 5, 1, 0);
+INSERT INTO `usuario` (`idusuario`, `nombre`, `correo`, `usuario`, `clave`, `rol`, `Status`, `cod_cliente`, `token_user`) VALUES
+(0, 'USUARIO FINAL', 'info@final.com', 'usuarifinal', '33e78d60bc1f9dcc7291c891e6f069e4', 1, 1, 0, ''),
+(1, 'Dave', 'sql01x@gmail.com', 'admin', '202cb962ac59075b964b07152d234b70', 1, 1, NULL, ''),
+(69, 'pedro diaz', 'sss@gmail.com', 'cliente3', '202cb962ac59075b964b07152d234b70', 5, 1, 0, ''),
+(70, 'pedro der', 'root01x444@gmail.com', 'cliente4', '202cb962ac59075b964b07152d234b70', 5, 1, 0, '798458950d8aa2407d9c9804097fefe2'),
+(71, 'Freed GIll Rodriguez', 'r22123oot01x@gmail.com', 'cliente5', '202cb962ac59075b964b07152d234b70', 5, 1, 0, '8ab09c67e1b32c7627eb64c69c157911'),
+(72, 'dave Rodriguez', 'root01x@gmail.com', 'cliente8', '202cb962ac59075b964b07152d234b70', 5, 1, 0, 'bb64720440379bd6fe8bebc726e81720'),
+(73, 'dad ad', 'roo22t01x@gmail.com', 'freea213', '202cb962ac59075b964b07152d234b70', 5, 1, 0, '7a88b6e7dfcb186b867931c851f5f330'),
+(74, 'dave Rodriguez', 'root01111111x@gmail.com', 'trrt', '202cb962ac59075b964b07152d234b70', 5, 1, 0, '9f45cfed1fd747389c7782c6cc9a88e6'),
+(75, 'dave Rodriguez', 'roo111sst01x@gmail.com', 'cliente9', '202cb962ac59075b964b07152d234b70', 5, 1, 0, '6bed66793418e630fee75d75c062472b'),
+(76, 'dave Rodriguez', 'root22201x@gmail.com', 'geee', '202cb962ac59075b964b07152d234b70', 5, 1, 0, '1a9efd7c8b7a184e3d79314f048590c9');
 
 --
 -- Índices para tablas volcadas
@@ -601,7 +579,7 @@ ALTER TABLE `usuario`
 -- AUTO_INCREMENT de la tabla `cliente`
 --
 ALTER TABLE `cliente`
-  MODIFY `idcliente` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=85;
+  MODIFY `idcliente` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=113;
 
 --
 -- AUTO_INCREMENT de la tabla `configuracion`
@@ -619,31 +597,31 @@ ALTER TABLE `datos`
 -- AUTO_INCREMENT de la tabla `detallefactura`
 --
 ALTER TABLE `detallefactura`
-  MODIFY `correlativo` bigint(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=298;
+  MODIFY `correlativo` bigint(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=381;
 
 --
 -- AUTO_INCREMENT de la tabla `detalle_temp`
 --
 ALTER TABLE `detalle_temp`
-  MODIFY `correlativo` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=714;
+  MODIFY `correlativo` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=819;
 
 --
 -- AUTO_INCREMENT de la tabla `entradas`
 --
 ALTER TABLE `entradas`
-  MODIFY `correlativo` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=17;
+  MODIFY `correlativo` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=27;
 
 --
 -- AUTO_INCREMENT de la tabla `evento`
 --
 ALTER TABLE `evento`
-  MODIFY `codevento` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=17;
+  MODIFY `codevento` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=27;
 
 --
 -- AUTO_INCREMENT de la tabla `factura`
 --
 ALTER TABLE `factura`
-  MODIFY `nofactura` bigint(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=173;
+  MODIFY `nofactura` bigint(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=243;
 
 --
 -- AUTO_INCREMENT de la tabla `ingresos`
@@ -673,7 +651,7 @@ ALTER TABLE `tip_seminario`
 -- AUTO_INCREMENT de la tabla `usuario`
 --
 ALTER TABLE `usuario`
-  MODIFY `idusuario` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=49;
+  MODIFY `idusuario` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=77;
 
 --
 -- Restricciones para tablas volcadas

@@ -95,7 +95,7 @@ if ($_SESSION['rol'] != 1) {
                 if ($data['foto'] !='img_evento.png') {
                     $foto ='img/uploads/'.$data['foto'];
                 }else {
-                    $foto ='img/'.$data['foto'];
+                    $foto ='img/'.$data['foto'];  
                 }
            ?>
             <tr id="row_<?php echo $data["codevento"];?>">
