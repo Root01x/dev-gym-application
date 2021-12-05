@@ -1,8 +1,8 @@
 <?php
  $host = 'localhost';
- $user = 'root';
- $password = '';
- $db = 'eventos';
+ $user = 'codethis_root';
+ $password = 'V3YhQ4GlGA!&';
+ $db = 'codethis_gym2';
 
  $conection = @mysqli_connect($host,$user,$password,$db);
  
