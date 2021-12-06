@@ -54,12 +54,18 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Login| Sistema de Control de Seminarios</title>
     <link rel="stylesheet" type="text/css" href="css/style.css">
+    <link rel="shortcut icon" href="img/login.png" type="image/x-icon">
+
 </head>
 <body>
     <section id="container">
         <form action="" method="post">
-            <h3>Sistema de Acceso a Seminarios</h3>
+            <h3>Sistema de Control de Gimnacios</h3>
             <img src="img/login.png" alt="Login">
+            <div class="centrar-span">
+                <span class="span1">Ingresa </span><span class="span2">a tu cuenta</span>
+            </div>
+            
             <input type="text" name="usuario" placeholder="Usuario">
             <input type="password" name="clave" placeholder="Clave">
             <div class="alert"> <?php echo isset($alert)? $alert : '';?></div>
