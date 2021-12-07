@@ -53,6 +53,7 @@
 					<a href="#"><i class="far fa-calendar-check"></i> Transacciones</a>
 					<ul>
 
+						<li><a href="recargar_tarjeta.php">Recargar Tarjeta</a></li>
 						<li><a href="Nueva_transaccion.php">Nueva Transacción</a></li>
 						<li><a href="reservas.php">Procesar Reservas</a></li>
 						

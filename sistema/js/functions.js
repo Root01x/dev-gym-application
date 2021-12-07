@@ -676,6 +676,54 @@ $(document).ready(function(){
         }
     });
 
+    //recargar tarjeta
+    $('#btn_recargar_tarjeta').click(function(e){
+    e.preventDefault();
+        
+    // var rows = $('#detalle_venta tr').length;
+    // if (rows > 0) {
+
+        var action = 'procesarRecarga';
+        var codcliente = $('#idcliente').val();
+        var cant_accesos = $('#cant_accesos').val();
+        var dias = $('#num_dias').val();
+
+
+
+
+        $.ajax({ 
+            url: 'ajax.php',
+            type: 'POST',
+            async: true,
+            data: {action:action,codcliente:codcliente,cant_accesos:cant_accesos,dias:dias},
+    
+            success: function(response)
+            {
+                
+                
+                if (response !='error') {
+                    // var info = JSON.parse(response);
+                    alert("TRANSACCION EXITOSA")
+                    // console.log(info);
+                    // PdfCreate(info.codcliente,info.nofactura)
+
+                     location.reload();
+                    }else{
+                        console.log('no data');
+                        alert("ALGO SALIO MAL CON LA RECARGAR")
+                    }
+                
+    
+            },
+            error: function(error){
+    
+            }
+        });
+
+    // }
+    });
+
+
      //procesar pago deposito bancario
      $('#btn_factura_deposito').click(function(e){
         e.preventDefault();

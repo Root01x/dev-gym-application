@@ -98,6 +98,7 @@ h3 {
 
 #container form input[type="submit"]:hover {
   box-shadow: 0 0.1rem 0.4rem rgba(0, 0, 0, 0.3);
+ 
 }
 
 #container form input[type="submit"]:active {

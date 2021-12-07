@@ -119,7 +119,7 @@ if ($_SESSION['rol'] != 1 && $_SESSION['rol'] != 2) {  ///validacion de roles
         
         <table class="tbl_venta">
           
-            <thead>
+            <thead> 
                 
                 
                 <tr>

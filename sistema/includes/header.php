@@ -11,7 +11,7 @@
 <header>
 		<div class="header">
 			
-			<h1>Sistema de Acceso a Seminarios</h1>
+			<h1>Sistema de Control de Gym</h1>
 			<div class="optionsBar">
 				<p>Ecuador, <?php echo fechaC();  ?></p>
 				<span>|</span>

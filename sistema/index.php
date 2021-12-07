@@ -18,7 +18,7 @@ if ($_SESSION['rol'] != 1 && $_SESSION['rol'] != 2) {
 <head>
 	<meta charset="UTF-8">
 	<?php include "includes/scripts.php"?>
-	<title>SISTEMA EVENTOS</title>
+	<title>GYM ACCESS</title>
 </head>
 <body>
  <?php include "includes/header.php"?>

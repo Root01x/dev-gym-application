@@ -582,7 +582,57 @@ if (!empty($_POST)) {
         exit;
 
     }
+    //procesar Recarga
+    if ($_POST['action'] == 'procesarRecarga') {
+        if (empty($_POST['codcliente'])) {
+            //$codcliente =1;
+            echo 'error';
+            exit;
 
+        } else {
+            $codcliente = $_POST['codcliente'];
+            $cant_accesos = $_POST['cant_accesos'];
+            $dias = $_POST['dias'];
+
+        }
+
+        $token = md5($_SESSION['idUser']);
+        $usuario = $_SESSION['idUser'];
+
+        $query = mysqli_query($conection, "SELECT * FROM planes WHERE idcliente = '$codcliente'");
+        $result = mysqli_num_rows($query);
+
+        if ($result > 0) {
+            // $query_procesar = mysqli_query($conection, "CALL procesar_transaccion($usuario,$codcliente,'$token')");
+            $query_procesar = mysqli_query($conection, "CALL actualizar_datos_tarjeta($cant_accesos,$codcliente,$dias)");
+ 
+            $result_detalle = mysqli_num_rows($query_procesar);
+
+            if ($result_detalle > 0) {
+                $data = mysqli_fetch_assoc($query_procesar);
+                echo json_encode($data, JSON_UNESCAPED_UNICODE);
+            } else {
+                echo "error";
+            }
+        } else {
+            
+            $query_insert = mysqli_query($conection, "INSERT INTO planes(num_accesos,idcliente,fecha_v)
+                                                      VALUES('$cant_accesos','$codcliente',DATE_ADD(NOW(),INTERVAL '$dias' DAY))");
+
+            // $result_detalle = mysqli_num_rows($query_insert);
+                // echo 'ol';
+            if ($query_insert) { 
+                // $data = mysqli_fetch_assoc($query_insert);
+                // echo json_encode($data, JSON_UNESCAPED_UNICODE);
+                echo 'ol';
+            } else {
+                echo "error";
+            }
+        }
+        mysqli_close($conection);
+        exit;
+
+    }
     //procesar venta deposito
     if ($_POST['action'] == 'procesarVentaDeposito') {
         if (empty($_POST['codcliente'])) {

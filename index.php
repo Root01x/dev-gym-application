@@ -60,7 +60,7 @@
 <body>
     <section id="container">
         <form action="" method="post">
-            <h3>Sistema de Control de Gimnacios</h3>
+            <h3>Sistema de Control de Gym</h3>
             <img src="img/login.png" alt="Login">
             <div class="centrar-span">
                 <span class="span1">Ingresa </span><span class="span2">a tu cuenta</span>
