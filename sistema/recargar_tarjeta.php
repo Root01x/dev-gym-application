@@ -110,13 +110,13 @@ if ($_SESSION['rol'] != 1 && $_SESSION['rol'] != 2) {
                             <th>Accion</th>
                         </tr>
                     </thead>
-                    <tbody id="detalle_venta">
+                    <tbody id="detalle_venta-2">
                         <!-- CONTINO AJAX  -->
 
                         
 
                     </tbody>
-                    <tfoot id="detalle_totales">
+                    <tfoot id="detalle_totales-2">
 
                         <!-- CONTINO AJAX  -->
                     
@@ -150,8 +150,8 @@ if ($_SESSION['rol'] != 1 && $_SESSION['rol'] != 2) {
                 </div>
                 
                 <div class="wd50">
-                <a href="#" class="btn_ok textcenter" id="btn_recargar_tarjeta" > Agregar</a>
-
+                <!-- <a href="#" class="btn_ok textcenter" id="btn_recargar_tarjeta" > Agregar</a> -->
+                <a href="#" class="btn_ok textcenter" id="add_recarga_detalle" > Agregar</a>
                    
                 </div>
             </div>

@@ -10,8 +10,11 @@
 
 <header>
 		<div class="header">
+			<div class="logo">
+				<img src="../img/logogym.png" alt="">
+				<h1>Sistema de Control de Gym 3MP</h1>
+			</div>
 			
-			<h1>Sistema de Control de Gym</h1>
 			<div class="optionsBar">
 				<p>Ecuador, <?php echo fechaC();  ?></p>
 				<span>|</span>

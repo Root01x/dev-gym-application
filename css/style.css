@@ -8,7 +8,8 @@ h3 {
   font-size: 25pt;
   letter-spacing: 1px;
   width: 100%;
-  background: #7232f2;
+  /* background: #7232f2; */
+  background: #363a3a;
   color: white;
   text-align: center;
   padding: 1rem;
@@ -55,6 +56,7 @@ h3 {
   margin: 15px auto;
   text-align: center;
   display: block;
+  width: 50%;
 }
 
 #container  form input {
@@ -74,7 +76,13 @@ h3 {
 .span1 {
     
   margin: 20px auto;
-  color: #7232f2;
+  /* color: #7232f2; */
+  /* degrade color red */
+  
+  background: linear-gradient(to right,#7e1c31, orangered);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  
   font-family: "Arial";
   font-size: 18pt;
   font-weight: bold;
@@ -87,7 +95,8 @@ h3 {
     font-size: 18pt;
   }
 #container form input[type="submit"] {
-  background: #7232f2;
+  /* background: #7232f2; */
+  background: linear-gradient(to right,#7e1c31, orangered);
   font-weight: bold;
   padding: 10px;
   color: white;
@@ -101,10 +110,10 @@ h3 {
  
 }
 
-#container form input[type="submit"]:active {
-  background-color: white;
+/* #container form input[type="submit"]:active {
+  background: white;
   color: #7232f2;
-}
+} */
 
 .alert {
   font-family: "Arial";

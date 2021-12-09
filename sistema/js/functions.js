@@ -509,7 +509,75 @@ $(document).ready(function(){
             
         }
     })
+    //agregar recarga al detalle
+    $('#add_recarga_detalle').click(function(e){
+        e.preventDefault();
+        var cant=1;
+    
+        if (cant>0) {
+            var num_accesos = $('#cant_accesos').val();
+            var dias = $('#num_dias').val();
+            var plan = 'Personalizado';
+            var action = 'addRecargaDetalle';
+            
+            $.ajax({
+                url: 'ajax.php',
+                type: 'POST',
+                async: true,
+                data: {action:action,num_accesos:num_accesos,dias:dias,plan:plan},
+        
+                success: function(response)
+                {
+                    
+                    if (response != 'ERROR') {
+                        
+                        var info = JSON.parse(response);
+                        alert(info);
+                        $('#detalle_venta-2').html(info.detalle);
+                        // $('#detalle_totales').html(info.totales);
 
+
+                        //LIMPIAR DATOS 
+                        // $('#txt_cod_evento').val('');
+                        // $('#txt_descripcion').html('-');
+                        // $('#txt_existencia').html('-');
+                        // $('#txt_cant_producto').val('0');
+                        // $('#txt_precio').html('');
+                        // $('#txt_precio_total').html('');
+
+                        //BLOQUEAR CANTIDAD
+
+                        // $('#txt_cant_evento').attr('disabled','disabled');
+
+                        // //hide add botton
+                        // $('#add_evento_venta').slideUp();
+
+                        
+                    }else if(response =='ERROR_GARRAFAL'){
+
+                        alert('FALLO TODO');
+                        // $('#txt_cod_evento').val('');
+                        // $('#txt_descripcion').html('-');
+                        // $('#txt_existencia').html('-');
+                        // $('#txt_cant_producto').val('0');
+                        // $('#txt_precio').html('');
+                        // $('#txt_precio_total').html('');
+                        // $('#add_evento_venta').slideUp();
+                        
+                    }else if(response=='ERROR'){
+                        Alert('ERROR EN LA MATRIZ');
+                    }
+                     viewProcesar();
+                    
+        
+                },
+                error: function(error){
+                    alert(error);
+                }
+            });
+            
+        }
+    })
     //agregar evento desde lista de eventos al dettalle
     $('#add_evento_list1').click(function(e){
         alert("EUREKA")

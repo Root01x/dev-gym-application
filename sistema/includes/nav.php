@@ -35,7 +35,7 @@
 				</li>
 				<?php }?>
 				<li class="principal">
-					<a href="#"> <i class="far fa-clock"></i> Seminarios</a>
+					<a href="#"> <i class="fas fa-cogs"></i> Configuracion</a>
 					<ul>
 					<?php
 					if ($_SESSION['rol'] == 1 || $_SESSION['rol'] == 2) {

@@ -52,7 +52,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Login| Sistema de Control de Seminarios</title>
+    <title>Login| Sistema de Control de Gym</title>
     <link rel="stylesheet" type="text/css" href="css/style.css">
     <link rel="shortcut icon" href="img/login.png" type="image/x-icon">
 
@@ -61,7 +61,7 @@
     <section id="container">
         <form action="" method="post">
             <h3>Sistema de Control de Gym</h3>
-            <img src="img/login.png" alt="Login">
+            <img src="img/logogym.png" alt="Login">
             <div class="centrar-span">
                 <span class="span1">Ingresa </span><span class="span2">a tu cuenta</span>
             </div>
@@ -70,7 +70,7 @@
             <input type="password" name="clave" placeholder="Clave">
             <div class="alert"> <?php echo isset($alert)? $alert : '';?></div>
             <input type="submit" value="INGRESAR">
-            <div class="crear_cuenta"><a href="sistema/crear_usuario_online.php"><i class="fas fa-plus-circle"></i> CREAR CUENTA</a></div>
+            <!-- <div class="crear_cuenta"><a href="sistema/crear_usuario_online.php"><i class="fas fa-plus-circle"></i> CREAR CUENTA</a></div> -->
         </form>
     </section>
 </body>
