@@ -128,9 +128,9 @@ if ($_SESSION['rol'] != 1 && $_SESSION['rol'] != 2) {
                 <div class="wd50">
                     <label for="" Acciones></label>
                     <div id="acciones_venta">
+                      
+                        <a href="#" class="btn_new textcenter" id="btn_factura_venta" style="display: none;"><i class="far fa-edit"></i> Confirmar Recarga</a>
                         <a href="#" class="btn_ok textcenter" id="btn_anular_venta" style="background:tomato"><i class="fas fa-ban"></i> Anular</a>
-                        <a href="#" class="btn_new textcenter" id="btn_factura_venta" style="display: none;"><i class="far fa-edit"></i> Procesar</a>
-                       
                     </div>
                 </div>
             </div>
@@ -151,8 +151,8 @@ if ($_SESSION['rol'] != 1 && $_SESSION['rol'] != 2) {
                 
                 <div class="wd50">
                 <!-- <a href="#" class="btn_ok textcenter" id="btn_recargar_tarjeta" > Agregar</a> -->
-                <a href="#" class="btn_ok textcenter" id="add_recarga_detalle" > Agregar</a>
-                   
+                <a href="#" class="btn_ok textcenter" id="add_recarga_detalle"  > Agregar</a>
+                
                 </div>
             </div>
         </div>
@@ -179,7 +179,7 @@ if ($_SESSION['rol'] != 1 && $_SESSION['rol'] != 2) {
                             bebidas
                         </li>
                         </ul>
-                        <a href="#" class="btn_ok textcenter" style="padding:10px; margin-top:2rem"> Seleccionar</a>
+                        <a href="#" class="btn_ok textcenter" onclick="event.preventDefault(); add_planes('regular',90,90);" style="padding:10px; margin-top:2rem"> Seleccionar</a>
 
                     </div>
                     <div class='package brilliant'>
@@ -205,7 +205,7 @@ if ($_SESSION['rol'] != 1 && $_SESSION['rol'] != 2) {
                         </li>
                         
                         </ul>
-                        <a href="#" class="btn_ok textcenter" style="padding:10px"> Seleccionar</a>
+                        <a href="#" class="btn_ok textcenter" onclick="event.preventDefault(); add_planes('pro',200,180);" style="padding:10px"> Seleccionar</a>
 
                     </div>
                     <div class='package'>
@@ -224,14 +224,14 @@ if ($_SESSION['rol'] != 1 && $_SESSION['rol'] != 2) {
                         </li>
                         
                         </ul>
-                        <a href="#" class="btn_ok textcenter" style="padding:10px; margin-top:4rem"> Seleccionar</a>
+                        <a href="#" class="btn_ok textcenter" onclick="event.preventDefault(); add_planes('Basico',30,30);" style="padding:10px; margin-top:4rem"> Seleccionar</a>
 
                     </div>
                     </div>
                 </div>
             
         </div>
-        <table class="tbl_venta">
+        <!-- <table class="tbl_venta">
             <thead>
                 <tr>
                     <th width="100px">Codigo</th>
@@ -267,17 +267,11 @@ if ($_SESSION['rol'] != 1 && $_SESSION['rol'] != 2) {
                 </tr>
             </thead>
             <tbody id="detalle_venta">
-                <!-- CONTINO AJAX  -->
+               
 
                 
 
-            </tbody>
-            <tfoot id="detalle_totales">
-
-                <!-- CONTINO AJAX  -->
-               
-            </tfoot>
-        </table>
+      
 	</section>
 <?php include "includes/footer.php"?>
 <script type="text/javascript">

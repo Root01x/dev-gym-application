@@ -520,7 +520,7 @@ $(document).ready(function(){
             var plan = 'Personalizado';
             var action = 'addRecargaDetalle';
             
-            $.ajax({
+            $.ajax({ 
                 url: 'ajax.php',
                 type: 'POST',
                 async: true,
@@ -532,7 +532,8 @@ $(document).ready(function(){
                     if (response != 'ERROR') {
                         
                         var info = JSON.parse(response);
-                        alert(info);
+                        $('#cant_accesos').val('');
+                        $('#num_dias').val('');
                         $('#detalle_venta-2').html(info.detalle);
                         // $('#detalle_totales').html(info.totales);
 
@@ -578,6 +579,7 @@ $(document).ready(function(){
             
         }
     })
+   
     //agregar evento desde lista de eventos al dettalle
     $('#add_evento_list1').click(function(e){
         alert("EUREKA")
@@ -1503,9 +1505,68 @@ function del_evento_detalle(correlativo,codevento){
         }
     });
 }
+function del_recargar_detalle(correlativo){
+   
+    var action = 'delRecargaDetalle';
+    var id_detalle = correlativo;
+    // var cod_evento = codevento;
+
+    
+    $.ajax({
+        url: 'ajax.php',
+        type: 'POST',
+        async: true,
+        data: {action:action,id_detalle:id_detalle},
+
+        success: function(response)
+        {
+            // $('#row_'+cod_evento+' .div_factura').html('<button class="btn_view view_factura " onclick="event.preventDefault(); mostrar('+cod_evento+','+1+')"><i class="far fa-trash-alt"></i> Reservar</button>');
+
+            
+            if (response != 'error') 
+            {
+                //alert(correlativo)
+                var info = JSON.parse(response);
+                // console.log(info);
+                
+                $('#detalle_venta-2').html(info.detalle);
+                $('#detalle_totales').html(info.totales);
+                
+
+
+
+                //LIMPIAR DATOS 
+                // $('#txt_cod_evento').val('');
+                // $('#txt_descripcion').html('-');
+                // $('#txt_existencia').html('-');
+                // $('#txt_cant_producto').val('0');
+                // $('#txt_precio').html('0.00');
+                // $('#txt_precio_total').html('');
+                
+
+                //BLOQUEAR CANTIDAD
+
+                // $('#txt_cant_evento').attr('disabled','disabled');
+
+                // //hide add botton
+                // $('#add_evento_venta').slideUp();
+
+            }else{
+                
+                $('#detalle_venta-2').html('');
+                // $('#detalle_totales').html('');
+            }
+            viewProcesar();
+           
+        },
+        error: function(error){
+
+        }
+    });
+}
 //mostrar /ocltar boton proccesar
 function viewProcesar(){
-    if ($('#detalle_venta tr').length > 0) {
+    if ($('#detalle_venta-2 tr').length > 0) {
         $('#btn_factura_venta').show();
     }else{
         $('#btn_factura_venta').hide();
@@ -1687,13 +1748,13 @@ function mostrar(cod_evento, disponible){
     }
 }
 function probar(){
-    //alert("eureka")
+    alert("eureka")
     
 }
 
 function verificarPasswords() {
  
-    // Ontenemos los valores de los campos de contraseñas 
+    // Obtenemos los valores de los campos de contraseñas 
     pass1 = document.getElementById('pass1');
     pass2 = document.getElementById('pass2');
  
@@ -1727,4 +1788,108 @@ function verificarPasswords() {
 function prueba(){
     alert("ghjgj")
 }
+
+//agregar recarga planes al detalle
+const add_planes=(plan,num_accesos,fecha_v)=>{ 
+
+    var formData = new FormData();
+    formData.append('action', 'addPlanesDetalle');
+    formData.append('plan', plan);
+    formData.append('num_accesos', num_accesos);
+    formData.append('fecha_v', fecha_v);
+
+
+    fetch('ajax.php',{
+        
+        method:'POST',
+        body: formData 
+    })
+    .then(response=>response.json())
+    .then(data2=>{
+
+        if (data2 != 'ERROR') {
+
+            document.getElementById("detalle_venta-2").innerHTML = data2.detalle;
+
+        }else{
+
+            alert('ERROR AL AGREGAR PLANES!')
+        }
+                        
+         viewProcesar();
+        
+    })
+    .catch(error=>console.log(error));
+}
+
+
+    // alert('asdsadasd')
+        // e.preventDefault();
+        // var cant=1;
+    
+        // if (cant>0) {
+        //     var num_accesos = $('#cant_accesos').val();
+        //     var dias = $('#num_dias').val();
+        //     var plan = 'Pro';
+        //     var action = 'addRecargaDetalle';
+            
+            // $.ajax({ 
+            //     url: 'ajax.php',
+            //     type: 'POST',
+            //     async: true,
+            //     data: {action:action,num_accesos:num_accesos,dias:dias,plan:plan},
+        
+            //     success: function(response)
+            //     {
+                    
+            //         if (response != 'ERROR') {
+                        
+            //             var info = JSON.parse(response);
+                        
+            //             $('#detalle_venta-2').html(info.detalle);
+            //             // $('#detalle_totales').html(info.totales);
+
+
+            //             //LIMPIAR DATOS 
+            //             // $('#txt_cod_evento').val('');
+            //             // $('#txt_descripcion').html('-');
+            //             // $('#txt_existencia').html('-');
+            //             // $('#txt_cant_producto').val('0');
+            //             // $('#txt_precio').html('');
+            //             // $('#txt_precio_total').html('');
+
+            //             //BLOQUEAR CANTIDAD
+
+            //             // $('#txt_cant_evento').attr('disabled','disabled');
+
+            //             // //hide add botton
+            //             // $('#add_evento_venta').slideUp();
+
+                        
+            //         }else if(response =='ERROR_GARRAFAL'){
+
+            //             alert('FALLO TODO');
+            //             // $('#txt_cod_evento').val('');
+            //             // $('#txt_descripcion').html('-');
+            //             // $('#txt_existencia').html('-');
+            //             // $('#txt_cant_producto').val('0');
+            //             // $('#txt_precio').html('');
+            //             // $('#txt_precio_total').html('');
+            //             // $('#add_evento_venta').slideUp();
+                        
+            //         }else if(response=='ERROR'){
+            //             Alert('ERROR EN LA MATRIZ');
+            //         }
+            //          viewProcesar();
+                    
+        
+            //     },
+            //     error: function(error){
+            //         alert(error);
+            //     }
+            // });
+            
+        // }
+    
+// }
 

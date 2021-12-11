@@ -42,10 +42,10 @@
 						# code...
 					
 				?>
-						<li><a href="registro_evento.php">Nuevo Seminario</a></li>
+						<li><a href="registro_evento.php">Configuracion General</a></li>
 
 						<?php }?>
-						<li><a href="lista_eventos.php">Lista de Seminarios</a></li>
+						<li><a href="lista_eventos.php">Configuracion Precios</a></li>
 					</ul>
 				</li>
 				<?php if ($_SESSION['rol'] == 1 || $_SESSION['rol'] == 2) { ?>
@@ -54,14 +54,14 @@
 					<ul>
 
 						<li><a href="recargar_tarjeta.php">Recargar Tarjeta</a></li>
-						<li><a href="Nueva_transaccion.php">Nueva Transacción</a></li>
+						<!-- <li><a href="Nueva_transaccion.php">Nueva Transacción</a></li>
 						<li><a href="reservas.php">Procesar Reservas</a></li>
 						
 					
 						
 					
 				
-						<li><a href="transacciones.php">Lista de Transacciones</a></li>
+						<li><a href="transacciones.php">Lista de Transacciones</a></li> -->
 						
 					</ul>
 				</li>
