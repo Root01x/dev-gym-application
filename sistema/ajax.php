@@ -239,19 +239,7 @@ if (!empty($_POST)) {
 
         } else {
 
-            // $token = md5($_SESSION['idUser']);
-            // $cant_accesos = $_POST['num_accesos'];
-            // $dias = $_POST['dias'];
-            // $plan = $_POST['plan'];
-
-
-            // $sql2 = mysqli_query($conection, "SELECT *
-            //                                     FROM detalle_tem_planes
-            //                                     WHERE  token_user='$token'");
-
-            // $result_sql2 = mysqli_num_rows($sql2);
-
-            // if ($result_sql2 == 0) {
+           
 
                 $token = md5($_SESSION['idUser']);
                 $cant_accesos = $_POST['num_accesos'];
@@ -259,57 +247,59 @@ if (!empty($_POST)) {
                 $plan = $_POST['plan'];
 
         
-                $query_detalle_temp = mysqli_query($conection, "CALL add_detalle_temp_planes($cant_accesos,$dias,'$plan','$token')");
+                $query_detalle_temp = mysqli_query($conection, "CALL add_detalle_temp_planes($cant_accesos,$dias,$plan,'$token')");
                 $result = mysqli_num_rows($query_detalle_temp);
 
                 $detalleTabla = '';
-                // $sub_total = 0;
-                // $iva = 0;
-                // $total = 0;
                 $arrayData = array();
-
+                $precioTotal =0;
+                $total = 0;
+                $fondotd = '';
+                $status = 0;
                  if ($result > 0) {
-
+    
                     
                     while ($data = mysqli_fetch_assoc($query_detalle_temp)) {
-
-                        // $precioTotal = round($data['cantidad'] * $data['precio_venta'], 2);
-                        // $sub_total = round($sub_total + $precioTotal, 2);
-                        // $total = round($total + $precioTotal, 2);
-
+                        
+                        if ($status == 1) {
+                            $fondotd = 'B_Gris';
+                            $status = 0;
+                        } else {
+                            $fondotd = 'B_Blanco';
+                            $status = 1;
+                        }
+                        $precioTotal = round($data['precio'], 2);
+                        $total = round($total + $precioTotal, 2);
+    
                         $detalleTabla .= '<tr>
-                                                <td>' . $data['plan'] . '</td>
-                                                <td colspan="2">' . $data['num_accesos'] . '</td>
-
-                                                <td class="textright">' . $data['dias'] . '</td>
-
-                                                <td class="">
-                                                    <a href="#" class="link_delete" onclick="event.preventDefault(); del_recargar_detalle(' . $data['correlativo'] . ');"><i class="far fa-trash-alt"></i> Quitar</a>
-                                                </td>
-                                            </tr>';
+                                            <td class="'. $fondotd.' borderRadiusleft">' . $data['nombre_plan'] . '</td>
+                                            <td class="'. $fondotd.'" colspan="2">' . $data['num_accesos'] . '</td>
+                                            <td class="'. $fondotd.'">' . $data['dias'] . '</td>
+                                            <td class="'. $fondotd.'">' . $data['precio'] . ' $</td>
+                                            <td class="'. $fondotd.' borderRadiusRight">
+                                                <a href="#" class="link_delete" onclick="event.preventDefault(); del_recargar_detalle(' . $data['correlativo'] . ');"><i class="far fa-trash-alt"></i> Quitar</a>
+                                            </td>
+                                        </tr>';
                         # code...
+                     
                     }
-
-                // //     $impuesto = round($sub_total * ($iva / 100), 2);
-                // //     $tl_sniva = round($sub_total - $impuesto, 2);
-                // //     $total = round($tl_sniva + $impuesto, 2);
-
-                // //     $detalleTotales = '
-                // //     <tr>
-                // //     <td colspan="5" class="textright" style="text-align: center; font-weight: Bold; font-size:18pt;color: #337ab7;">Total a Pagar : $' . $total . ' </td>
-
-                // // </tr>';
-
-                
-
+                    
+                    
+    
+                    $detalleTotales = '      
+                                            <tr>
+                                            
+                                                <td colspan="6" class="textright total-pagar">Total a Pagar : $' . $total . ' </td>
+    
+                                            </tr>';
+                    
+    
                     $arrayData['detalle'] = $detalleTabla;
-                    // $arrayData['totales'] = $detalleTotales;
-
+                    $arrayData['totales'] = $detalleTotales;
+    
                     echo json_encode($arrayData, JSON_UNESCAPED_UNICODE);
-                    // echo "Ol";
-                    exit;
-
-                 } else {
+                    # code...
+                } else {
 
                     echo "ERROR_GARRAFAL";
                     exit;
@@ -332,7 +322,6 @@ if (!empty($_POST)) {
     if ($_POST['action'] == 'addPlanesDetalle') {
       
                   
-
         if (empty($_POST['num_accesos']) ) {
 
             echo json_encode("ERROR");
@@ -347,44 +336,59 @@ if (!empty($_POST)) {
 
 
         
-                $query_detalle_temp = mysqli_query($conection, "CALL add_detalle_temp_planes($cant_accesos,$dias,'$plan','$token')");
+                $query_detalle_temp = mysqli_query($conection, "CALL add_detalle_temp_planes($cant_accesos,$dias,$plan,'$token')");
                 $result = mysqli_num_rows($query_detalle_temp);
 
                 $detalleTabla = '';
-       
                 $arrayData = array();
-
+                $precioTotal =0;
+                $total = 0;
+                $fondotd = '';
+                $status = 0;
                  if ($result > 0) {
-
+    
                     
                     while ($data = mysqli_fetch_assoc($query_detalle_temp)) {
-
-       
-
+                        
+                        if ($status == 1) {
+                            $fondotd = 'B_Gris';
+                            $status = 0;
+                        } else {
+                            $fondotd = 'B_Blanco';
+                            $status = 1;
+                        }
+                        $precioTotal = round($data['precio'], 2);
+                        $total = round($total + $precioTotal, 2);
+    
                         $detalleTabla .= '<tr>
-                                                <td>' . $data['plan'] . '</td>
-                                                <td colspan="2">' . $data['num_accesos'] . '</td>
-
-                                                <td class="textright">' . $data['dias'] . '</td>
-
-                                                <td class="">
-                                                    <a href="#" class="link_delete" onclick="event.preventDefault(); del_recargar_detalle(' . $data['correlativo'] . ');"><i class="far fa-trash-alt"></i> Quitar</a>
-                                                </td>
-                                            </tr>';
+                                            <td class="'. $fondotd.' borderRadiusleft">' . $data['nombre_plan'] . '</td>
+                                            <td class="'. $fondotd.'" colspan="2">' . $data['num_accesos'] . '</td>
+                                            <td class="'. $fondotd.'">' . $data['dias'] . '</td>
+                                            <td class="'. $fondotd.'">' . $data['precio'] . ' $</td>
+                                            <td class="'. $fondotd.' borderRadiusRight">
+                                                <a href="#" class="link_delete" onclick="event.preventDefault(); del_recargar_detalle(' . $data['correlativo'] . ');"><i class="far fa-trash-alt"></i> Quitar</a>
+                                            </td>
+                                        </tr>';
                         # code...
+                     
                     }
-
-                
-
+                    
+                    
+    
+                    $detalleTotales = '      
+                                            <tr>
+                                            
+                                                <td colspan="6" class="textright total-pagar">Total a Pagar : $' . $total . ' </td>
+    
+                                            </tr>';
+                    
+    
                     $arrayData['detalle'] = $detalleTabla;
-        
-
+                    $arrayData['totales'] = $detalleTotales;
+    
                     echo json_encode($arrayData, JSON_UNESCAPED_UNICODE);
-        
-                    exit;
-
-
-            } else {
+                    # code...
+                } else {
 
                 echo json_encode("ERROR");
                 exit;
@@ -474,6 +478,91 @@ if (!empty($_POST)) {
                 <td class="textright">'.$impuesto.'</td>
 
                 </tr> */
+
+                $arrayData['detalle'] = $detalleTabla;
+                $arrayData['totales'] = $detalleTotales;
+
+                echo json_encode($arrayData, JSON_UNESCAPED_UNICODE);
+                # code...
+            } else {
+                echo "ERROR GARRAFAL";
+            }
+
+            mysqli_close($conection);
+
+        }
+        exit;
+    }
+
+     //extraer datos del detalle Recarga temp
+     if ($_POST['action'] == 'serchForDetalleRecarga') {
+        if (empty($_POST['user'])) {
+
+            echo "ERROR";
+        } else {
+
+            $token = md5($_SESSION['idUser']);
+
+            $query = mysqli_query($conection, "SELECT   dtp.correlativo,
+                                                        dtp.token_user,
+                                                        dtp.num_accesos,
+                                                        dtp.dias,
+                                                        dtp.id_plan,
+                                                        dtp.precio,
+                                                        tp.nombre_plan   
+                                              FROM detalle_tem_planes dtp
+                                              INNER JOIN tipo_plan tp ON dtp.id_plan = tp.id_plan                                              
+                                              WHERE token_user = '$token' ");
+
+
+
+            $result = mysqli_num_rows($query);
+
+           
+
+            $detalleTabla = '';
+            $arrayData = array();
+            $precioTotal =0;
+            $total = 0;
+            $fondotd = '';
+            $status = 0;
+             if ($result > 0) {
+
+                
+                while ($data = mysqli_fetch_assoc($query)) {
+                    
+                    if ($status == 1) {
+                        $fondotd = 'B_Gris';
+                        $status = 0;
+                    } else {
+                        $fondotd = 'B_Blanco';
+                        $status = 1;
+                    }
+                    $precioTotal = round($data['precio'], 2);
+                    $total = round($total + $precioTotal, 2);
+
+                    $detalleTabla .= '<tr>
+                                        <td class="'. $fondotd.' borderRadiusleft">' . $data['nombre_plan'] . '</td>
+                                        <td class="'. $fondotd.'" colspan="2">' . $data['num_accesos'] . '</td>
+                                        <td class="'. $fondotd.'">' . $data['dias'] . '</td>
+                                        <td class="'. $fondotd.'">' . $data['precio'] . ' $</td>
+                                        <td class="'. $fondotd.' borderRadiusRight">
+                                            <a href="#" class="link_delete" onclick="event.preventDefault(); del_recargar_detalle(' . $data['correlativo'] . ');"><i class="far fa-trash-alt"></i> Quitar</a>
+                                        </td>
+                                    </tr>';
+                    # code...
+                 
+                }
+                
+                
+
+                $detalleTotales = '      
+                                        <tr>
+                                        
+                                            <td colspan="6" class="textright total-pagar">Total a Pagar : $' . $total . ' </td>
+
+                                        </tr>';
+                
 
                 $arrayData['detalle'] = $detalleTabla;
                 $arrayData['totales'] = $detalleTotales;
@@ -695,60 +784,51 @@ if (!empty($_POST)) {
             $result = mysqli_num_rows($query_detalle_temp);
 
             $detalleTabla = '';
-            // $sub_total = 0;
-            // $iva = 0;
-            // $total = 0;
             $arrayData = array();
+            $precioTotal =0;
+            $total = 0;
+            $fondotd = '';
+            $status = 0;
+             if ($result > 0) {
 
-            if ($result > 0) {
-
-                // if ($result_iva > 0) {
-                //     $info_iva = mysqli_fetch_assoc($query_iva);
-                //     $iva = $info_iva['iva'];
-                //     # code...
-                // }
+                
                 while ($data = mysqli_fetch_assoc($query_detalle_temp)) {
-
-                    // $precioTotal = round($data['cantidad'] * $data['precio_venta'], 2);
-                    // $sub_total = round($sub_total + $precioTotal, 2);
-                    // $total = round($total + $precioTotal, 2);
+                    
+                    if ($status == 1) {
+                        $fondotd = 'B_Gris';
+                        $status = 0;
+                    } else {
+                        $fondotd = 'B_Blanco';
+                        $status = 1;
+                    }
+                    $precioTotal = round($data['precio'], 2);
+                    $total = round($total + $precioTotal, 2);
 
                     $detalleTabla .= '<tr>
-                    <td>' . $data['plan'] . '</td>
-                    <td colspan="2">' . $data['num_accesos'] . '</td>
-
-                    <td class="textright">' . $data['dias'] . '</td>
-
-                    <td class="">
-                        <a href="#" class="link_delete" onclick="event.preventDefault(); del_recargar_detalle(' . $data['correlativo'] . ');"><i class="far fa-trash-alt"></i> Quitar</a>
-                    </td>
-                </tr>';
-                # code...
+                                        <td class="'. $fondotd.' borderRadiusleft">' . $data['nombre_plan'] . '</td>
+                                        <td class="'. $fondotd.'" colspan="2">' . $data['num_accesos'] . '</td>
+                                        <td class="'. $fondotd.'">' . $data['dias'] . '</td>
+                                        <td class="'. $fondotd.'">' . $data['precio'] . ' $</td>
+                                        <td class="'. $fondotd.' borderRadiusRight">
+                                            <a href="#" class="link_delete" onclick="event.preventDefault(); del_recargar_detalle(' . $data['correlativo'] . ');"><i class="far fa-trash-alt"></i> Quitar</a>
+                                        </td>
+                                    </tr>';
+                    # code...
+                 
                 }
+                
+                
 
-                // $impuesto = round($sub_total * ($iva / 100), 2);
-                // $tl_sniva = round($sub_total - $impuesto, 2);
-                // $total = round($tl_sniva + $impuesto, 2);
+                $detalleTotales = '      
+                                        <tr>
+                                        
+                                            <td colspan="6" class="textright total-pagar">Total a Pagar : $' . $total . ' </td>
 
-                // $detalleTotales = '
-                //                         <tr>
-                //                         <td colspan="5" class="textright" style="text-align: center; font-weight: Bold; font-size:18pt;color: #337ab7;">Total a Pagar : $' . $total . ' </td>
-
-                //                         </tr>';
-
-                /*<tr>
-                <td colspan="5" class="textright">SUBTOTAL $ </td>
-                <td class="textright">'.$tl_sniva.' </td>
-
-                </tr>
-                <tr>
-                <td colspan="5" class="textright">IVA ('.$iva.'%) $ </td>
-                <td class="textright">'.$impuesto.'</td>
-
-                </tr>*/
+                                        </tr>';
+                
 
                 $arrayData['detalle'] = $detalleTabla;
-                // $arrayData['totales'] = $detalleTotales;
+                $arrayData['totales'] = $detalleTotales;
 
                 echo json_encode($arrayData, JSON_UNESCAPED_UNICODE);
                 # code...
@@ -776,6 +856,21 @@ if (!empty($_POST)) {
         }
         exit;
     }
+    //anular recarga
+    if ($_POST['action'] == 'anularRecarga') {
+
+        $token = md5($_SESSION['idUser']);
+        $query_del = mysqli_query($conection, "DELETE FROM detalle_tem_planes WHERE token_user = '$token'");
+        mysqli_close($conection);
+        if ($query_del) {
+            echo 'ok';
+            # code...
+        } else {
+            echo 'error';
+        }
+        exit;
+    }
+
 
     //anular venta reserva
     if ($_POST['action'] == 'anularVentaReservas') {
@@ -833,8 +928,9 @@ if (!empty($_POST)) {
         exit;
 
     }
-    //procesar Recarga
-    if ($_POST['action'] == 'procesarRecarga') {
+
+     //procesar recarga
+     if ($_POST['action'] == 'procesarRecarga') {
         if (empty($_POST['codcliente'])) {
             //$codcliente =1;
             echo 'error';
@@ -842,21 +938,16 @@ if (!empty($_POST)) {
 
         } else {
             $codcliente = $_POST['codcliente'];
-            $cant_accesos = $_POST['cant_accesos'];
-            $dias = $_POST['dias'];
-
         }
 
         $token = md5($_SESSION['idUser']);
         $usuario = $_SESSION['idUser'];
 
-        $query = mysqli_query($conection, "SELECT * FROM planes WHERE idcliente = '$codcliente'");
+        $query = mysqli_query($conection, "SELECT * FROM detalle_tem_planes WHERE token_user = '$token'");
         $result = mysqli_num_rows($query);
 
         if ($result > 0) {
-            // $query_procesar = mysqli_query($conection, "CALL procesar_transaccion($usuario,$codcliente,'$token')");
-            $query_procesar = mysqli_query($conection, "CALL actualizar_datos_tarjeta($cant_accesos,$codcliente,$dias)");
- 
+            $query_procesar = mysqli_query($conection, "CALL procesar_recarga($codcliente,'$token')");
             $result_detalle = mysqli_num_rows($query_procesar);
 
             if ($result_detalle > 0) {
@@ -866,24 +957,63 @@ if (!empty($_POST)) {
                 echo "error";
             }
         } else {
-            
-            $query_insert = mysqli_query($conection, "INSERT INTO planes(num_accesos,idcliente,fecha_v)
-                                                      VALUES('$cant_accesos','$codcliente',DATE_ADD(NOW(),INTERVAL '$dias' DAY))");
-
-            // $result_detalle = mysqli_num_rows($query_insert);
-                // echo 'ol';
-            if ($query_insert) { 
-                // $data = mysqli_fetch_assoc($query_insert);
-                // echo json_encode($data, JSON_UNESCAPED_UNICODE);
-                echo 'ol';
-            } else {
-                echo "error";
-            }
+            echo "error";
         }
         mysqli_close($conection);
         exit;
 
     }
+    // //procesar Recarga
+    // if ($_POST['action'] == 'procesarRecarga') {
+    //     if (empty($_POST['codcliente'])) {
+    //         //$codcliente =1;
+    //         echo 'error';
+    //         exit;
+
+    //     } else {
+    //         $codcliente = $_POST['codcliente'];
+    //         $cant_accesos = $_POST['cant_accesos'];
+    //         $dias = $_POST['dias'];
+
+    //     }
+
+    //     $token = md5($_SESSION['idUser']);
+    //     $usuario = $_SESSION['idUser'];
+
+    //     $query = mysqli_query($conection, "SELECT * FROM planes WHERE idcliente = '$codcliente'");
+    //     $result = mysqli_num_rows($query);
+
+    //     if ($result > 0) {
+    //         // $query_procesar = mysqli_query($conection, "CALL procesar_transaccion($usuario,$codcliente,'$token')");
+    //         $query_procesar = mysqli_query($conection, "CALL actualizar_datos_tarjeta($cant_accesos,$codcliente,$dias)");
+ 
+    //         $result_detalle = mysqli_num_rows($query_procesar);
+
+    //         if ($result_detalle > 0) {
+    //             $data = mysqli_fetch_assoc($query_procesar);
+    //             echo json_encode($data, JSON_UNESCAPED_UNICODE);
+    //         } else {
+    //             echo "error";
+    //         }
+    //     } else {
+            
+    //         $query_insert = mysqli_query($conection, "INSERT INTO planes(num_accesos,idcliente,fecha_v)
+    //                                                   VALUES('$cant_accesos','$codcliente',DATE_ADD(NOW(),INTERVAL '$dias' DAY))");
+
+    //         // $result_detalle = mysqli_num_rows($query_insert);
+    //             // echo 'ol';
+    //         if ($query_insert) { 
+    //             // $data = mysqli_fetch_assoc($query_insert);
+    //             // echo json_encode($data, JSON_UNESCAPED_UNICODE);
+    //             echo 'ol';
+    //         } else {
+    //             echo "error";
+    //         }
+    //     }
+    //     mysqli_close($conection);
+    //     exit;
+
+    // }
     //procesar venta deposito
     if ($_POST['action'] == 'procesarVentaDeposito') {
         if (empty($_POST['codcliente'])) {

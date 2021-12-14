@@ -330,7 +330,7 @@ table{
 	width: 100%;
 }
 table th{
-	text-align: left;
+	text-align: center;
 	padding: 10px;	
 	background: #3d7ba8;
 	color: #FFF;
@@ -340,6 +340,17 @@ table tr:nth-child(odd){
 }
 table td{
 	padding: 10px;
+	text-align: center;
+	font-weight: bold;
+	color: #363a3a;
+}
+.B_Gris{
+	background: #efefef;
+	
+}
+.B_Blanco{
+	background: white;
+	
 }
 .link_edit{
 	color: #0ca4ce;
@@ -629,6 +640,30 @@ background: #ddd;
 }
 .textright{
 	text-align: right;
+}
+.borderRadiusRight{
+	border-radius: 0 8px 8px 0;
+}
+.borderRadiusleft{
+	border-radius: 8px 0 0 8px;
+	color:#1d84e4;
+}
+.centrar-contenido{
+	display: -webkit-flex;
+	display: -moz-flex;
+	display: -ms-flex;
+	display: -o-flex;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	
+}
+.total-pagar{
+	border-top: 1px solid #CCC; 
+	text-align: center; 
+	font-weight: Bold; 
+	font-size:18pt;color: #337ab7;
+	padding-top: 1.5rem;
 }
 .textcenter{
 	text-align: center;

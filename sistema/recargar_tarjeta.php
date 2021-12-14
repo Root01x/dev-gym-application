@@ -97,17 +97,17 @@ if ($_SESSION['rol'] != 1 && $_SESSION['rol'] != 2) {
         <div class="datos_venta">
             <h4>DETALLE DE RECARGAS:</h4>
             <div class="datos">
-                <div class="wd50">
+                <div class="wd100">
                 <table class="tbl_venta">
                     <thead>
                         
                         <tr>
-                            <th>Plan</th>
+                            <th style="color:white" class="borderRadiusleft">Plan</th>
                             <th colspan="2">Numero de Accesos</th>
                         
-                            <th class="textright">Duracion en Dias</th>
-                        
-                            <th>Accion</th>
+                            <th class="textright//">Duracion en Dias</th>
+                            <th>Precio</th>
+                            <th class="borderRadiusRight">Accion</th>
                         </tr>
                     </thead>
                     <tbody id="detalle_venta-2">
@@ -116,8 +116,9 @@ if ($_SESSION['rol'] != 1 && $_SESSION['rol'] != 2) {
                         
 
                     </tbody>
+                    
                     <tfoot id="detalle_totales-2">
-
+                           
                         <!-- CONTINO AJAX  -->
                     
                     </tfoot>
@@ -125,12 +126,12 @@ if ($_SESSION['rol'] != 1 && $_SESSION['rol'] != 2) {
                 
                 </div>
                 
-                <div class="wd50">
+                <div class="wd100">
                     <label for="" Acciones></label>
-                    <div id="acciones_venta">
+                    <div class="centrar-contenido" id="acciones_venta">
                       
-                        <a href="#" class="btn_new textcenter" id="btn_factura_venta" style="display: none;"><i class="far fa-edit"></i> Confirmar Recarga</a>
-                        <a href="#" class="btn_ok textcenter" id="btn_anular_venta" style="background:tomato"><i class="fas fa-ban"></i> Anular</a>
+                        <a href="#" class="btn_new textcenter" id="btn_procesar_recarga" style="display: none;"><i class="far fa-edit"></i> Confirmar Recarga</a>
+                        <a href="#" class="btn_ok textcenter" id="btn_anular_recargar" style="background:tomato"><i class="fas fa-ban"></i> Anular</a>
                     </div>
                 </div>
             </div>
@@ -179,7 +180,7 @@ if ($_SESSION['rol'] != 1 && $_SESSION['rol'] != 2) {
                             bebidas
                         </li>
                         </ul>
-                        <a href="#" class="btn_ok textcenter" onclick="event.preventDefault(); add_planes('regular',90,90);" style="padding:10px; margin-top:2rem"> Seleccionar</a>
+                        <a href="#" class="btn_ok textcenter" onclick="event.preventDefault(); add_planes(3,90,90);" style="padding:10px; margin-top:2rem"> Seleccionar</a>
 
                     </div>
                     <div class='package brilliant'>
@@ -205,7 +206,7 @@ if ($_SESSION['rol'] != 1 && $_SESSION['rol'] != 2) {
                         </li>
                         
                         </ul>
-                        <a href="#" class="btn_ok textcenter" onclick="event.preventDefault(); add_planes('pro',200,180);" style="padding:10px"> Seleccionar</a>
+                        <a href="#" class="btn_ok textcenter" onclick="event.preventDefault(); add_planes(2,200,180);" style="padding:10px"> Seleccionar</a>
 
                     </div>
                     <div class='package'>
@@ -224,50 +225,14 @@ if ($_SESSION['rol'] != 1 && $_SESSION['rol'] != 2) {
                         </li>
                         
                         </ul>
-                        <a href="#" class="btn_ok textcenter" onclick="event.preventDefault(); add_planes('Basico',30,30);" style="padding:10px; margin-top:4rem"> Seleccionar</a>
+                        <a href="#" class="btn_ok textcenter" onclick="event.preventDefault(); add_planes(4,30,30);" style="padding:10px; margin-top:4rem"> Seleccionar</a>
 
                     </div>
                     </div>
                 </div>
             
         </div>
-        <!-- <table class="tbl_venta">
-            <thead>
-                <tr>
-                    <th width="100px">Codigo</th>
-                    <th>Descripcion</th>
-                    <th>Disponibilidad</th>
-                   
-                    <th class="textright">Precio</th>
-                    
-                    <th>Accion</th>
-                    
-                </tr>
-                <tr>
-                    <td><input type="text" name="txt_cod_evento" id="txt_cod_evento"></td>
-                    <td id="txt_descripcion">-</td>
-                    <td id="txt_existencia">-</td>
-                    <input type="hidden" name="txt_cant_evento" id="txt_cant_evento" vale="0" min="1" disabled>
-                    <td id="txt_precio" class="textright">0.00</td>
-
-    
-                    
-
-                    
-                    <td><a href="" id="add_evento_venta" class="link_add"> <i class="fas fa-plus"></i> Agregar</a></td>
-                
-                </tr>
-                <tr>
-                    <th>Codigo</th>
-                    <th colspan="2">Descripcion</th>
-                  
-                    <th class="textright">Precio</th>
-                   
-                    <th>Accion</th>
-                </tr>
-            </thead>
-            <tbody id="detalle_venta">
-               
+                 
 
                 
 
@@ -277,8 +242,9 @@ if ($_SESSION['rol'] != 1 && $_SESSION['rol'] != 2) {
 <script type="text/javascript">
 
     $(document).ready(function(){
+        
         var usuario_id = '<?php echo $_SESSION['idUser']; ?>';
-        serchForDetalle(usuario_id);
+        serchForDetalleRecarga(usuario_id);
     })
 
 </script>

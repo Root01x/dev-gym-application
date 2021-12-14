@@ -207,7 +207,7 @@ $(document).ready(function(){
                     //mostrar boton agregar
                     $('.btn_new_cliente').slideDown();
 
-
+                    viewProcesar()
                     
                 }else{
 
@@ -237,7 +237,7 @@ $(document).ready(function(){
                     //oculta boton guardar
                     $('#div_registro_cliente').slideUp();
 
-
+                    viewProcesar()
                 }
                
     
@@ -517,7 +517,7 @@ $(document).ready(function(){
         if (cant>0) {
             var num_accesos = $('#cant_accesos').val();
             var dias = $('#num_dias').val();
-            var plan = 'Personalizado';
+            var plan = 1;
             var action = 'addRecargaDetalle';
             
             $.ajax({ 
@@ -535,8 +535,7 @@ $(document).ready(function(){
                         $('#cant_accesos').val('');
                         $('#num_dias').val('');
                         $('#detalle_venta-2').html(info.detalle);
-                        // $('#detalle_totales').html(info.totales);
-
+                        $('#detalle_totales-2').html(info.totales);
 
                         //LIMPIAR DATOS 
                         // $('#txt_cod_evento').val('');
@@ -670,6 +669,38 @@ $(document).ready(function(){
         }
     });
 
+    //anular recargar
+    $('#btn_anular_recargar').click(function(e){
+        e.preventDefault();
+
+        var rows = $('#detalle_venta-2 tr').length;
+        if (rows > 0) {
+            var action = 'anularRecarga';
+
+            $.ajax({
+                url: 'ajax.php',
+                type: 'POST',
+                async: true,
+                data: {action:action},
+        
+                success: function(response)
+                {
+                    
+                   
+                   if (response !='error') {
+                       location.reload();
+                   }
+                    
+        
+                },
+                error: function(error){
+        
+                }
+            });
+
+        }
+    });
+
      //anular transaccion reservsas
      $('#btn_anular_venta_reservas').click(function(e){
         e.preventDefault();
@@ -745,54 +776,49 @@ $(document).ready(function(){
 
         }
     });
+    //procesar recarga
+    $('#btn_procesar_recarga').click(function(e){
+        e.preventDefault();
 
-    //recargar tarjeta
-    $('#btn_recargar_tarjeta').click(function(e){
-    e.preventDefault();
+        var rows = $('#detalle_venta-2 tr').length;
+        if (rows > 0) {
+
+            var action = 'procesarRecarga';
+            var codcliente = $('#idcliente').val();
+
+            $.ajax({ 
+                url: 'ajax.php',
+                type: 'POST',
+                async: true,
+                data: {action:action,codcliente:codcliente},
         
-    // var rows = $('#detalle_venta tr').length;
-    // if (rows > 0) {
+                success: function(response)
+                {
+                    
+                   
+                   if (response !='error') {
+                       var info = JSON.parse(response);
+                       alert("RECARGA EXITOSA")
+                       console.log(info);
+                    //    PdfCreate(info.codcliente,info.nofactura)
 
-        var action = 'procesarRecarga';
-        var codcliente = $('#idcliente').val();
-        var cant_accesos = $('#cant_accesos').val();
-        var dias = $('#num_dias').val();
+                       location.reload();
+                     }else{
+                         console.log('no data');
+                         alert("ERROR AL PROCESAR LA RECARGA")
+                     }
+                    
+        
+                },
+                error: function(error){
+        
+                }
+            });
 
-
-
-
-        $.ajax({ 
-            url: 'ajax.php',
-            type: 'POST',
-            async: true,
-            data: {action:action,codcliente:codcliente,cant_accesos:cant_accesos,dias:dias},
-    
-            success: function(response)
-            {
-                
-                
-                if (response !='error') {
-                    // var info = JSON.parse(response);
-                    alert("TRANSACCION EXITOSA")
-                    // console.log(info);
-                    // PdfCreate(info.codcliente,info.nofactura)
-
-                     location.reload();
-                    }else{
-                        console.log('no data');
-                        alert("ALGO SALIO MAL CON LA RECARGAR")
-                    }
-                
-    
-            },
-            error: function(error){
-    
-            }
-        });
-
-    // }
+        }
     });
 
+    
 
      //procesar pago deposito bancario
      $('#btn_factura_deposito').click(function(e){
@@ -1530,31 +1556,14 @@ function del_recargar_detalle(correlativo){
                 // console.log(info);
                 
                 $('#detalle_venta-2').html(info.detalle);
-                $('#detalle_totales').html(info.totales);
+
+                var rows = $('#detalle_venta-2 tr').length;
                 
-
-
-
-                //LIMPIAR DATOS 
-                // $('#txt_cod_evento').val('');
-                // $('#txt_descripcion').html('-');
-                // $('#txt_existencia').html('-');
-                // $('#txt_cant_producto').val('0');
-                // $('#txt_precio').html('0.00');
-                // $('#txt_precio_total').html('');
-                
-
-                //BLOQUEAR CANTIDAD
-
-                // $('#txt_cant_evento').attr('disabled','disabled');
-
-                // //hide add botton
-                // $('#add_evento_venta').slideUp();
 
             }else{
                 
                 $('#detalle_venta-2').html('');
-                // $('#detalle_totales').html('');
+                $('#detalle_totales-2').html('');
             }
             viewProcesar();
            
@@ -1566,11 +1575,10 @@ function del_recargar_detalle(correlativo){
 }
 //mostrar /ocltar boton proccesar
 function viewProcesar(){
-    if ($('#detalle_venta-2 tr').length > 0) {
-        $('#btn_factura_venta').show();
+    if (($('#detalle_venta-2 tr').length > 0) && ($('#idcliente').val()!='')) {
+        $('#btn_procesar_recarga').show();
     }else{
-        $('#btn_factura_venta').hide();
-
+        $('#btn_procesar_recarga').hide();
 
     }
 }
@@ -1610,7 +1618,44 @@ function serchForDetalle(id){
         }
     });
 }
-//buscat datos tabla detalle
+//llenar datos del detalle al iniciar
+function serchForDetalleRecarga(id){
+    var action = 'serchForDetalleRecarga';
+    var user = id;
+
+    $.ajax({
+        url: 'ajax.php',
+        type: 'POST',
+        async: true,
+        data: {action:action,user:user},
+
+        success: function(response)
+        {
+            
+            
+            if (response != 'ERROR') {
+
+                
+                var info = JSON.parse(response);
+                //console.log("33");
+                $('#detalle_venta-2').html(info.detalle);
+                $('#detalle_totales-2').html(info.totales);
+
+
+                
+            }else{
+                console.log('no hay datos');
+            }
+            viewProcesar();
+
+           
+        },
+        error: function(error){
+
+        }
+    });
+}
+//buscar datos tabla detalle
 function serchForDetalleReservas(id){
     var action = 'serchForDetalleReservas';
     var user = id;
@@ -1810,6 +1855,7 @@ const add_planes=(plan,num_accesos,fecha_v)=>{
         if (data2 != 'ERROR') {
 
             document.getElementById("detalle_venta-2").innerHTML = data2.detalle;
+            document.getElementById("detalle_totales-2").innerHTML = data2.totales;
 
         }else{
 
@@ -1823,73 +1869,4 @@ const add_planes=(plan,num_accesos,fecha_v)=>{
 }
 
 
-    // alert('asdsadasd')
-        // e.preventDefault();
-        // var cant=1;
-    
-        // if (cant>0) {
-        //     var num_accesos = $('#cant_accesos').val();
-        //     var dias = $('#num_dias').val();
-        //     var plan = 'Pro';
-        //     var action = 'addRecargaDetalle';
-            
-            // $.ajax({ 
-            //     url: 'ajax.php',
-            //     type: 'POST',
-            //     async: true,
-            //     data: {action:action,num_accesos:num_accesos,dias:dias,plan:plan},
-        
-            //     success: function(response)
-            //     {
-                    
-            //         if (response != 'ERROR') {
-                        
-            //             var info = JSON.parse(response);
-                        
-            //             $('#detalle_venta-2').html(info.detalle);
-            //             // $('#detalle_totales').html(info.totales);
-
-
-            //             //LIMPIAR DATOS 
-            //             // $('#txt_cod_evento').val('');
-            //             // $('#txt_descripcion').html('-');
-            //             // $('#txt_existencia').html('-');
-            //             // $('#txt_cant_producto').val('0');
-            //             // $('#txt_precio').html('');
-            //             // $('#txt_precio_total').html('');
-
-            //             //BLOQUEAR CANTIDAD
-
-            //             // $('#txt_cant_evento').attr('disabled','disabled');
-
-            //             // //hide add botton
-            //             // $('#add_evento_venta').slideUp();
-
-                        
-            //         }else if(response =='ERROR_GARRAFAL'){
-
-            //             alert('FALLO TODO');
-            //             // $('#txt_cod_evento').val('');
-            //             // $('#txt_descripcion').html('-');
-            //             // $('#txt_existencia').html('-');
-            //             // $('#txt_cant_producto').val('0');
-            //             // $('#txt_precio').html('');
-            //             // $('#txt_precio_total').html('');
-            //             // $('#add_evento_venta').slideUp();
-                        
-            //         }else if(response=='ERROR'){
-            //             Alert('ERROR EN LA MATRIZ');
-            //         }
-            //          viewProcesar();
-                    
-        
-            //     },
-            //     error: function(error){
-            //         alert(error);
-            //     }
-            // });
-            
-        // }
-    
-// }
 
