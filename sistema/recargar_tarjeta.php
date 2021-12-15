@@ -157,9 +157,9 @@ if ($_SESSION['rol'] != 1 && $_SESSION['rol'] != 2) {
                 </div>
             </div>
         </div>
-        <div class="datos_venta">
+        <div  class="datos_venta">
             <h4>PLANES</h4>
-            <div class="datos">
+            <div style="display:flex; justify-content: flex-end;" class="datos">
                 <div class='wrapper'>
                     <div class='package'>
                         <div class='name'>Regular</div>

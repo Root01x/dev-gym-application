@@ -1308,6 +1308,85 @@ function reload_access(){
             });
 }
 
+function reload_access_planes(){
+    
+
+    //alert("EUREKA")
+   // e.preventDefault();
+
+        var action = 'obtenerAccesoPlanes';
+        var codigo = $('#codigo_acceso').val();
+        // var codigoEvento = $('#seminario').val();
+        
+
+
+        $.ajax({
+            url: 'ajax.php',
+            type: 'POST',
+            async: true,
+            data: {action:action,codigo:codigo},
+    
+            success: function(response)
+            {
+                
+               if (response !='error3' && response !='error2') {
+
+                var info = JSON.parse(response);
+
+                //console.log(info);
+                //$('#cod_1').val(info.cod_tarjeta);
+                //$('#cedula').val(info.cedula);
+                $('.cedula' ).html('CEDULA: '+info.cedula)
+                $('.nombre' ).html('NOMBRES: '+info.nombre+' '+info.apellidos)
+                $('.telefono' ).html('TELEFONO: '+info.telefono)
+                $('.codigo' ).html('CODIGO TARJETA: '+info.cod_tarjeta)
+                $('.num_accesos' ).html('ACCESOS RESTANTES: '+info.num_accesos)
+                $('.fecha_v' ).html('FECHA_EXPIRACION: '+info.fecha_v)
+                $('.alertErrorAcceso' ).html('')
+
+                if (info.op==1) {
+                    $('.alertErrorAcceso' ).html('<p style="color:Black;  font-size:20pt; width: 100%; background: #66e07d66;border-radius: 6px; margin: 20px auto; padding: 10px">ACCESO AUTORIZADO.</p>')
+                }
+                else {
+                    $('.alertErrorAcceso' ).html('<p style="color:Black;  font-size:20pt; width: 100%; background: #dd797e66;border-radius: 6px; margin: 20px auto; padding: 10px">ACCESO RESTRINGIDO.</p>')
+                }
+                
+                //$('.alertErrorEvento').html('<p style="color:Black;">CLIENTE CREADO CORRECTAMENTE.</p>');
+
+               }else if (response =='error2') {
+                //sconsole.log("EL CODIGO NO ESTA ASIGNADO A NINGUN CLIENTE")
+                $('.cedula' ).html('')
+                $('.nombre' ).html('')
+                $('.telefono' ).html('')
+                $('.codigo' ).html('')
+                $('.alertErrorAcceso' ).html('<p style="color:Black;  font-size:20pt; width: 100%; background: #F0F8FF;border-radius: 6px; margin: 20px auto; padding: 10px">EL CODIGO NO ESTA ASIGNADO A NINGUN CLIENTE.</p>')
+               }
+               
+               else if(response == 'error3'){
+                   console.log("NO SE ENCONTRO EL CODIGO")
+
+                 //$('.alertErrorEvento').html('<p style="color:Black;">CLIENTE CREADO CORRECTAMENTE.</p>');
+
+               }
+            //    else if(response == 'error4'){
+            //     $('.cedula' ).html('')
+            //     $('.nombre' ).html('')
+            //     $('.telefono' ).html('')
+            //     $('.codigo' ).html('')
+            //     $('.alertErrorAcceso' ).html('<p style="color:Black;  font-size:20pt; width: 100%; background: #dd797e66;border-radius: 6px; margin: 20px auto; padding: 10px">ACCESO RESTRINGIDO AL SEMINARIO.</p>')
+            //   //$('.alertErrorEvento').html('<p style="color:Black;">CLIENTE CREADO CORRECTAMENTE.</p>');
+
+            // }
+                
+    
+            },
+            error: function(error){
+                console.log(error);
+    
+            }
+        });
+}
+
 function getCodigo(){
 
     var action = 'obtenerCodigo2';
@@ -1331,7 +1410,7 @@ function getCodigo(){
 
            }
            else{
-            console.log("no hay datos que mostrar");
+            console.log("<<NINGUN REGISTRO EN LOS ULTIMOS 10s>>");
            }
             
 
@@ -1343,7 +1422,7 @@ function getCodigo(){
     
 }
 
-setInterval(reload_access,1000);
+setInterval(reload_access_planes,1000);
 setInterval(getCodigo,1000);
 
 

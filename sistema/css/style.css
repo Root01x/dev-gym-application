@@ -253,6 +253,7 @@ form{
 	margin: auto;
 	padding: 20px 50px;
 	border: 1px solid #d1d1d1;
+	box-shadow: 0 0.1rem 0.4rem rgb(0 0 0 / 30%);
 }
 label{
 	display: block;
@@ -588,9 +589,10 @@ background: #ddd;
     justify-content: space-between;
     flex-wrap: wrap;
     border: 1px solid #d1d1d1;
-    padding: 10px;
+    padding: 20px;
     border-radius: 10px;
     margin-top: 10px;
+	box-shadow: 0 0.1rem 0.4rem rgb(0 0 0 / 30%);
 }
 .action_cliente{
 	display: -webkit-flex;
@@ -832,7 +834,7 @@ background: #ddd;
   
   .package {
 	box-sizing: border-box;
-	width: 281px;
+	width: 271px;
 	height: 380px;
 	border: 3px solid #e8e8e8;
 	border-radius: 7px;

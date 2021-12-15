@@ -1332,5 +1332,58 @@ if (!empty($_POST)) {
         exit;
 
     }
+
+    //OBTNER DATOS DE LA GESTON DE ACESSO PLANES
+    if ($_POST['action'] == 'obtenerAccesoPlanes') {
+
+        $codigo = $_POST['codigo'];
+        // $codigoEvento = $_POST['codigoEvento'];
+
+        if (empty($codigo)) {
+            echo 'error3';
+            exit;
+        }
+
+        // $query = mysqli_query($conection,"SELECT uid, fecha, MAX(id) as id_tarjeta FROM ingresos WHERE fecha BETWEEN DATE_SUB(NOW(),INTERVAL 20 second) AND NOW()");
+        $query = mysqli_query($conection, "SELECT * FROM cliente WHERE cod_tarjeta = '$codigo'");
+        $query2 = mysqli_query($conection, "SELECT * FROM cliente c INNER JOIN planes p ON  c.idcliente=p.idcliente WHERE c.cod_tarjeta = '$codigo'");
+
+
+
+        mysqli_close($conection);
+        $result = mysqli_num_rows($query);
+        // $result2 = mysqli_num_rows($query2);
+        $data = '';
+        $data2 = '';
+
+        if ($result > 0 ) { // SI EL CODIGO EXISTE EN EL CLIENTE
+
+            //if ($result2 > 0) {
+            $data2 = mysqli_fetch_assoc($query2);
+            if ($data2['num_accesos'] > 0) {
+                $myArr1 = array("op" => "1");
+            }else{
+                $myArr1 = array("op" => "2");
+            }
+
+            $data = mysqli_fetch_assoc($query);
+            
+            $nuevo = array_merge($myArr1, $data2);
+
+            echo json_encode($nuevo, JSON_UNESCAPED_UNICODE);
+            exit;
+
+
+        } else {
+            //$data = 0;
+            echo 'error2';
+            exit; # code...
+        }
+
+        # code...
+
+        exit;
+
+    }
 }
 exit;
