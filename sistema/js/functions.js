@@ -1734,6 +1734,45 @@ function serchForDetalleRecarga(id){
         }
     });
 }
+//llenar datos generales de la empresa
+function serchDatosEmpresa(){
+    var action = 'serchDatosEmpresa';
+    
+
+    $.ajax({
+        url: 'ajax.php',
+        type: 'POST',
+        async: true,
+        data: {action:action},
+
+        success: function(response)
+        {
+            
+            if (response != 'ERROR') {
+
+                    var data = $.parseJSON(response);
+                    $('#cod_empresa').val(data.id);
+                    $('#name_empresa').val(data.nombre);
+                    $('#tel_empresa').val(data.telefono);
+                    $('#email_empresa').val(data.email);
+                    $('#dir_empresa').val(data.direccion);
+                    $('#ruc_empresa').val(data.RUC);
+                    $('#iva_empresa').val(data.iva);
+
+
+                
+            }else{
+                console.log('NO SE ENCONTRARON DATOS');
+            }
+            viewProcesar();
+
+           
+        },
+        error: function(error){
+
+        }
+    });
+}
 //buscar datos tabla detalle
 function serchForDetalleReservas(id){
     var action = 'serchForDetalleReservas';

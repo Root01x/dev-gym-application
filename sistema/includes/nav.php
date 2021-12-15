@@ -42,10 +42,10 @@
 						# code...
 					
 				?>
-						<li><a href="registro_evento.php">Configuracion General</a></li>
+						<li><a href="config_general.php">Configuracion General</a></li>
 
 						<?php }?>
-						<li><a href="lista_eventos.php">Configuracion Precios</a></li>
+						<li><a href="config_precios.php">Configuracion Precios</a></li>
 					</ul>
 				</li>
 				<?php if ($_SESSION['rol'] == 1 || $_SESSION['rol'] == 2) { ?>
